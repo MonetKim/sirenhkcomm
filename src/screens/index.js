@@ -5,12 +5,13 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator, createMaterialTopTabNavigator, createTabNavigator } from "react-navigation-tabs";
 import { Icon } from 'native-base';
 
-import LoginScreen from "./LoginScreen";
-import HomeScreen from "./HomeScreen";
-import SettingScreen from "./SettingScreen";
-import SomethingScreen from "./SomethingScreen";
-import MenuScreen from "./MenuScreen";
-import { createDrawerNavigator } from "react-navigation-drawer";
+import LoginScreen from "./LoginScreen/login.js";
+import HomeScreen from "./HomeScreen/home.js"; 
+import SettingScreen from "./SettingScreen/setting.js";
+import SomethingScreen from "./SomethingScreen/extra.js";
+import MenuScreen from "./MenuScreen/menu.js";
+
+//import { createDrawerNavigator } from "react-navigation-drawer";
 
 const HomeStack = createStackNavigator(
   {

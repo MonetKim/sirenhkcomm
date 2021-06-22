@@ -13,7 +13,7 @@ export default class SettingScreen extends Component{
     _navigate(){
         this.props.navigation.navigate('SomethingScreen');
     }
-
+ 
     _checkLogout(){
         Alert.alert(
             "Alert",
