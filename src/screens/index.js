@@ -17,13 +17,13 @@ const HomeStack = createStackNavigator(
   {
     HomeScreen,
   },
-  // if you need.
+  // if you need.2222sadgfds
   // recommend custom header
   {
     defaultNavigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name='ios-cart-outline' style={{paddingLeft:10}}/>,
       title: 'happynewyear',
-      headerRight: <Icon name='ios-send-outline' style={{paddingRight:10}}/>,
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}}/>,
     }),
   }
 );
