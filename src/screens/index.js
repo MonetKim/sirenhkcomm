@@ -10,6 +10,7 @@ import HomeScreen from "./HomeScreen/home.js";
 import SettingScreen from "./SettingScreen/setting.js";
 import SomethingScreen from "./SomethingScreen/extra.js";
 import MenuScreen from "./MenuScreen/menu.js";
+import SignupScreen from "./SignupScreen/signup.js";
 
 //import { createDrawerNavigator } from "react-navigation-drawer";
 
@@ -21,9 +22,9 @@ const HomeStack = createStackNavigator(
   // recommend custom header
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name='ios-cart-outline' style={{paddingLeft:10}}/>,
-      title: 'happynewyear',
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}}/>,
+      headerLeft: <Icon name='ios-cart-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      title: <Text style={{justifyContent: 'right', alignItems: 'right',}}>파란만잔</Text> ,
+      headerRight: <Icon name='ios-cart-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
     }),
   }
 );
@@ -48,6 +49,17 @@ const MenuStack = createStackNavigator(
       title: "Menus",
     }),
     initialRouteName: "MenuScreen",
+  }
+);
+const SignupStack = createStackNavigator(
+  {
+    SignupScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "Signup",
+    }),
+    initialRouteName: "Signup",
   }
 );
 
@@ -141,6 +153,7 @@ const TabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator({
   LoginScreen: LoginScreen,
+  SignupScreen: SignupScreen,
   TabNavigator: {
     screen: TabNavigator,
     navigationOptions: ({ navigation }) => ({

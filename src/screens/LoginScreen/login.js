@@ -4,9 +4,14 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    Dimensions,
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {Video} from "expo-av";
+
+const { width, height } = Dimensions.get("window");
+
 
 export default class LoginScreen extends Component{
     
@@ -19,9 +24,32 @@ export default class LoginScreen extends Component{
         this.props.navigation.replace('TabNavigator')
     }
 
+    _dosignup(){
+        // do something
+        this.props.navigation.navigate('SignupScreen');
+    }
+
+
     render(){
         return (
+       
+
             <View style={styles.container}>
+                <Video
+                source={require("../../../assets//video/hksample.mp4")}
+                //source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
+                resizeMode="cover"
+                shouldPlay
+                isLooping
+                
+                style={styles.backgroundVideo}
+                /> 
+
+                
+
                 <View style={styles.titleArea}>
                     <Text style={styles.title}>파란만잔</Text>
                 </View>
@@ -40,12 +68,34 @@ export default class LoginScreen extends Component{
                         <Text style={styles.buttonTitle}>Login</Text>
                     </TouchableOpacity>
                 </View>
+                <View style={styles.titlesign}>
+                    <Text style={styles.sign}>아이디가 없으신가요?</Text>
+                </View>
+                <View style={styles.buttonArea}>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={this._dosignup.bind(this)}>
+                        <Text style={styles.buttonTitle}>signup</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+
         );
     }
 }
 
+
 const styles = StyleSheet.create({
+
+    backgroundVideo: {
+        height: height,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        alignItems: "stretch",
+        bottom: 0,
+        right: 0
+      },
     container: {
         flex: 1,
         backgroundColor: 'white',
@@ -58,8 +108,16 @@ const styles = StyleSheet.create({
         padding: wp('10%'),
         alignItems: 'center',
     },
+    titlesign: {
+        width: '100%',
+        padding: wp('10%'),
+        alignItems: 'center',
+    },
     title: {
         fontSize: wp('10%'),
+    },
+    sign: {
+        fontSize: wp('5%'),
     },
     formArea: {
         width: '100%',
