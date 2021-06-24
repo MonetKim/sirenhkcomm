@@ -22,9 +22,9 @@ const HomeStack = createStackNavigator(
   // recommend custom header
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name='ios-cart-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.navigate('LoginScreen')} />,
       title: <Text style={{justifyContent: 'right', alignItems: 'right',}}>파란만잔</Text> ,
-      headerRight: <Icon name='ios-cart-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('MenuScreen')} />,
     }),
   }
 );
@@ -110,11 +110,11 @@ const SignupStack = createStackNavigator(
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home: HomeStack,
-    Setting: SettingStack,
-    cha: HomeStack,
-    Menu: MenuStack,
-    live: HomeStack,
+    홈: HomeStack,
+    메뉴: MenuStack,
+    퀵오더: MenuStack,
+    주문내역: MenuStack,
+    마이페이지: SettingStack,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -122,23 +122,23 @@ const TabNavigator = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let icon = "▲";
 
-        if (routeName === "Home") {
-          icon = "🌈1";
-        } else if (routeName === "Menu") {
-          icon = "메뉴🌙";
-        } else if (routeName === "Menu") {
-          icon = "퀵오더~";
-        } else if (routeName === "Menu") {
-          icon = "주문내역";
-        } else if (routeName === "Setting") {
-          icon = "마이페이지";
+        if (routeName === "홈") {
+          icon = "home";
+        } else if (routeName === "메뉴") {
+          icon = "cafe";
+        } else if (routeName === "퀵오더") {
+          icon = "flash";
+        } else if (routeName === "주문내역") {
+          icon = "reader";
+        } else if (routeName === "마이페이지") {
+          icon = "person";
         }
 
         // can use react-native-vector-icons
         // <Icon name={iconName} size={iconSize} color={iconColor} />
         return (
           <Text style={{ color: (focused && "#46c3ad") || "#888" }}>
-            {icon}
+            <Icon name= {icon}   />
           </Text>
         );
       },
