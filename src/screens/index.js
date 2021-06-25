@@ -23,7 +23,7 @@ const HomeStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.navigate('LoginScreen')} />,
-      title: <Text style={{justifyContent: 'right', alignItems: 'right',}}>파란만잔</Text> ,
+      title: <Text>파란만잔</Text> ,
       headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('MenuScreen')} />,
     }),
   }
@@ -62,50 +62,6 @@ const SignupStack = createStackNavigator(
     initialRouteName: "Signup",
   }
 );
-
-
-// const TopTabNavigator = createMaterialTopTabNavigator(
-//   {
-//     Home: HomeStack,
-//     Setting: SettingStack,
-//     cha: HomeStack,
-//     Menu: MenuStack,
-//     live: HomeStack,
-//   },
-//   {
-//     defaultNavigationOptions: ({ navigation }) => ({
-//       tabBarIcon: ({ focused, horizontal, tintColor }) => {
-//         const { routeName } = navigation.state;
-//         let icon = "▲";
-
-//         if (routeName === "Home") {
-//           icon = "🌈4";
-//         } else if (routeName === "Menu") {
-//           icon = "메뉴🌙";
-//         } else if (routeName === "Menu") {
-//           icon = "퀵오더~";
-//         } else if (routeName === "Menu") {
-//           icon = "주문내역";
-//         } else if (routeName === "Setting") {
-//           icon = "마이페이지";
-//         }
-
-//         // can use react-native-vector-icons
-//         // <Icon name={iconName} size={iconSize} color={iconColor} />
-//         return (
-//           <Text style={{ color: (focused && "#46c3ad") || "#888" }}>
-//             {icon}
-//           </Text>
-//         );
-//       },
-//     }),
-//     lazy: false,
-//     tabBarOptions: {
-//       activeTintColor: "#46c3ad",
-//       inactiveTintColor: "#888",
-//     },
-//   }
-// ); 
 
 
 const TabNavigator = createBottomTabNavigator(

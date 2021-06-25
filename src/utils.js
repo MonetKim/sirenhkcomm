@@ -7,3 +7,7 @@ export const removeWhitespace = text => {
   const regex = /\s/g;
   return text.replace(regex, '');
 };
+//special index 난수 생성 주문 / 발주에서는 쓰기 고민
+export const createSpecialIndex = text => {
+  
+} 
