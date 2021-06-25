@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-import Toast from 'react-native-simple-toast';
+//import Toast from 'react-native-simple-toast';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { validateEmail, removeWhitespace } from '../../utils';
 
@@ -79,68 +79,54 @@ export default class SignupScreen extends Component{
 
       if(this.state.name == '')
       {
-        Toast.showWithGravity(
-          "이름을 입력하세요",
-          Toast.SHORT,
-          Toast.CENTER
+        Alert.alert(
+          "이름을 입력하세요ㅁ"
         );
         return true;
       }
   
       if(this.state.email == '')
       {
-        Toast.showWithGravity(
-          "이메일을 입력하세요",
-          Toast.SHORT,
-          Toast.CENTER
+        Alert.alert(
+          "이메일을 입력하세요"
         );
         return true;
       }
       if (!validateEmail(this.state.email)) {
-        Toast.showWithGravity(
-          "이메일 형식을 확인해주세요",
-          Toast.SHORT,
-          Toast.CENTER
+        Alert.alert(
+          "이메일형식을 확인하세요"
         );
         return true;
       }
   
       if(this.state.password == '')
       {
-        Toast.showWithGravity(
-          "비밀번호를 입력하세요",
-          Toast.SHORT,
-          Toast.CENTER
+        Alert.alert(
+          "비밀번호를 입력하세요"
         );
         return true;
       }
   
       if(this.state.confirm_pass == '')
       {
-        Toast.showWithGravity(
-          "비밀번호 확인을 입력하세요",
-          Toast.SHORT,
-          Toast.CENTER
+        Alert.alert(
+          "비밀번호 확인을 입력해주세요"
         );
         return true;
       }
   
-      // if(this.state.password.length < 8)
-      // {
-      //   Toast.showWithGravity(
-      //     "비밀번호는 8자리 이상이여야 합니다",
-      //     Toast.SHORT,
-      //     Toast.CENTER
-      //   );
-      //   return true;
-      // }
+      if(this.state.password.length < 8)
+      {
+        Alert.alert(
+          "비밀번호는 8자리 이상이여야 합니다.",
+        );
+        return true;
+      }
   
       if(this.state.password != this.state.confirm_pass)
       {
-        Toast.showWithGravity(
+        Alert.alert(
           "비밀번호와 비밀번호 확인이 일치하지 않습니다",
-          Toast.SHORT,
-          Toast.CENTER
         );
         return true;
       }
