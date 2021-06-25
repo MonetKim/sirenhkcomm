@@ -18,6 +18,7 @@ import { validateEmail, removeWhitespace } from '../../utils';
 export default class SignupScreen extends Component{
     
     //--DB에 연동해줄 변수명들과 변수 설정함수
+    // 이부분 내가 수정함
     constructor(props) {
         super(props);
         this.state = {
