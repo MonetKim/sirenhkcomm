@@ -71,7 +71,7 @@ export default class SignupScreen extends Component{
       this.props.navigation.dispatch(resetAction);
   }
 
-
+  // 깃허브테스트 1
     // 레지스터에 진짜 아이디 비번 이름을 추가할 디비에 연동이 구현되어야함
     register()
     {
@@ -80,7 +80,7 @@ export default class SignupScreen extends Component{
       if(this.state.name == '')
       {
         Alert.alert(
-          "이름을 입력하세요ㅁ"
+          "이름을 입력하세요"
         );
         return true;
       }
