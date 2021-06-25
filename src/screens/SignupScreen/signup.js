@@ -209,7 +209,7 @@ export default class SignupScreen extends Component{
 const styles = StyleSheet.create({
   flex: {
     flex: 1
-  },
+  }, 
   mainContainer: {
       paddingHorizontal: 20,
       paddingVertical: 40
