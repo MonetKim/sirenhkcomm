@@ -16,8 +16,8 @@ export default class SettingScreen extends Component{
  
     _checkLogout(){
         Alert.alert(
-            "Alert",
-            "Are you sure?",
+            "로그아웃",
+            "정말로 로그아웃 하시겠습니까??",
             [
                 {text: 'ok', onPress: this._logout.bind(this)},
                 {text: 'cancel', onPress: () => null},
