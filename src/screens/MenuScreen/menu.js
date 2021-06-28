@@ -34,14 +34,100 @@ export default class MenuScreen extends Component {
             id: 0,
             title: 'aaaa',
             price: 7000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
           },
           {
             id: 1,
             title: 'bbbb',
             price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'
-          }
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
         ],
         name: "",
         delivery_time: 0,
@@ -49,7 +135,30 @@ export default class MenuScreen extends Component {
         reviews: [],
         avg_ratting: 0,
         preview: "",
-        dataCart: [],
+        dataCart: [
+          {
+            id: 0,
+            title: 'aaaa',
+            price: 7000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+            quantity : 1
+          },
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+         
+          {
+            id: 1,
+            title: 'bbbb',
+            price: 5000,
+            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+            quantity : 1
+          },
+        ],
         latitude: 0,
         longitude: 0,
         menus: [],
@@ -62,6 +171,7 @@ export default class MenuScreen extends Component {
         refreshing: false,
     }
 }
+
 
 
 
@@ -84,7 +194,47 @@ export default class MenuScreen extends Component {
 
   // }
 
+  onClickAddCart(data) {
 
+    const itemcart = {
+        food: data,
+        quantity: 1,
+        price: data.price.price
+    }
+
+    const storedata = {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        name: this.state.name,
+        id: this.state.id
+    }
+
+    AsyncStorage.getItem('store').then(() => {
+        AsyncStorage.setItem('store', JSON.stringify(storedata));
+    })
+        .catch((err) => {
+            alert(err)
+        })
+
+    AsyncStorage.getItem('cart').then((datacart) => {
+        if (datacart !== null) {
+            // We have data!!
+            const cart = JSON.parse(datacart)
+            cart.push(itemcart)
+            AsyncStorage.setItem('cart', JSON.stringify(cart));
+            this.setState({ dataCart: cart });
+        }
+        else {
+            const cart = []
+            cart.push(itemcart)
+            AsyncStorage.setItem('cart', JSON.stringify(cart));
+            this.setState({ dataCart: cart });
+        }
+    })
+        .catch((err) => {
+            alert(err)
+        })
+}
 
 
   render() {
@@ -95,7 +245,6 @@ export default class MenuScreen extends Component {
         <View style={styles.flex}>
           
 
-          <ScrollView >
             <View style={styles.foodList}>
               <FlatList
                 data={this.state.dataFood}
@@ -104,7 +253,6 @@ export default class MenuScreen extends Component {
                 keyExtractor={(item, index) => index.toString()}
               />
             </View>
-          </ScrollView>
 
          
         </View>

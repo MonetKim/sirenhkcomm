@@ -11,6 +11,7 @@ import SettingScreen from "./SettingScreen/setting.js";
 import SomethingScreen from "./SomethingScreen/extra.js";
 import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
+import CartScreen from "./CartScreen/cart.js";
 
 //import { createDrawerNavigator } from "react-navigation-drawer";
 
@@ -24,7 +25,7 @@ const HomeStack = createStackNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.navigate('LoginScreen')} />,
       title: <Text>파란만잔</Text> ,
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
     }),
   }
 );
@@ -46,7 +47,8 @@ const MenuStack = createStackNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      title: "Menus",
+      title: "Menu",
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
     }),
     initialRouteName: "MenuScreen",
   }
@@ -109,6 +111,7 @@ const TabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator({
   LoginScreen: LoginScreen,
+  CartScreen: CartScreen,
   SignupScreen: SignupScreen,
   TabNavigator: {
     screen: TabNavigator,
