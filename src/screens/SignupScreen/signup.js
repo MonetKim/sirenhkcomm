@@ -1,28 +1,35 @@
-import React, {Component} from 'react';
+import React, {useContext, useState ,Component, useEffect} from 'react';
 import {
     View,
+    Button,
     Text,
     TextInput,
     Alert,
     TouchableOpacity,    
-    StyleSheet
+    StyleSheet,
+    Platform
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
 //import DateTimePicker from '@react-native-community/datetimepicker';
 //import DateTimePickerModal from 'react-native-modal-datetime-picker';
 //import DatePicker from 'react-native-date-picker'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from '@dietime/react-native-date-picker';
+//import DateTimePicker from '@react-native-community/datetimepicker';
 import BouncyCheckbox from "react-native-bouncy-checkbox"; 
 //import Toast from 'react-native-simple-toast';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { validateEmail, removeWhitespace } from '../../utils';
-
-
+//import { Context } from 'react';
+//import { Context as UserContext } from '../dataStore/userAccessContext';
+import { Context as UserContext } from '../../dataStore/userAccessContext';
+ 
 
 
 export default class SignupScreen extends Component{
     
+
+
     //--DB에 연동해줄 변수명들과 변수 설정함수
 
     constructor(props) {
@@ -34,13 +41,13 @@ export default class SignupScreen extends Component{
           password: '',
           confirm_pass: '',
           Phonenum:'',
-          birth: '',//입력하고
+          birth : new Date(),//입력하고
           pi_agreement: '',//입력하고
          // index_id: '', 
           error: false
         };
           
-      }
+      }     
 
       //user signup special index
       // handleRegisterIndexId = (text) => {
@@ -50,25 +57,24 @@ export default class SignupScreen extends Component{
 
       //user signup Birth
 
-      onChange  = (event, selectedDate) => {
-          const currentDate = selectedDate
-
-          if(currentDate!=null){ 
-            this.setState({birth: currentDate.toDateString()}); 
-            console.log(this.state.birth+'함수1데이트');
+      onChange  = (date) => {
+          if(date!=null ){ 
+            this.setState({birth: date});     
           }
-      }; 
-      
-      handleRegisterBirth = () => {             
-        const date = useState(new Date());
-        this.setState.birth = date;        
-      }; 
+      };      
+    
+      // handleRegisterBirth = () => {             
+      //   const todayDate = new Date();
+      //   todayDate.toISOString();
+      //   console.log(todayDate+'시발 왜');
+      //   return todayDate;
+      // }; 
 
       // 개인정보 동의 이용서
       handleRegisterCerti = (checkbox) => {
         this.setState({pi_agreement: checkbox});      
       };
-
+ 
       handleRegisterName = (text) => {
         this.setState({name: text });
       };
@@ -91,9 +97,9 @@ export default class SignupScreen extends Component{
  
       //-----------------------
 
-    static navigationOptions = {
+      static navigationOptions = {
         headerShown: false,
-    };
+      };
 
 
     // 회원가입완료
@@ -106,8 +112,14 @@ export default class SignupScreen extends Component{
           //actions: [NavigationActions.navigate({ routeName: 'SomethingScreen' })],
       });
       this.props.navigation.dispatch(resetAction);
-  }
-
+    };
+    
+      SignupScreens() {       
+      console.log('usercontext1');
+      const {state, onSignup} = useContext(UserContext);   
+      onSignup({name : this.state.name, email: this.state.email, password: this.state.password});  
+      console.log('usercontext마지막');
+    };    
   // 깃허브테스트 1
     // 레지스터에 진짜 아이디 비번 이름을 추가할 디비에 연동이 구현되어야함
     // btnText: 'Register',
@@ -121,7 +133,7 @@ export default class SignupScreen extends Component{
     // index_id: '',
     // error: false
     register()
-    {
+    {      
       this.setState({btnText: '회원가입'});
 
       // if(this.state.name.trim() == '' || this.state.name.trim() == null)
@@ -188,19 +200,21 @@ export default class SignupScreen extends Component{
       //   );
       //   return true;
       // }
-      
+      this.SignupScreens();
       Alert.alert(
         "회원가입 완료",
         "회원가입을 축하드립니다",        
         [
-            {text: '확인', onPress: this._logout.bind(this)},
+            {text: '확인', onPress: this._logout.bind(this)},         
         ],
-        //console.log(this.state.name +'타?'),
+        console.log(this.state.birth+'최종'),        
         //console.log(this.state.birth +'타3'),
-        //console.log(this.state.pi_agreement+'타2?') 
-      )
+        //console.log(this.state.pi_agreement+'타2?')          
+      );
+    }; 
+
     
-    }
+
     render(){
         return (
             <View style={styles.flex}>
@@ -225,11 +239,9 @@ export default class SignupScreen extends Component{
                       <TextInput style={styles.textInput} placeholder="이름을 입력하세요" onChangeText={(text) => this.handleRegisterName(text)} />                      
                   </View> 
                   <View style={styles.formGroup}>
-                      <Text  style={{ fontSize: 17 }} >생년월일</Text>                      
-                      <TouchableOpacity>
-                      <DateTimePicker locale="ko-ko" mode="date" onChange={this.onChange} value={this.handleRegisterBirth}/>                     
-                      </TouchableOpacity> 
-                  </View>
+                      <Text  style={{ fontSize: 17 }} >생년월일 : {this.state.birth ? this.state.birth.toDateString():"선택 날짜"}</Text>                            
+                      <DatePicker mode="date"   format={"yyyy-mm-dd"} fadeColor={"#ddd"} width={"100%"} markColor={"#26a4b5"} height={130} onChange={(value) => this.onChange(value)} value={this.state.birth} />                     
+                  </View>  
  
                   <View style={styles.formGroup}>
                       <Text   style={{ fontSize: 17 }} >비밀번호</Text>
@@ -266,6 +278,7 @@ export default class SignupScreen extends Component{
 }
 
 const styles = StyleSheet.create({
+ 
   flex: {
     
     flex: 1

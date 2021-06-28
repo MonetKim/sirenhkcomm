@@ -1,26 +1,38 @@
 import { AsyncStorage } from "react-native";
-import { navigate } from "../utils/NavigationRef";
+import { navigate } from "../NavigationRef";
 import createAppContext from "./createAppContext";
-import API from "../api/WebService";
-import aType from "../utils/ActionTypes";
+import API from "../API/WebService";
+import aType from "../ActionTypes";
 import userReducer from "./reducer";
 
 
 /**
  * User Actions
+ * btnText: 'Register',
+          name: '',
+          email: '',
+          password: '',
+          confirm_pass: '',
+          Phonenum:'',
+          birth: '',//입력하고
+          pi_agreement:
  */
 
 const onSignup = (dispatch) => async ({
+  name,
   email,
-  password,
-  firstName,
-  lastName,
+  confirm_pass,
+  Phonenum,
+  birth,
+  pi_agreement
 }) => {
   API.post("user/signup", {
+    name,
     email,
-    password,
-    firstName,
-    lastName,
+    confirm_pass,
+    Phonenum,
+    birth,
+    pi_agreement
   })
     .then((response) => {
       configureAPI({ token: `Bearer ${response.data}` });
