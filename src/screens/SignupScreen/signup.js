@@ -11,24 +11,16 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-//import DateTimePicker from '@react-native-community/datetimepicker';
-//import DateTimePickerModal from 'react-native-modal-datetime-picker';
-//import DatePicker from 'react-native-date-picker'
 import DatePicker from '@dietime/react-native-date-picker';
-//import DateTimePicker from '@react-native-community/datetimepicker';
 import BouncyCheckbox from "react-native-bouncy-checkbox"; 
-//import Toast from 'react-native-simple-toast';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { validateEmail, removeWhitespace } from '../../utils';
-//import { Context } from 'react';
-//import { Context as UserContext } from '../dataStore/userAccessContext';
-import { Context as UserContext } from '../../dataStore/userAccessContext';
- 
-
+import axios from 'axios';
+//import { response } from 'express';
 
 export default class SignupScreen extends Component{
     
-
+    
 
     //--DB에 연동해줄 변수명들과 변수 설정함수
 
@@ -56,6 +48,12 @@ export default class SignupScreen extends Component{
  
 
       //user signup Birth
+
+      componentDidMount(){
+        const sites = this.state;
+        console.log(JSON.stringify(sites));
+        axios.post('https://hkclient.herokuapp.com/user/signup', sites).then(response => console.log('완료'));                
+      };
 
       onChange  = (date) => {
           if(date!=null ){ 
@@ -120,87 +118,11 @@ export default class SignupScreen extends Component{
       onSignup({name : this.state.name, email: this.state.email, password: this.state.password});  
       console.log('usercontext마지막');
     };    
-  // 깃허브테스트 1
-    // 레지스터에 진짜 아이디 비번 이름을 추가할 디비에 연동이 구현되어야함
-    // btnText: 'Register',
-    // name: '',
-    // email: '',
-    // password: '',
-    // confirm_pass: '',
-    // Phonenum:'',
-    // birth: '',
-    // pi_agreement: '',
-    // index_id: '',
-    // error: false
+
     register()
     {      
-      this.setState({btnText: '회원가입'});
-
-      // if(this.state.name.trim() == '' || this.state.name.trim() == null)
-      // {
-      //   Alert.alert(
-      //     "이름을 입력하세요"
-      //   );
-      //   return true;
-      // }
-
-      // if(this.state.pi_agreement == '')
-      // {
-      //   Alert.alert(
-      //     "개인정보동의서를 입력해주세요"
-      //   );
-      //   return true;
-      // }
-      
-      // if(this.state.birth == '')
-      // {
-      //   Alert.alert(
-      //     "생일을 입력해주세요"
-      //   );
-      //   return true;
-      // }
-      // if(this.state.index_id =='' || this.state.index_id == null){
-        
-      // }
-  
-      // if(this.state.email.trim() == '' || this.state.email.trim() == null)
-      //   {
-      //   Alert.alert(
-      //     "이메일을 입력하세요"
-      //   );
-      //   if(!validateEmail(this.state.email)){
-      //     Alert.alert(
-      //       "이메일형식을 확인하세요"
-      //     );
-      //     return true;
-      //   }
-       
-      // }
-        
-      // if(this.state.password.length > 10 && (this.state.password.trim() == '' || this.state.password.trim() == null))
-      // {
-      //   Alert.alert(
-      //     "비밀번호는 8자리 이상 입력하세요"
-      //   );
-      //   return true;
-      // }
-  
-      // if(this.state.password.length > 10 &&  (this.state.confirm_pass.trim() == '' || this.state.confirm_pass.trim()==null))
-      // {
-      //   Alert.alert(
-      //     "비밀번호 확인을 입력해주세요"
-      //   ); 
-      //   return true;
-      // }
-
-      // if(this.state.password != this.state.confirm_pass)
-      // {
-      //   Alert.alert(
-      //     "비밀번호와 비밀번호 확인이 일치하지 않습니다",
-      //   );
-      //   return true;
-      // }
-      this.SignupScreens();
+      this.setState({btnText: '회원가입'});       
+      this.componentDidMount();
       Alert.alert(
         "회원가입 완료",
         "회원가입을 축하드립니다",        

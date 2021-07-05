@@ -23,6 +23,7 @@ export default class SettingScreen extends Component{
                 {text: 'cancel', onPress: () => null},
             ],
             { cancelable: true }
+            
         )
     }
 

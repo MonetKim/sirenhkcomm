@@ -1,116 +1,27 @@
-import { AsyncStorage } from "react-native";
-import { navigate } from "../NavigationRef";
-import createAppContext from "./createAppContext";
-import API from "../API/WebService";
-import aType from "../ActionTypes";
-import userReducer from "./reducer";
+//import userReducer from "./dataStore/reducer.js";
 
+export function useAsync(callback, deps = [], skip = false) {
+  const [state, dispatch] = userReducer(reducer, {
+    loading: false,
+    data: null,
+    error: null,
+  });
 
-/**
- * User Actions
- * btnText: 'Register',
-          name: '',
-          email: '',
-          password: '',
-          confirm_pass: '',
-          Phonenum:'',
-          birth: '',//입력하고
-          pi_agreement:
- */
+  const fetchData = useCallback(async () => {
+    dispatch({ type: 'LOADING' });
+    try {
+      const data = await callback();
+      dispatch({ type: 'SUCCESS', data });
+    } catch (e) {
+      dispatch({ type: 'ERROR', error: e });
+    }
+  }, [callback]);
 
-const onSignup = (dispatch) => async ({
-  name,
-  email,
-  confirm_pass,
-  Phonenum,
-  birth,
-  pi_agreement
-}) => {
-  API.post("user/signup", {
-    name,
-    email,
-    confirm_pass,
-    Phonenum,
-    birth,
-    pi_agreement
-  })
-    .then((response) => {
-      configureAPI({ token: `Bearer ${response.data}` });
-      dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("homeStack");
-    })
-    .catch((err) => {
-      dispatch({
-        type: aType.ERROR,
-        payload: "Login Fail with provided Email ID and Password",
-      });
-    });
-};
+  useEffect(() => {
+    if (skip) return;
+    fetchData();
+    //eslint-disable-next-line
+  }, deps);
 
-// const onSignin = (dispatch) => async ({ email, password }) => {
-//   API.post("user/login", {
-//     email,
-//     password,
-//   })
-//     .then((response) => {
-//       configureAPI({ token: `Bearer ${response.data}` });
-//       dispatch({ type: aType.LOGIN, payload: response.data });
-//       navigate("homeStack");
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: aType.ERROR,
-//         payload: "Login Fail with provided Email ID and Password",
-//       });
-//     });
-// };
-
-const configureAPI = ({ token }) => {
-  API.defaults.headers.common["Authorization"] = token;
-};
-
-// const onCheckLogin = (dispatch) => async () => {
-//   const token = await AsyncStorage.getItem("token");
-//   if (token) {
-//     dispatch({ type: aType.LOGIN, payload: token });
-//     navigate("homeStack");
-//     configureAPI({ token });
-//   } else {
-//     navigate("loginStack");
-//   }
-// };
-
-// const onGetProfile = (dispatch) => async () => {
-//   try {
-//   } catch {}
-// };
-
-// const onLogout = (dispatch) => () => {
-//   navigate("loginStack");
-//   dispatch({ type: aType.LOGOUT });
-// };
-// const onDissmiss = (dispatch) => () => {
-//   dispatch({ type: aType.DISSMISS });
-// };
-
-/**
- * Export Methods with Create Context
- */
-export const { Provider, Context } = createAppContext(
-  userReducer,
-  {
-    // onCheckAvailability,
-    // onCheckLogin,
-    onSignup,
-    // onSignin,
-    // onLogout,
-    // fetchTopRestaurants,
-    // onAddToCart,
-    // onViewCart,
-    // onCreateOrder,
-    // onViewOrders,
-    // onViewOrderDetails,
-    // onDissmiss,
-  },
-  { accessToken: null, msg: null }
-);
+  return [state, fetchData];
+}
