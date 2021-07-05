@@ -12,6 +12,7 @@ import SomethingScreen from "./SomethingScreen/extra.js";
 import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
+import OrderScreen from "./OrderScreen/order.js";
 
 //import { createDrawerNavigator } from "react-navigation-drawer";
 
@@ -48,9 +49,20 @@ const MenuStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "Menu",
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "MenuScreen",
+  }
+);
+const OrderStack = createStackNavigator(
+  {
+    OrderScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "주문내역"
+    }),
+    initialRouteName: "OrderScreen",
   }
 );
 const SignupStack = createStackNavigator(
@@ -71,7 +83,7 @@ const TabNavigator = createBottomTabNavigator(
     홈: HomeStack,
     메뉴: MenuStack,
     퀵오더: MenuStack,
-    주문내역: MenuStack,
+    주문내역: OrderStack,
     마이페이지: SettingStack,
   },
   {

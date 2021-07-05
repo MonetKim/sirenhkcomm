@@ -19,6 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Icon } from "native-base";
+import CartScreen from "../CartScreen/cart";
 const { width, height } = Dimensions.get("window");
 
 
@@ -86,48 +87,7 @@ export default class MenuScreen extends Component {
             preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
             quantity : 1
           },
-          {
-            id: 0,
-            title: 'aaaa',
-            price: 7000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            quantity : 1
-          },
-          {
-            id: 1,
-            title: 'bbbb',
-            price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            quantity : 1
-          },
-          {
-            id: 0,
-            title: 'aaaa',
-            price: 7000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            quantity : 1
-          },
-          {
-            id: 1,
-            title: 'bbbb',
-            price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            quantity : 1
-          },
-          {
-            id: 0,
-            title: 'aaaa',
-            price: 7000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            quantity : 1
-          },
-          {
-            id: 1,
-            title: 'bbbb',
-            price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            quantity : 1
-          },
+
         ],
         name: "",
         delivery_time: 0,
@@ -135,30 +95,7 @@ export default class MenuScreen extends Component {
         reviews: [],
         avg_ratting: 0,
         preview: "",
-        dataCart: [
-          {
-            id: 0,
-            title: 'aaaa',
-            price: 7000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            quantity : 1
-          },
-          {
-            id: 1,
-            title: 'bbbb',
-            price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            quantity : 1
-          },
-         
-          {
-            id: 1,
-            title: 'bbbb',
-            price: 5000,
-            preview : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            quantity : 1
-          },
-        ],
+        dataCart: [],
         latitude: 0,
         longitude: 0,
         menus: [],
@@ -199,41 +136,14 @@ export default class MenuScreen extends Component {
     const itemcart = {
         food: data,
         quantity: 1,
-        price: data.price.price
+        price: data.price
     }
-
-    const storedata = {
-        latitude: this.state.latitude,
-        longitude: this.state.longitude,
-        name: this.state.name,
-        id: this.state.id
-    }
-
-    AsyncStorage.getItem('store').then(() => {
-        AsyncStorage.setItem('store', JSON.stringify(storedata));
-    })
-        .catch((err) => {
-            alert(err)
-        })
-
-    AsyncStorage.getItem('cart').then((datacart) => {
-        if (datacart !== null) {
-            // We have data!!
-            const cart = JSON.parse(datacart)
-            cart.push(itemcart)
-            AsyncStorage.setItem('cart', JSON.stringify(cart));
-            this.setState({ dataCart: cart });
-        }
-        else {
-            const cart = []
-            cart.push(itemcart)
-            AsyncStorage.setItem('cart', JSON.stringify(cart));
-            this.setState({ dataCart: cart });
-        }
-    })
-        .catch((err) => {
-            alert(err)
-        })
+            console.log('111111  '+JSON.stringify(this.state.dataCart) +'    @@@@@@@@@  = ' + JSON.stringify(itemcart) );
+            console.log("\n");
+            this.state.dataCart.push(itemcart);
+            console.log('2222222  '+JSON.stringify(this.state.dataCart) +'    #############  = ' + JSON.stringify(itemcart) );
+            this.props.navigation.navigate('CartScreen', {dataCart:this.state.dataCart , isCheck: true});
+            console.log("\n"); console.log("\n"); console.log("\n");
 }
 
 
