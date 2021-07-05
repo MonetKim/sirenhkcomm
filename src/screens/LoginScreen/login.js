@@ -12,11 +12,11 @@ import {Video} from "expo-av";
 
 const { width, height } = Dimensions.get("window");
 
-
+ 
 export default class LoginScreen extends Component{
-    
+     
     static navigationOptions = {
-        header: null,
+        header: false,
     };
 
     _doLogin(){

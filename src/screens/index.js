@@ -4,7 +4,8 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator, createMaterialTopTabNavigator, createTabNavigator } from "react-navigation-tabs";
 import { Icon } from 'native-base';
-
+import { Provider as UserProvider } from '../dataStore/userAccessContext';
+//import { Context as UserContext } from '../../dataStore/userAccessContext';
 import LoginScreen from "./LoginScreen/login.js";
 import HomeScreen from "./HomeScreen/home.js"; 
 import SettingScreen from "./SettingScreen/setting.js";
@@ -13,6 +14,7 @@ import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
 import OrderScreen from "./OrderScreen/order.js";
+import { setNavigator } from "../NavigationRef";
 
 //import { createDrawerNavigator } from "react-navigation-drawer";
 
@@ -125,14 +127,27 @@ const AppStack = createStackNavigator({
   LoginScreen: LoginScreen,
   CartScreen: CartScreen,
   SignupScreen: SignupScreen,
-  TabNavigator: {
+  TabNavigator: { 
     screen: TabNavigator,
     navigationOptions: ({ navigation }) => ({
-      header: null,
+      header: false,
     }),
   },
 
 
-});
+}); 
 
-export default createAppContainer(AppStack);
+const App = createAppContainer(AppStack);
+
+export default () => {
+  return(
+    <UserProvider>
+      <App ref={(navigator) =>{
+        setNavigator(navigator);
+      }}>
+      </App>
+    </UserProvider>
+
+  )
+}
+

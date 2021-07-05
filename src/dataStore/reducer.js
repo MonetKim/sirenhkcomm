@@ -1,34 +1,68 @@
-//import { AsyncStorage } from "react-native";
-import { useReducer, useEffect, useCallback } from "react";
+import { AsyncStorage } from "react-native";
 import aType from "../ActionTypes";
- 
+
 /**
  * Reducer
  */
-function userReducer(state, action){
+const userReducer = (state, action) => {
   console.log(action);
   switch (action.type) {
-      case 'LOADING':
-        return{
-          loading:true,
-          data:null,
-          error:null
-        };
-      case 'SUCCESS':
-        return{
-          loading:true,
-          data:action.data,
-          error:null
-        };
-      case 'ERROR':
+    case aType.LOGIN:
+      saveToken(action.payload);
+      return { ...state, token: action.payload };
+    case aType.LOGOUT:
+      clearStorage();
+      return { token: null, msg: null, state };
+    case aType.ALL_FOODS:
+      return { ...state, foods: action.payload };
+    case aType.TOP_RESTAURANTS:
       return {
-        loading: false,
-        data: null,
-        error: action.error,
+        ...state,
+        restaurants: action.payload,
       };
-        default:
-        throw new Error(`처리 불가능 타입 :'${action.type}`);
+    case aType.VIEW_CART:
+      return {
+        ...state,
+        cartItems: action.payload,
+      };
+    case aType.VIEW_ORDER:
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    case aType.ORDER_DETAILS:
+      return {
+        ...state,
+        orderItems: action.payload,
+      };
+    case aType.CREATE_ORDER:
+      return {
+        ...state,
+        cartItems: [],
+        orders: action.payload,
+      };
+
+    case aType.ERROR:
+      return {
+        ...state,
+        msg: action.payload,
+      };
+    case aType.DISSMISS:
+      return {
+        ...state,
+        msg: null,
+      };
+    default:
+      return state;
   }
+};
+
+const saveToken = async (token) => {
+  await AsyncStorage.setItem("token", `Bearer ${token}`);
+};
+
+const clearStorage = async () => {
+  await AsyncStorage.clear();
 };
 
 export default userReducer;
