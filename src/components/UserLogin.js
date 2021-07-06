@@ -20,68 +20,59 @@ birth : new Date(),//입력하고
 pi_agreement: '',//입력하고
 */
 const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
+  console.log(route+'라우팅');
   const [email, setEmail] = useState("");
+  const [id,setId] = useState("");
   const [password, setPassword] = useState("");
   const [name, setname] = useState("");
   const [Phonenum, setPhonenum] = useState("");
   const [birth, setbirth] = useState("");
   const [pi_agreement, setpi_agreement] = useState("");
  
-
+ 
   const addSignUpFields = () => {
     if (isSignup) {
       return (
-        <View>  
-
-<Spacer>
-        <Text  style={{ fontSize: 17 }} >개인정보동의요구서</Text>
-        <BouncyCheckbox 
-          placeholder="개인정보동의요구서"
-          secureTextEntry
-          autoCapitalize={false}
-          autoCorrect={false}
-          onPress ={setpi_agreement}
-        /> 
-      </Spacer>          
-        </View>
-      );
-    }
-  };
-
-  return (
-    <View>
+        <View>             
+            <Spacer>
+            <Input
+              placeholder="아이디"
+              //autoCapitalize={false}
+              //autoCorrect={false}
+              onChangeText={setId}
+            />
+          </Spacer>
          <Spacer>
             <Input
               placeholder="이름"
-              autoCapitalize={false}
-              autoCorrect={false}
+              //autoCapitalize={false}
+              //autoCorrect={false}
               onChangeText={setname}
             />
           </Spacer>
-
+          <Spacer>
+            <Input
+            placeholder="비밀번호"
+            secureTextEntry
+          //autoCapitalize={false}
+          //autoCorrect={false}
+            onChangeText={setPassword}
+          />
+        </Spacer>
       <Spacer>
         <Input
           placeholder="이메일"
-          autoCapitalize={false}
-          autoCorrect={false}
+          //autoCapitalize={false}
+          //autoCorrect={false}
           onChangeText={setEmail}
-        />
-      </Spacer>
-      <Spacer>
-        <Input
-          placeholder="비밀번호"
-          secureTextEntry
-          autoCapitalize={false}
-          autoCorrect={false}
-          onChangeText={setPassword}
         />
       </Spacer>
       <Spacer> 
         <Input
           placeholder="휴대폰번호"
           secureTextEntry
-          autoCapitalize={false}
-          autoCorrect={false}
+          //autoCapitalize={false}
+          //autoCorrect={false}
           onChangeText={setPhonenum}
         />
       </Spacer>
@@ -95,21 +86,62 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
           autoCorrect={false}
           onChange={setbirth}
         />
-      </Spacer> */}     
-
+      </Spacer> */}
+        <View>  
+          <Spacer>
+        <Text  style={{ fontSize: 17 }} >개인정보동의요구서</Text>
+        <BouncyCheckbox 
+          placeholder="개인정보동의요구서"
+          secureTextEntry
+          //autoCapitalize={false}
+          //autoCorrect={false}
+          onPress ={setpi_agreement}
+        /> 
+      </Spacer>          
+        </View>   
+        </View>
+      );
+    } else {
+      
+      return (
+          <View>
+               <Spacer>
+              <Input
+              placeholder="아이디"
+              //autoCapitalize={false}
+              //autoCorrect={false}
+              onChangeText={setId}
+              />
+            </Spacer>
+            <Spacer>
+            <Input
+            placeholder="비밀번호"
+            secureTextEntry
+          //autoCapitalize={false}
+          //autoCorrect={false}
+            onChangeText={setPassword}
+          />
+        </Spacer>
+ 
+          </View>
+      );
+    }
+  };
+  return (
+    <View>                        
       {addSignUpFields()}
       <Spacer />
       <AppButton
         height={50}
         title={title}
-        onTap={() => onSubmit({ email, password, name, birth, Phonenum, pi_agreement})}
+        onTap={() => onSubmit({ email, id ,password, name, birth, Phonenum, pi_agreement})}
       />
-      <Spacer>
+      <Spacer> 
         <Button
           titleStyle={styles.titleStyle}
           type="clear"
           title={linkText}
-          onPress={() => navigate(route)}
+          onPress={() => navigate(route)} 
         />
       </Spacer>
     </View>

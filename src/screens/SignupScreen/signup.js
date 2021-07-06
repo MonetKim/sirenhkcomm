@@ -1,9 +1,11 @@
 import React, {useContext, useState, useEffect} from 'react';
-import { View,Text,StyleSheet, LogBox} from 'react-native';
+import { View,Text,StyleSheet} from 'react-native';
 import { Context as UserContext } from '../../dataStore/userAccessContext';
 import { SafeAreaView } from 'react-navigation';
 import UserLogin from '../../components/UserLogin';
 import Overlay from '../../components/Overlay'; 
+import { ScrollView } from 'react-native-gesture-handler';
+
 //import { response } from 'express';
 
 /*
@@ -28,15 +30,16 @@ const SignupScreen = () => {
 
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: 'always' }}>
+      <ScrollView style={styles.flex}>
       <Overlay isShow={isLoading} />      
       <View style={styles.listView}>
         <UserLogin 
           isSignup={true}
-          onSubmit={({ email, password, name, Phonenum,birth,pi_agreement }) => {
+          onSubmit={({ email, password, id, name, Phonenum,birth,pi_agreement }) => {
             setIsLoading(true);
-            onSignup({ email, password, name, Phonenum,birth,pi_agreement });
-          }}
-          route="Signin" 
+            onSignup({ email, password, id, name, Phonenum,birth,pi_agreement });
+          }} 
+          route="LoginScreen" 
           linkText="이미 계정이 있으신가요? 로그인하기"
           title="회원가입"
         />
@@ -44,12 +47,16 @@ const SignupScreen = () => {
       <View style={styles.bottomView}>
         <Text style={{ color: '#A7A6A6' }}>Copyright@ 한경기획 2021 </Text>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 
 const styles = StyleSheet.create({
+  flex:{
+    flex:1
+  },
   contentView: {
     backgroundColor: '#F2F2F2',
     flex: 1,

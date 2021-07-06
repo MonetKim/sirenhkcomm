@@ -93,17 +93,32 @@ const onViewOrderDetails = (dispatch) => ({ _id }) => {
     });
 };
 
+/*
+name: '',
+email: '',
+password: '',
+confirm_pass: '',
+Phonenum:'',
+birth : new Date(),//입력하고
+pi_agreement: '',//입력하고
+*/
 const onSignup = (dispatch) => async ({
-  email,
-  password,
-  firstName,
-  lastName,
+    id,
+    name,
+    password,
+    Phonenum,
+    birth, 
+    pi_agreement,
+    email, 
 }) => {
   API.post("user/signup", {
-    email,
-    password, 
-    firstName,
-    lastName,
+    id,
+    name,
+    password,
+    Phonenum,
+    birth,
+    pi_agreement,
+    email, 
   })
     .then((response) => {
       configureAPI({ token: `Bearer ${response.data}` });

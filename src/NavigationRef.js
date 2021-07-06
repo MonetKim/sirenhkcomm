@@ -8,5 +8,6 @@ export const setNavigator = (nav) => {
  
 export const navigate = (routeName, params) => {
   navigator.dispatch(NavigationActions.navigate({ routeName, params }));
+  console.log(routeName+'라우트 네임'+params+'파람');
 };
  

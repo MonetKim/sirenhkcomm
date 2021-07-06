@@ -1,92 +1,72 @@
-import React, {Component} from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Dimensions,
-} from 'react-native';
+import React, { useContext, useState, useEffect } from 'react'
+import {View,StyleSheet,Alert,Dimensions} from 'react-native';
+import { Text } from 'react-native-elements';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Video} from "expo-av";
+import { Context as UserContext } from '../../dataStore/userAccessContext';
+import UserLogin from '../../components/UserLogin';
+import Overlay from '../../components/Overlay';
+ 
 
 const { width, height } = Dimensions.get("window");
+const LoginScreen = () => {
+    const { state, onSignin, onDissmiss } = useContext(UserContext);
 
- 
-export default class LoginScreen extends Component{
-     
-    static navigationOptions = {
-        header: false,
-    };
+    const { msg } = state;
+  
+    const [isLoading, setIsLoading] = useState(false);
 
-    _doLogin(){
-        // do something
-        this.props.navigation.replace('TabNavigator')
-    }
-
-    _dosignup(){
-        // do something
-        this.props.navigation.navigate('SignupScreen');
-    }
-
-
-    render(){
-        return (
-       
-
-            <View style={styles.container}>
-                <Video
-                source={require("../../../assets//video/hksample.mp4")}
-                //source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                shouldPlay
-                isLooping
-                
-                style={styles.backgroundVideo}
-                /> 
-
-                
-
-                <View style={styles.titleArea}>
-                    <Text style={styles.title}>파란만잔</Text>
-                </View>
-                <View style={styles.formArea}>
-                    <TextInput 
-                        style={styles.textForm} 
-                        placeholder={"ID"}/>
-                    <TextInput 
-                        style={styles.textForm} 
-                        placeholder={"Password"}/>
-                </View>
-                <View style={styles.buttonArea}>
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={this._doLogin.bind(this)}>
-                        <Text style={styles.buttonTitle}>Login</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.titlesign}>
-                    <Text style={styles.sign}>아이디가 없으신가요?</Text>
-                </View>
-                <View style={styles.buttonArea}>
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={this._dosignup.bind(this)}>
-                        <Text style={styles.buttonTitle}>signup</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
+    useEffect(() => {
+        showAlert();
+        setIsLoading(false);
+      }, [msg]);
+      const showAlert = () => {
+        if (msg !== null) {
+          Alert.alert(
+            '로그인 완료',
+            `${msg}`,
+            [{ text: 'Okay', onPress: () => onDissmiss }],
+            {
+              cancelable: false,
+            }
+          );
+        }
+      };        
+    return (       
+        
+        <View style={styles.container}>
+        <Overlay isShow={isLoading} />            
+        <Video
+        source={require("../../../assets//video/hksample.mp4")}
+        //source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+        rate={1.0}
+        volume={1.0}
+        isMuted={false}
+        resizeMode="cover"
+        shouldPlay
+        isLooping        
+        style={styles.backgroundVideo}
+        />         
+        <View style={styles.titleArea}>
+            <Text style={styles.title}>파란만잔</Text>
+        </View>
+        <View style={styles.formArea}>
+        <UserLogin
+         isSignup={false}
+         onSubmit={({ email, password }) => {
+            setIsLoading(true);
+            onSignin({ email, password });
+          }} 
+          route="SignupScreen"
+          linkText="회원 가입"
+          title="로그인"
+        />
+        </View>        
+    </View>   
         );
-    }
-}
-
+};
 
 const styles = StyleSheet.create({
-
     backgroundVideo: {
         height: height,
         position: "absolute",
@@ -146,4 +126,11 @@ const styles = StyleSheet.create({
     buttonTitle: {
         color: 'white',
     },
-})
+});
+LoginScreen.navigationOptions = () => {
+    return {
+      headerShown: false,
+    };
+  };
+  
+  export default LoginScreen;

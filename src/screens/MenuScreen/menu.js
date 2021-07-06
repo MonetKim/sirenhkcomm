@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 
 
 import { StackActions, NavigationActions } from "react-navigation";
@@ -20,7 +20,10 @@ import {
 } from "react-native-responsive-screen";
 import { Icon } from "native-base";
 import CartScreen from "../CartScreen/cart";
+import SignupScreen from "../SignupScreen/signup";
+import { Context as UserContext } from '../../dataStore/userAccessContext';
 const { width, height } = Dimensions.get("window");
+
 
 
 export default class MenuScreen extends Component {
@@ -110,7 +113,7 @@ export default class MenuScreen extends Component {
 }
 
 
-
+  
 
 
   // _logout() {
@@ -152,8 +155,7 @@ export default class MenuScreen extends Component {
       
 
         
-        <View style={styles.flex}>
-          
+        <View style={styles.flex}>                     
 
             <View style={styles.foodList}>
               <FlatList
@@ -162,10 +164,12 @@ export default class MenuScreen extends Component {
                 renderItem={({ item }) => this._renderItemFood(item)}
                 keyExtractor={(item, index) => index.toString()}
               />
-            </View>
-
-         
+            </View>         
         </View>
+        
+
+
+
         
     );
   }
