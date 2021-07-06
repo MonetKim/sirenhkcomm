@@ -132,7 +132,7 @@ const onSignup = (dispatch) => async ({
       });
     });
 };
-
+//아래 에러 부분 home stack 지우기
 const onSignin = (dispatch) => async ({ email, password }) => {
   API.post("user/login", {
     email,
@@ -141,13 +141,14 @@ const onSignin = (dispatch) => async ({ email, password }) => {
     .then((response) => {
       configureAPI({ token: `Bearer ${response.data}` });
       dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("homeStack");
+      navigate("homeStack"); 
     })
     .catch((err) => {
       dispatch({
         type: aType.ERROR,
         payload: "Login Fail with provided Email ID and Password",
       });
+      navigate("HomeScreen"); 
     });
 };
 

@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
-import {View,StyleSheet,Alert,Dimensions} from 'react-native';
+import {View,StyleSheet,Alert,Dimensions, Tou} from 'react-native';
 import { Text } from 'react-native-elements';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Video} from "expo-av";
 import { Context as UserContext } from '../../dataStore/userAccessContext';
 import UserLogin from '../../components/UserLogin';
 import Overlay from '../../components/Overlay';
- 
+   
 
 const { width, height } = Dimensions.get("window");
 const LoginScreen = () => {
@@ -21,10 +21,10 @@ const LoginScreen = () => {
         setIsLoading(false);
       }, [msg]);
       const showAlert = () => {
-        if (msg !== null) {
+        if (msg !== null) {  
           Alert.alert(
-            '로그인 완료',
-            `${msg}`,
+            '로그인 시도 중',
+            `${msg}`, 
             [{ text: 'Okay', onPress: () => onDissmiss }],
             {
               cancelable: false,
@@ -32,8 +32,7 @@ const LoginScreen = () => {
           );
         }
       };        
-    return (       
-        
+    return (               
         <View style={styles.container}>
         <Overlay isShow={isLoading} />            
         <Video
@@ -51,7 +50,7 @@ const LoginScreen = () => {
             <Text style={styles.title}>파란만잔</Text>
         </View>
         <View style={styles.formArea}>
-        <UserLogin
+        <UserLogin 되는 코드 삭제 금지
          isSignup={false}
          onSubmit={({ email, password }) => {
             setIsLoading(true);
@@ -60,7 +59,7 @@ const LoginScreen = () => {
           route="SignupScreen"
           linkText="회원 가입"
           title="로그인"
-        />
+          />         
         </View>        
     </View>   
         );
