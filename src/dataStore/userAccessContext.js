@@ -9,90 +9,6 @@ import userReducer from "../dataStore/reducer";
  * User Actions
  */
 
-const onCheckAvailability = (dispatch) => async () => {
-  try {
-    const response = await API.get("/food");
-    dispatch({ type: aType.ALL_FOODS, payload: response.data });
-  } catch {
-    dispatch({ type: aType.ERROR, payload: "Data Not found" });
-  }
-};
-
-const fetchTopRestaurants = (dispatch) => async () => {
-  try {
-    const response = await API.get("/food/top/restaurants");
-    dispatch({ type: aType.TOP_RESTAURANTS, payload: response.data });
-  } catch {
-    dispatch({ type: aType.ERROR, payload: "Data Not found" });
-  }
-};
-
-const onViewCart = (dispatch) => () => {
-  API.get("/user/cart")
-    .then((response) => {
-      dispatch({ type: aType.VIEW_CART, payload: response.data });
-    })
-    .catch((err) => {
-      dispatch({ type: aType.ERROR, payload: "Data Not found" });
-    });
-};
-
-const onAddToCart = (dispatch) => (item, qty) => {
-  console.log(item);
-
-  if (qty !== undefined) {
-    API.put(`/user/cart/${item._id}/${qty}`)
-      .then((response) => {
-        console.log(response);
-        dispatch({ type: aType.VIEW_CART, payload: response.data });
-      })
-      .catch((err) => {
-        dispatch({ type: aType.ERROR, payload: "Data Not found" + err });
-      });
-  } else {
-    API.post("/user/cart/" + item._id)
-      .then((response) => {
-        console.log(response);
-        dispatch({ type: aType.VIEW_CART, payload: response.data });
-      })
-      .catch((err) => {
-        dispatch({ type: aType.ERROR, payload: "Data Not found" + err });
-      });
-  }
-};
-
-const onCreateOrder = (dispatch) => () => {
-  API.post("/user/add-order")
-    .then((response) => {
-      dispatch({ type: aType.CREATE_ORDER, payload: response.data });
-      navigate("Order");
-    })
-    .catch((err) => {
-      dispatch({ type: aType.ERROR, payload: "Data Not found" });
-    });
-};
-
-const onViewOrders = (dispatch) => () => {
-  API.get("/user/order")
-    .then((response) => {
-      dispatch({ type: aType.VIEW_ORDER, payload: response.data });
-    })
-    .catch((err) => {
-      dispatch({ type: aType.ERROR, payload: "Data Not found" });
-    });
-};
-
-const onViewOrderDetails = (dispatch) => ({ _id }) => {
-  API.get("/user/order/" + _id)
-    .then((response) => {
-      dispatch({ type: aType.ORDER_DETAILS, payload: response.data });
-      navigate("OrderDetails");
-    })
-    .catch((err) => {
-      dispatch({ type: aType.ERROR, payload: "Data Not found" });
-    });
-};
-
 /*
 name: '',
 email: '',
@@ -128,7 +44,7 @@ const onSignup = (dispatch) => async ({
     .catch((err) => {
       dispatch({
         type: aType.ERROR,
-        payload: "잘못된 비밀번호 비밀번호 입니다",
+        payload: "잘못된 비밀번호 입니다",
       });
     });
 };
@@ -151,6 +67,11 @@ const onSignin = (dispatch) => async ({ email, password }) => {
       navigate("HomeScreen"); 
     });
 };
+
+//비밀번호 찾기 호출 되는 곳
+const PasswordFinder = (dispatch) => async({email,name,password}) => {
+  alert('서버 해야해요');
+}
 
 //이메일찾기 보내는 곳
 const emailFinder = (dispatch) => async (name,Phonenum) => { 
@@ -189,12 +110,6 @@ const onCheckLogin = (dispatch) => async () => {
   }
 };
 
-const onGetProfile = (dispatch) => async () => {
-  try {
-  } catch {}
-};
-
-
 const onLogout = (dispatch) => () => {
   navigate("loginStack");
   dispatch({ type: aType.LOGOUT });
@@ -209,18 +124,12 @@ const onDissmiss = (dispatch) => () => {
 export const { Provider, Context } = createAppContext(
   userReducer,
   {
+    PasswordFinder,
     emailFinder, 
-    onCheckAvailability,
     onCheckLogin,
     onSignup,
     onSignin,
-    onLogout,
-    fetchTopRestaurants,
-    onAddToCart,
-    onViewCart,
-    onCreateOrder,
-    onViewOrders,
-    onViewOrderDetails,
+    onLogout,  
     onDissmiss,
   },
   { accessToken: null, msg: null }

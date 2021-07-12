@@ -12,44 +12,10 @@ const userReducer = (state, action) => {
       return { ...state, token: action.payload };
     case aType.LOGOUT:
       clearStorage();
-      return { token: null, msg: null, state };
-    case aType.ALL_FOODS:
-      return { ...state, foods: action.payload };
-    case aType.TOP_RESTAURANTS:
-      return {
-        ...state,
-        restaurants: action.payload,
-      };
-
-    case aType.VIEW_CART:
-      return {
-        ...state,
-        cartItems: action.payload,
-      };
-    case aType.VIEW_ORDER:
-      return {
-        ...state,
-        orders: action.payload,
-      };
-    case aType.ORDER_DETAILS:
-      return {
-        ...state,
-        orderItems: action.payload,
-      };
-    case aType.EmailFinder:
-      return {
-        ...state, 
-        finder: action.payload,
-      };
-    case aType.CREATE_ORDER:
-      return {
-        ...state,
-        cartItems: [],
-        orders: action.payload,
-      };
-
+      return { token: null, msg: null, state };    
+ 
     case aType.ERROR:
-      return {
+      return { 
         ...state,
         msg: action.payload,
       };
@@ -57,7 +23,17 @@ const userReducer = (state, action) => {
       return {
         ...state,
         msg: null,
-      };
+      };     
+    case aType.EmailFinder:
+        return {
+          ...state, 
+          finder: action.payload,
+        };  
+    case aType.PasswordFinder:
+        return {
+          ...state,
+          passfinder: action.payload, 
+        };   
     default:
       return state;
   }

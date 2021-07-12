@@ -14,16 +14,13 @@ import { navigate } from '../../NavigationRef';
 const { width, height } = Dimensions.get("window");
 const LoginScreen = () => {
 
-
-
     const { state, onSignin, onDissmiss } = useContext(UserContext);
     const { msg } = state;
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        showAlert();
         setIsLoading(false);
-      }, [msg]);
+      }, [msg]); 
       const showAlert = () => {
         if (msg !== null) {  
           Alert.alert(
@@ -78,8 +75,8 @@ const LoginScreen = () => {
           titleStyle={styles.titleStyle} 
           type="clear"
           title={"비밀번호찾기"}
-          onPress={() => alert("비밀번호 찾기")} 
-          />  
+          onPress={() => navigate("passScreen")} 
+          />   
         </View>             
         </View>  
       </View>   

@@ -20,7 +20,7 @@ birth : new Date(),//입력하고
 pi_agreement: '',//입력하고
 */
 const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
-  console.log(route+'라우팅');
+ 
   const [email, setEmail] = useState("");
   const [id,setId] = useState("");
   const [password, setPassword] = useState("");

@@ -5,6 +5,7 @@ const Action = {
   SIGNUP: "signup",
   DISSMISS: "dismiss",
   EmailFinder: "emailFinder", 
+  PasswordFinder: "passFinder"
 }; 
 
 export default Action;

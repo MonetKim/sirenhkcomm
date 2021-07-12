@@ -14,6 +14,8 @@ import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
 import emailScreen from "./LoginScreen/emailfinder.js";
+import passScreen from "./LoginScreen/passwordfinder";
+
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 
@@ -92,6 +94,20 @@ const emailFindersStack = createStackNavigator(
   }
 );
 
+const PassFindersStack = createStackNavigator(
+  { 
+    passScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "passScreen",
+    }),
+    initialRouteName: "passScreen",
+  }
+);
+
+
+
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -138,6 +154,7 @@ const TabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator({
   LoginScreen: LoginScreen,
+  passScreen : passScreen,
   CartScreen: CartScreen, 
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
