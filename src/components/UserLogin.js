@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View,Text, StyleSheet, Alert } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { View,Text, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
+import { Input,Button } from "react-native-elements";
 import AppButton from "../components/AppButton";
 import { navigate } from "../NavigationRef";
 import DatePicker from '@dietime/react-native-date-picker';
@@ -9,7 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 const Spacer = ({ children }) => {
   return <View style={styles.spacer}>{children}</View>;
 };
- 
+   
 /*
 name: '',
 email: '',
@@ -24,42 +24,28 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
   const [email, setEmail] = useState("");
   const [id,setId] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordCheck, setpasswordCheck] = useState("");
   const [name, setname] = useState("");
   const [Phonenum, setPhonenum] = useState("");
   const [birth, setbirth] = useState("");
   const [pi_agreement, setpi_agreement] = useState("");
- 
+  
+
  
   const addSignUpFields = () => {
     if (isSignup) {
-      return (
+      return ( 
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>             
-            <Spacer>
+            {/* <Spacer>
             <Input
-              placeholder="아이디"
+              placeholder="아이디(5자 이상, 영문, 숫자 포함)"
               //autoCapitalize={false}
               //autoCorrect={false}
               onChangeText={setId}
             />
-          </Spacer>
-         <Spacer>
-            <Input
-              placeholder="이름"
-              //autoCapitalize={false}
-              //autoCorrect={false}
-              onChangeText={setname}
-            />
-          </Spacer>
-          <Spacer>
-            <Input
-            placeholder="비밀번호"
-            secureTextEntry
-          //autoCapitalize={false}
-          //autoCorrect={false}
-            onChangeText={setPassword}
-          />
-        </Spacer>
-      <Spacer>
+          </Spacer> */}
+          <Spacer> 
         <Input
           placeholder="이메일"
           //autoCapitalize={false}
@@ -76,6 +62,33 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
           onChangeText={setPhonenum}
         />
       </Spacer>
+         <Spacer>
+            <Input
+              placeholder="이름"
+              //autoCapitalize={false}
+              //autoCorrect={false}
+              onChangeText={setname}
+            />
+          </Spacer>
+          <Spacer>
+            <Input
+            placeholder="비밀번호(8자 이상)"
+            secureTextEntry
+          //autoCapitalize={false}
+          //autoCorrect={false}
+            onChangeText={setPassword}
+          />
+        </Spacer>
+        <Spacer>
+            <Input
+            placeholder="비밀번호 확인"
+            secureTextEntry
+          //autoCapitalize={false}
+          //autoCorrect={false}
+            onChangeText={setpasswordCheck}
+          />
+        </Spacer>      
+
       {/* <Spacer>
         <DatePicker 
           mode="date"
@@ -87,27 +100,28 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
           onChange={setbirth}
         />
       </Spacer> */}
-        <View>  
-          <Spacer>
-        <Text  style={{ fontSize: 17 }} >개인정보동의요구서</Text>
-        <BouncyCheckbox 
-          placeholder="개인정보동의요구서"
-          secureTextEntry
-          //autoCapitalize={false}
+
+      <Spacer>         
+          <BouncyCheckbox
+          size={30}
+          text="개인정보동의요구서"          
+          fillColor="#46c3ad"  
+          iconStyle={{ borderColor: "#46c3ad" }}
+          //autoCapitalize={false} 
           //autoCorrect={false}
-          onPress ={setpi_agreement}
-        /> 
-      </Spacer>          
-        </View>   
-        </View>
+          onPress ={setpi_agreement}      
+          /> 
+      </Spacer>                     
+        </View>        
+        </TouchableWithoutFeedback>
       );
     } else {
-      
       return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
                <Spacer>
               <Input
-              placeholder="아이디"
+              placeholder="이메일"
               //autoCapitalize={false}
               //autoCorrect={false}
               onChangeText={setId}
@@ -121,13 +135,14 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
           //autoCorrect={false}
             onChangeText={setPassword}
           />
-        </Spacer>
- 
+        </Spacer>    
           </View>
+          </TouchableWithoutFeedback>
       );
     }
   };
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View>                        
       {addSignUpFields()}
       <Spacer />
@@ -145,6 +160,7 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
         />
       </Spacer>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -159,9 +175,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   titleStyle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "400",
-    color: "#f15b5d",
+    color: "red",
+  },
+  BouncyCheckbox:{
+    height: 40, 
+    width:40
   },
 });
 

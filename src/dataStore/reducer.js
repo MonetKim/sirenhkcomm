@@ -20,6 +20,7 @@ const userReducer = (state, action) => {
         ...state,
         restaurants: action.payload,
       };
+
     case aType.VIEW_CART:
       return {
         ...state,
@@ -34,6 +35,11 @@ const userReducer = (state, action) => {
       return {
         ...state,
         orderItems: action.payload,
+      };
+    case aType.EmailFinder:
+      return {
+        ...state, 
+        finder: action.payload,
       };
     case aType.CREATE_ORDER:
       return {

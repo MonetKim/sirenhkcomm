@@ -128,7 +128,7 @@ const onSignup = (dispatch) => async ({
     .catch((err) => {
       dispatch({
         type: aType.ERROR,
-        payload: "Login Fail with provided Email ID and Password",
+        payload: "잘못된 비밀번호 비밀번호 입니다",
       });
     });
 };
@@ -146,11 +146,33 @@ const onSignin = (dispatch) => async ({ email, password }) => {
     .catch((err) => {
       dispatch({
         type: aType.ERROR,
-        payload: "Login Fail with provided Email ID and Password",
+        payload: "잘못된 비밀번호 혹은 존재하지 않은 ID입니다",
       });
       navigate("HomeScreen"); 
     });
 };
+
+//이메일찾기 보내는 곳
+const emailFinder = (dispatch) => async (name,Phonenum) => { 
+  //alert('성공일껄?');
+  //navigate("loginStack");     
+  API.post("user/emailfinder", {
+    name,
+    Phonenum,
+  })
+  .then((response) => {
+      configureAPI({ token: `Bearer ${response.data}` });
+      dispatch({ type: aType.EmailFinder });
+      navigate("LoginScreen"); 
+  })
+  .catch((err) => {
+    dispatch({
+      type: aType.ERROR,
+      payload: "존재하지 않은 아이디 입니다"+err,
+    });
+    navigate("LoginScreen");  
+  });
+}; 
 
 const configureAPI = ({ token }) => {
   API.defaults.headers.common["Authorization"] = token;
@@ -172,10 +194,11 @@ const onGetProfile = (dispatch) => async () => {
   } catch {}
 };
 
+
 const onLogout = (dispatch) => () => {
   navigate("loginStack");
   dispatch({ type: aType.LOGOUT });
-};
+}; 
 const onDissmiss = (dispatch) => () => {
   dispatch({ type: aType.DISSMISS });
 };
@@ -186,6 +209,7 @@ const onDissmiss = (dispatch) => () => {
 export const { Provider, Context } = createAppContext(
   userReducer,
   {
+    emailFinder, 
     onCheckAvailability,
     onCheckLogin,
     onSignup,

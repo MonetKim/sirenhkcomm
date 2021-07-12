@@ -1,19 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react'
-import {View,StyleSheet,Alert,Dimensions, Tou} from 'react-native';
-import { Text } from 'react-native-elements';
+import {View,StyleSheet,Alert,Dimensions,TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { Text,Button } from 'react-native-elements';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Video} from "expo-av";
 import { Context as UserContext } from '../../dataStore/userAccessContext';
 import UserLogin from '../../components/UserLogin';
 import Overlay from '../../components/Overlay';
-   
+import AppButton from "../../components/AppButton";
+import { navigate } from '../../NavigationRef';
+  
+ 
 
 const { width, height } = Dimensions.get("window");
 const LoginScreen = () => {
-    const { state, onSignin, onDissmiss } = useContext(UserContext);
 
+
+
+    const { state, onSignin, onDissmiss } = useContext(UserContext);
     const { msg } = state;
-  
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -31,9 +35,10 @@ const LoginScreen = () => {
             }
           );
         }
-      };        
-    return (               
-        <View style={styles.container}>
+      };         
+    return (    
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
         <Overlay isShow={isLoading} />            
         <Video
         source={require("../../../assets//video/hksample.mp4")}
@@ -45,24 +50,42 @@ const LoginScreen = () => {
         shouldPlay
         isLooping        
         style={styles.backgroundVideo}
-        />         
+        />          
+
         <View style={styles.titleArea}>
             <Text style={styles.title}>파란만잔</Text>
         </View>
         <View style={styles.formArea}>
-        <UserLogin 되는 코드 삭제 금지
+      
+          <UserLogin
          isSignup={false}
-         onSubmit={({ email, password }) => {
-            setIsLoading(true);
-            onSignin({ email, password });
+         onSubmit={({ email, password}) => {
+           setIsLoading(true);
+           onSignin({ email, password });
           }} 
-          route="SignupScreen"
-          linkText="회원 가입"
+          route="SignupScreen" 
+          linkText="파란만잔이 처음이시라면, 회원 가입이 필요해요 :)"
           title="로그인"
-          />         
-        </View>        
-    </View>   
-        );
+          />      
+          <View style={styles.flex_container}>
+          <Button
+          titleStyle={styles.titleStyle} 
+          type="clear"
+          title={"아이디 찾기"}
+          onPress={() => navigate("emailScreen")} 
+          />
+          <Button
+          titleStyle={styles.titleStyle} 
+          type="clear"
+          title={"비밀번호찾기"}
+          onPress={() => alert("비밀번호 찾기")} 
+          />  
+        </View>             
+        </View>  
+      </View>   
+        </TouchableWithoutFeedback>      
+        ); 
+        
 };
 
 const styles = StyleSheet.create({
@@ -125,6 +148,16 @@ const styles = StyleSheet.create({
     buttonTitle: {
         color: 'white',
     },
+    titleStyle: {
+      fontSize: 12,
+      fontWeight: "400",
+      color: "red",     
+    },
+    flex_container:{
+      flexDirection: "row",
+      justifyContent:'center',
+
+    }
 });
 LoginScreen.navigationOptions = () => {
     return {

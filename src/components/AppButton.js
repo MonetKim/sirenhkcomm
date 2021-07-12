@@ -16,7 +16,7 @@ const AppButton = ({ title, onTap, width = 300, height = 40 }) => {
 
 const styles = StyleSheet.create({
   titleStyle: {
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: "300",
     color: "white",
   },
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   button: {
     width: 300,
     height: 40,
-    backgroundColor: '#46c3ad',
+    backgroundColor: '#46c3ad',    
     alignSelf: "center", 
     borderRadius: 30 
   },

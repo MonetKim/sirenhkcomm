@@ -13,6 +13,7 @@ import SomethingScreen from "./SomethingScreen/extra.js";
 import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
+import emailScreen from "./LoginScreen/emailfinder.js";
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 
@@ -79,6 +80,18 @@ const SignupStack = createStackNavigator(
   }
 );
 
+const emailFindersStack = createStackNavigator(
+  { 
+    emailScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "emailfinder",
+    }),
+    initialRouteName: "emailfinder",
+  }
+);
+
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -125,7 +138,8 @@ const TabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator({
   LoginScreen: LoginScreen,
-  CartScreen: CartScreen,
+  CartScreen: CartScreen, 
+  emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
   TabNavigator: { 
     screen: TabNavigator,
