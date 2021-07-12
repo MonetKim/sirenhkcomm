@@ -1,4 +1,4 @@
-import { ADD_MENUTOCART, REMOVE_MENUTOCART ,INC_CARTQUANT ,DEC_CARTQUANT} from './type'
+import { ADD_MENUTOCART, REMOVE_MENUTOCART ,INC_CARTQUANT ,DEC_CARTQUANT, SHOW_MENUDETAIL} from './type'
 
 const initialstate = {
 
@@ -70,17 +70,7 @@ const initialstate = {
 
   ],
   count: 100,
-  dataCart: [
-    {
-      id: 9,
-      title: '!@#!@#!@',
-      price: 5000,
-      preview: 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-      quantity: 0,
-      iscart: true
-    },
-
-  ],
+  dataMenudetail: [],
   temp: '   @@Test@@',
 }
 
@@ -122,6 +112,14 @@ const menuReducer = (state = initialstate, action) => {
       return {
         ...state,
         dataFood: newArraydec,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
+      }
+    case SHOW_MENUDETAIL:   //상세메뉴보여주기
+       const indexshow = state.dataFood.findIndex(dataFood => dataFood.id == action.payload); //인덱스찾기..
+       const newArrayshow = [...state.dataFood]; //making a new array
+
+      return {
+        ...state,
+        dataMenudetail: newArrayshow[indexshow],    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
       }
     default: return state
   }

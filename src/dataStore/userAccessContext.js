@@ -57,7 +57,7 @@ const onSignin = (dispatch) => async ({ email, password }) => {
     .then((response) => {
       configureAPI({ token: `Bearer ${response.data}` });
       dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("homeStack"); 
+      navigate("HomeScreen"); 
     })
     .catch((err) => {
       dispatch({
