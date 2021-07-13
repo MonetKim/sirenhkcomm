@@ -18,8 +18,7 @@ Phonenum:'',
 birth : new Date(),//입력하고
 pi_agreement: '',//입력하고
 */
-const onSignup = (dispatch) => async ({
-    id,
+const onSignup = (dispatch) => async ({  
     name,
     password,
     Phonenum,
@@ -27,24 +26,23 @@ const onSignup = (dispatch) => async ({
     pi_agreement,
     email, 
 }) => {
-  API.post("user/signup", {
-    id,
-    name,
-    password,
+  API.post("user/signup", {    
+    name, 
+    password, 
     Phonenum,
     birth,
     pi_agreement,
     email, 
   })
     .then((response) => {
-      configureAPI({ token: `Bearer ${response.data}` });
+      configureAPI({ token: `Bearer ${response.data}` }); 
       dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("homeStack");
+      navigate("HomeScreen"); 
     })
     .catch((err) => {
-      dispatch({
+      dispatch({ 
         type: aType.ERROR,
-        payload: "잘못된 비밀번호 입니다",
+        payload: "이미 등록된 이메일 입니다.",
       });
     });
 };
@@ -55,16 +53,17 @@ const onSignin = (dispatch) => async ({ email, password }) => {
     password,
   })
     .then((response) => {
-      configureAPI({ token: `Bearer ${response.data}` });
-      dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("homeStack"); 
+      configureAPI({ token: `Bearer ${response.data}` }); 
+      dispatch({ type: aType.LOGIN, payload: response.data });     
+      navigate("HomeScreen");             
     })
     .catch((err) => {
       dispatch({
         type: aType.ERROR,
-        payload: "잘못된 비밀번호 혹은 존재하지 않은 ID입니다",
+        payload: "잘못된 비밀번호 혹은 존재하지 않은 ID입니다"+err,        
       });
-      navigate("HomeScreen"); 
+      alert("잘못된 비밀번호 혹은 존재하지 않은 ID입니다"); 
+      navigate("LoginScreen"); 
     });
 };
 
@@ -82,7 +81,6 @@ const emailFinder = (dispatch) => async (name,Phonenum) => {
     Phonenum,
   })
   .then((response) => {
-      configureAPI({ token: `Bearer ${response.data}` });
       dispatch({ type: aType.EmailFinder });
       navigate("LoginScreen"); 
   })
@@ -95,28 +93,31 @@ const emailFinder = (dispatch) => async (name,Phonenum) => {
   });
 }; 
 
-const configureAPI = ({ token }) => {
-  API.defaults.headers.common["Authorization"] = token;
-};
-
-const onCheckLogin = (dispatch) => async () => {
-  const token = await AsyncStorage.getItem("token");
-  if (token) {
-    dispatch({ type: aType.LOGIN, payload: token });
-    navigate("homeStack");
-    configureAPI({ token });
-  } else {
-    navigate("loginStack");
-  }
-};
-
+  
 const onLogout = (dispatch) => () => {
-  navigate("loginStack");
+  navigate("LoginScreen");
   dispatch({ type: aType.LOGOUT });
 }; 
 const onDissmiss = (dispatch) => () => {
   dispatch({ type: aType.DISSMISS });
 };
+
+const configureAPI = ({ token }) => {
+  API.defaults.headers.common["Authorization"] = token;
+};
+ 
+const onCheckLogin = (dispatch) => async () => {
+  const token = await AsyncStorage.getItem("token");
+  if (token) {
+    dispatch({ type: aType.LOGIN, payload: token });
+    navigate("HomeScreen");
+    configureAPI({ token });
+  } else { 
+    navigate("LoginScreen");
+  }
+};
+
+
 
 /**
  * Export Methods with Create Context

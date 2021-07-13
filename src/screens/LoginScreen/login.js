@@ -68,7 +68,7 @@ const LoginScreen = () => {
           <Button
           titleStyle={styles.titleStyle} 
           type="clear"
-          title={"아이디 찾기"}
+          title={"이메일 찾기"}
           onPress={() => navigate("emailScreen")} 
           />
           <Button

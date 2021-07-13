@@ -158,7 +158,7 @@ const AppStack = createStackNavigator({
   CartScreen: CartScreen, 
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
-  TabNavigator: { 
+  TabNavigator: {  
     screen: TabNavigator,
     navigationOptions: ({ navigation }) => ({
       header: false,

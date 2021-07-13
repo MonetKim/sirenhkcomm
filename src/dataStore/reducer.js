@@ -9,11 +9,12 @@ const userReducer = (state, action) => {
   switch (action.type) {
     case aType.LOGIN:
       saveToken(action.payload);
+      console.log('로그인 호출 완료');
+      console.log(saveToken+'토큰');
       return { ...state, token: action.payload };
-    case aType.LOGOUT:
+    case aType.LOGOUT: 
       clearStorage();
-      return { token: null, msg: null, state };    
- 
+      return { token: null, msg: null, state };         
     case aType.ERROR:
       return { 
         ...state,
@@ -40,6 +41,7 @@ const userReducer = (state, action) => {
 };
 
 const saveToken = async (token) => {
+  console.log(token); 
   await AsyncStorage.setItem("token", `Bearer ${token}`);
 };
 

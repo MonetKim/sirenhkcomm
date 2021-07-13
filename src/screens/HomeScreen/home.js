@@ -8,6 +8,7 @@ import {
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 
+
 export default class HomeScreen extends Component{
     render(){
         return (

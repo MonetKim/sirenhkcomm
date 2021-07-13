@@ -22,7 +22,6 @@ pi_agreement: '',//입력하고
 const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
  
   const [email, setEmail] = useState("");
-  const [id,setId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setpasswordCheck] = useState("");
   const [name, setname] = useState("");
@@ -31,20 +30,12 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
   const [pi_agreement, setpi_agreement] = useState("");
   
 
- 
+  
   const addSignUpFields = () => {
     if (isSignup) {
       return ( 
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>             
-            {/* <Spacer>
-            <Input
-              placeholder="아이디(5자 이상, 영문, 숫자 포함)"
-              //autoCapitalize={false}
-              //autoCorrect={false}
-              onChangeText={setId}
-            />
-          </Spacer> */}
+        <View>               
           <Spacer> 
         <Input
           placeholder="이메일"
@@ -55,8 +46,7 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
       </Spacer>
       <Spacer> 
         <Input
-          placeholder="휴대폰번호"
-          secureTextEntry
+          placeholder="휴대폰번호"          
           //autoCapitalize={false}
           //autoCorrect={false}
           onChangeText={setPhonenum}
@@ -124,7 +114,7 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
               placeholder="이메일"
               //autoCapitalize={false}
               //autoCorrect={false}
-              onChangeText={setId}
+              onChangeText={setEmail}
               />
             </Spacer>
             <Spacer>
@@ -149,8 +139,8 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
       <AppButton
         height={50}
         title={title}
-        onTap={() => onSubmit({ email, id ,password, name, birth, Phonenum, pi_agreement})}
-      />
+        onTap={() => onSubmit({ email, password, name, birth, Phonenum, pi_agreement})}
+      /> 
       <Spacer> 
         <Button
           titleStyle={styles.titleStyle}

@@ -35,9 +35,9 @@ const SignupScreen = () => {
       <View style={styles.listView}>
         <UserLogin 
           isSignup={true}
-          onSubmit={({ email, password, id, name, Phonenum,birth,pi_agreement }) => {
+          onSubmit={({ email, password, name, Phonenum,birth,pi_agreement }) => {
             setIsLoading(true);
-            onSignup({ email, password, id, name, Phonenum,birth,pi_agreement });
+            onSignup({ email, password, name, Phonenum,birth,pi_agreement });
           }} 
           route="LoginScreen" 
           linkText="이미 계정이 있으신가요? 로그인하기"
