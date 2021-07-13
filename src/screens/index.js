@@ -18,6 +18,7 @@ import passScreen from "./LoginScreen/passwordfinder";
 
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
+import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
 
 //import { createDrawerNavigator } from "react-navigation-drawer";
 
@@ -93,6 +94,17 @@ const emailFindersStack = createStackNavigator(
     initialRouteName: "emailfinder",
   }
 );
+const MenuDetailStack = createStackNavigator(
+  { 
+    MenuDetailScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "MenuDetailScreen",
+    }),
+    initialRouteName: "MenuDetailScreen",
+  }
+);
 
 const PassFindersStack = createStackNavigator(
   { 
@@ -158,7 +170,12 @@ const AppStack = createStackNavigator({
   CartScreen: CartScreen, 
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
+<<<<<<< HEAD
   TabNavigator: {  
+=======
+  MenuDetailScreen: MenuDetailScreen,
+  TabNavigator: { 
+>>>>>>> 3ccd5dac99017971b55d32032b2acb6acadd9b3f
     screen: TabNavigator,
     navigationOptions: ({ navigation }) => ({
       header: false,

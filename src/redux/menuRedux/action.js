@@ -1,29 +1,31 @@
-import {ADD_MENUTOCART, REMOVE_MENUTOCART ,INC_CARTQUANT, DEC_CARTQUANT} from './type'
+import { ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL } from './type'
 
-export const addMenuToCart =(item) =>{
+export const addMenuToCart = (item) => {
     return {
         type: ADD_MENUTOCART,
-        payload : item
+        payload: item
     }
-
 }
-export  const removeMenuToCart =() =>{
+export const removeMenuToCart = () => {
     return {
         type: REMOVE_MENUTOCART
     }
-
 }
-export  const incCartQuant =(item) =>{
+export const incCartQuant = (item) => {
     return {
         type: INC_CARTQUANT,
-        payload : item
+        payload: item
     }
-
 }
-export  const decCartQuant =(item) =>{
+export const decCartQuant = (item) => {
     return {
         type: DEC_CARTQUANT,
-        payload : item
+        payload: item
     }
-
+}
+export const showMenuDetail = (item) => {
+    return {
+        type: SHOW_MENUDETAIL,
+        payload: item
+    }
 }

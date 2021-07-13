@@ -53,9 +53,15 @@ const onSignin = (dispatch) => async ({ email, password }) => {
     password,
   })
     .then((response) => {
+<<<<<<< HEAD
       configureAPI({ token: `Bearer ${response.data}` }); 
       dispatch({ type: aType.LOGIN, payload: response.data });     
       navigate("HomeScreen");             
+=======
+      configureAPI({ token: `Bearer ${response.data}` });
+      dispatch({ type: aType.LOGIN, payload: response.data });
+      navigate("HomeScreen"); 
+>>>>>>> 3ccd5dac99017971b55d32032b2acb6acadd9b3f
     })
     .catch((err) => {
       dispatch({
