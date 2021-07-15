@@ -25,7 +25,7 @@ const onSignup = (dispatch) => async ({
     birth, 
     pi_agreement,
     email, 
-}) => {
+}) => {  
   API.post("user/signup", {    
     name, 
     password, 
@@ -45,23 +45,20 @@ const onSignup = (dispatch) => async ({
         payload: "이미 등록된 이메일 입니다.",
       });
     });
+  
 };
 //아래 에러 부분 home stack 지우기
 const onSignin = (dispatch) => async ({ email, password }) => {
+  
+
   API.post("user/login", {
     email,
     password,
-  })
+  }) 
     .then((response) => {
-<<<<<<< HEAD
       configureAPI({ token: `Bearer ${response.data}` }); 
       dispatch({ type: aType.LOGIN, payload: response.data });     
       navigate("HomeScreen");             
-=======
-      configureAPI({ token: `Bearer ${response.data}` });
-      dispatch({ type: aType.LOGIN, payload: response.data });
-      navigate("HomeScreen"); 
->>>>>>> 3ccd5dac99017971b55d32032b2acb6acadd9b3f
     })
     .catch((err) => {
       dispatch({

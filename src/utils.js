@@ -1,13 +1,24 @@
-export const validateEmail = email => {
-  const regex = /^[0-9?A-z0-9?]+(\.)?[0-9?A-z0-9?]+@[0-9?A-z]+\.[A-z]{2}.?[A-z]{0,3}$/;
-  return regex.test(email);
-};
+export function isEmail(asValue) {
+  var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+}
 
-export const removeWhitespace = text => {
-  const regex = /\s/g;
-  return text.replace(regex, '');
-};
-//special index 난수 생성 주문 / 발주에서는 쓰기 고민
-export const createSpecialIndex = text => {
+export function isName(asValue){
+
+  var regExp = /^[가-힣]{2,15}$/;
   
-} 
+  return regExp.test(asValue);
+}
+
+export function isPassword(asValue) {
+  var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/; //  8 ~ 10자 영문, 숫자 조합
+  return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+}
+
+
+export function PhoneField(asValue){
+  var regExp = /^[0-9\b -]{0,13}$/;
+ 
+  return regExp.test(asValue);
+}
+

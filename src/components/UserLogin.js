@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { View,Text, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
+import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { Input,Button } from "react-native-elements";
 import AppButton from "../components/AppButton";
 import { navigate } from "../NavigationRef";
 import DatePicker from '@dietime/react-native-date-picker';
+import {useForm, FormProvider} from "react-hook-form";
+import { isEmail } from "../utils";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const Spacer = ({ children }) => {
@@ -12,100 +14,19 @@ const Spacer = ({ children }) => {
    
 /*
 name: '',
-email: '',
+email: '', 
 password: '',
 confirm_pass: '',
 Phonenum:'',
 birth : new Date(),//입력하고
 pi_agreement: '',//입력하고
 */
+
 const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
  
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordCheck, setpasswordCheck] = useState("");
-  const [name, setname] = useState("");
-  const [Phonenum, setPhonenum] = useState("");
-  const [birth, setbirth] = useState("");
-  const [pi_agreement, setpi_agreement] = useState("");
-  
-
-  
-  const addSignUpFields = () => {
-    if (isSignup) {
-      return ( 
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>               
-          <Spacer> 
-        <Input
-          placeholder="이메일"
-          //autoCapitalize={false}
-          //autoCorrect={false}
-          onChangeText={setEmail}
-        />
-      </Spacer>
-      <Spacer> 
-        <Input
-          placeholder="휴대폰번호"          
-          //autoCapitalize={false}
-          //autoCorrect={false}
-          onChangeText={setPhonenum}
-        />
-      </Spacer>
-         <Spacer>
-            <Input
-              placeholder="이름"
-              //autoCapitalize={false}
-              //autoCorrect={false}
-              onChangeText={setname}
-            />
-          </Spacer>
-          <Spacer>
-            <Input
-            placeholder="비밀번호(8자 이상)"
-            secureTextEntry
-          //autoCapitalize={false}
-          //autoCorrect={false}
-            onChangeText={setPassword}
-          />
-        </Spacer>
-        <Spacer>
-            <Input
-            placeholder="비밀번호 확인"
-            secureTextEntry
-          //autoCapitalize={false}
-          //autoCorrect={false}
-            onChangeText={setpasswordCheck}
-          />
-        </Spacer>      
-
-      {/* <Spacer>
-        <DatePicker 
-          mode="date"
-          format={"yyyy-mm-dd"}
-          placeholder="생년월일"
-          secureTextEntry
-          autoCapitalize={false}
-          autoCorrect={false}
-          onChange={setbirth}
-        />
-      </Spacer> */}
-
-      <Spacer>         
-          <BouncyCheckbox
-          size={30}
-          text="개인정보동의요구서"          
-          fillColor="#46c3ad"  
-          iconStyle={{ borderColor: "#46c3ad" }}
-          //autoCapitalize={false} 
-          //autoCorrect={false}
-          onPress ={setpi_agreement}      
-          /> 
-      </Spacer>                     
-        </View>        
-        </TouchableWithoutFeedback>
-      );
-    } else {
+  const [email, setEmail] = useState("");   
+      
       return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
@@ -115,7 +36,7 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
               //autoCapitalize={false}
               //autoCorrect={false}
               onChangeText={setEmail}
-              />
+              /> 
             </Spacer>
             <Spacer>
             <Input
@@ -125,34 +46,26 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
           //autoCorrect={false}
             onChangeText={setPassword}
           />
-        </Spacer>    
+          </Spacer> 
+          <AppButton
+            height={50}
+            title={title}
+            onTap={() => onSubmit({ email, password})}
+          /> 
+            <Spacer> 
+          <Button
+              titleStyle={styles.titleStyle}
+              type="clear"
+              title={linkText}
+              onPress={() => navigate(route)} 
+          />
+      </Spacer>   
           </View>
+
           </TouchableWithoutFeedback>
       );
-    }
-  };
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View>                        
-      {addSignUpFields()}
-      <Spacer />
-      <AppButton
-        height={50}
-        title={title}
-        onTap={() => onSubmit({ email, password, name, birth, Phonenum, pi_agreement})}
-      /> 
-      <Spacer> 
-        <Button
-          titleStyle={styles.titleStyle}
-          type="clear"
-          title={linkText}
-          onPress={() => navigate(route)} 
-        />
-      </Spacer>
-    </View>
-    </TouchableWithoutFeedback>
-  );
-};
+    } 
+
 
 const styles = StyleSheet.create({
   txtInputView: {
