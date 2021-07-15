@@ -1,8 +1,7 @@
-
-import React, { Component, useContext } from "react";
+import React, { useEffect } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
-import { removeMenuToCart ,addMenuToCart,showMenuDetail} from '../redux/menuRedux/action'
+import { removeMenuToCart ,addMenuToCart,showMenuDetail,fetchGetmenus} from '../redux/menuRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import {
@@ -21,11 +20,17 @@ const { width, height } = Dimensions.get("window");
 
 
 const MenuComponent = (props) => {
+  console.log('!@@@@       '+props.dataFood.length+'           ~~~~')
+  if(props.dataFood.length <1){
+    useEffect(() =>{
+        props.fetchGetmenus()
+    },[])
+}
 
     return (
       
         <View style={styles.flex}>                     
-             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>asdfsadf  {props.count}</Text></TouchableOpacity>
+             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text> is loading  {props.count}</Text></TouchableOpacity>
             <View style={styles.foodList}>
               <FlatList
                 data={props.dataFood}
@@ -41,9 +46,9 @@ const MenuComponent = (props) => {
 
         return (
             <View style={styles.singleFood}>
-                <TouchableOpacity onPress={() => onClickShowMenu(item.id)}>
+                <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
                     <View>
-                        <Image style={styles.foodImage} source={{ uri:  item.preview }} />
+                        <Image style={styles.foodImage} source={{ uri:  item.imageview }} />
                         <View style={styles.foodTitle}>
                         <Text> {item.title}</Text>
                         </View>
@@ -51,7 +56,7 @@ const MenuComponent = (props) => {
                             <View>
                               <Text> {item.price}</Text>
                             </View>
-                            <TouchableOpacity onPress={() => props.addMenuToCart(item.id)}>
+                            <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
                                 <Icon name="add" size={30} color="#ff3252" />
                             </TouchableOpacity>
                         </View>
@@ -78,6 +83,7 @@ const MenuComponent = (props) => {
 
 const mapStateToProps = (state) =>{
     //console.log(state,'state')
+    const b ="dodd"
     return {
         dataFood: state.menuReducer.dataFood,
         temp: state.menuReducer.temp,
@@ -91,6 +97,7 @@ const mapDispatchToProps = (dispatch) =>{
         addMenuToCart:(item) => dispatch(addMenuToCart(item)),
         removeMenuToCart:() => dispatch(removeMenuToCart()),
         showMenuDetail:(item) => dispatch(showMenuDetail(item)),
+        fetchGetmenus:() => dispatch(fetchGetmenus()),
     }
 }
 

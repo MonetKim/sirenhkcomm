@@ -27,37 +27,21 @@ const Menudetail = (props) => {
                         <View style={styles.singleOrder}>
                             <View>
                                 <Text style={{ fontSize: 13, color: '#333' }}>{props.dataMenudetail.title}</Text>
-                                <Image style={styles.StoreImage} source={{ uri: props.dataMenudetail.preview }} />
+                                <Image style={styles.StoreImage} source={{ uri: props.dataMenudetail.imageview }} />
                             </View>
                             <View>
                                 <View>
                                     <Text style={{ fontSize: 19, color: '#333' }}>{props.dataMenudetail.storename}</Text>
                                 </View>
                                 <View>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>Order No: #{props.dataMenudetail.id}</Text>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>Order No: #{props.dataMenudetail.menu_id}</Text>
                                 </View>
 
                                 <View style={styles.flexDirection}>
                                     <Text style={{ fontSize: 13, color: '#333' }}>주문하기</Text>
                                 </View>
-                                <View style={styles.qualityCart}>
-                                    <TouchableOpacity onPress={() => props.incCartQuant(item.id)}>
-                                        <Icon name="add-circle-outline" size={28} color="#C01C27" />
-                                    </TouchableOpacity>
-                                    <Text style={{ fontSize: 20, color: '#333' }}> {item.quantity} </Text>
-                                    {item.quantity == 1 ?
-                                        <TouchableOpacity onPress={() => props.decCartQuant(item.id)}>
-                                            <Icon name="trash" size={28} color="#C01C27" />
-                                        </TouchableOpacity>
-                                        : <TouchableOpacity onPress={() => props.decCartQuant(item.id)}>
-                                            <Icon name="remove-circle-outline" size={28} color="#C01C27" />
-                                        </TouchableOpacity>
-                                    }
-                                </View>
+                                
 
-                                <View style={styles.orderPrice}>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>금액 : {props.dataMenudetail.price}원</Text>
-                                </View>
 
                             </View>
 

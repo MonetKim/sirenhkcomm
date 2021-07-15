@@ -30,21 +30,21 @@ const CartComponent = (props) => {
                 return( 
                     
                   <View style={styles.singleCartItem} key={i}>
-                    <Image style={styles.cartItemImage} source={{ uri: item.preview }} />
+                    <Image style={styles.cartItemImage} source={{ uri: item.imageview }} />
                     <View style={styles.widthSection}>
                         <Text> {item.title}</Text>
                         <View style={styles.cartRightSection}>
                             <Text> {item.price*item.quantity}</Text>
                             <View style={styles.qualityCart}>
-                                <TouchableOpacity onPress={() => props.incCartQuant(item.id)}>
+                                <TouchableOpacity onPress={() => props.incCartQuant(item.menu_id)}>
                                   <Icon name="add-circle-outline" size={28} color="#C01C27" />
                                 </TouchableOpacity>
                                 <Text style ={{fontSize : 20 ,color : '#333'}}> {item.quantity} </Text>
                                 {item.quantity == 1 ? 
-                                  <TouchableOpacity onPress={() => props.decCartQuant(item.id)}>
+                                  <TouchableOpacity onPress={() => props.decCartQuant(item.menu_id)}>
                                     <Icon name="trash" size={28} color="#C01C27" />
                                   </TouchableOpacity>
-                                  : <TouchableOpacity onPress={() => props.decCartQuant(item.id)}>
+                                  : <TouchableOpacity onPress={() => props.decCartQuant(item.menu_id)}>
                                     <Icon name="remove-circle-outline"  size={28} color="#C01C27" />
                                   </TouchableOpacity>
                                 }
