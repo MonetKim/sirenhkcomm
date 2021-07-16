@@ -4,7 +4,6 @@ import { Input,Button } from "react-native-elements";
 import AppButton from "../components/AppButton";
 import { navigate } from "../NavigationRef";
 import DatePicker from '@dietime/react-native-date-picker';
-import {useForm, FormProvider} from "react-hook-form";
 import { isEmail } from "../utils";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 

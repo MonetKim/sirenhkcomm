@@ -1,8 +1,9 @@
-import { Icon } from 'native-base';
+import { Col, Icon } from 'native-base';
 const { width } = Dimensions.get('window');
 
-import { incCartQuant ,decCartQuant , removeMenuToCart, addMenuToCart} from '../redux/menuRedux/action'
-import React, { Component, useContext } from "react";
+import { pushOrders ,pushOrderDetails ,resetevery} from '../redux/orderRedux/action'
+import { incCartQuant ,decCartQuant , removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
+import React, { useEffect  } from "react";
 
 import {
   Image,
@@ -14,6 +15,7 @@ import {
   Dimensions,
 } from "react-native";
 import { connect } from 'react-redux'
+import { Alert } from 'react-native';
 
 
 const CartComponent = (props) => {
@@ -22,7 +24,7 @@ const CartComponent = (props) => {
     return (
         <View style={styles.flex}>
             <View><Text>&^&^&^{props.count}</Text></View>
-            <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>!@#!@#  {props.count}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>!@#!@#  </Text></TouchableOpacity>
           <ScrollView style={ styles.scrollHeight } >
             {
               props.dataFood.map((item,i) => {
@@ -67,7 +69,7 @@ const CartComponent = (props) => {
                 </View>
               </View>
           <View>
-            <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Checkout')}>
+            <TouchableOpacity style={styles.bottomButton} onPress={() => setOrder('56','65','60000',true)}>
             <Text style ={{fontSize : 20 ,color : '#333'}}>주문하기</Text>
             </TouchableOpacity>
           </View>
@@ -77,15 +79,32 @@ const CartComponent = (props) => {
       function total() {
         var total = 0;
         const cart = props.dataFood;
-        console.log('123123');
+        //console.log('123123');
         for (var i = 0; i < cart.length; i++) {
           if(cart[i].iscart){
             total = total + (cart[i].price * cart[i].quantity)
-            console.log('price'+cart[i].price +'    i = ' +i +'quan =  ' +cart[i].quantity );
+            //console.log('price'+cart[i].price +'    i = ' +i +'quan =  ' +cart[i].quantity );
           }
         }
         var total_price = total;
         return total_price;
+      }
+
+      function setOrder(user_id,store_id,totalprice,ischeck){
+        
+        props.pushOrders(user_id,store_id,totalprice,ischeck);
+        //alert(props.orderid[0].order_id);
+         for(var i = 0 ; i < props.dataFood.length ; i++){
+          props.pushOrderDetails( props.orderid[0].order_id, user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
+         }
+
+        props.removeMenuToCart();
+
+        const temptemp = props.count;
+        calltest(temptemp);
+      }
+      function calltest(temptemp){
+        alert(temptemp);
       }
 }
 
@@ -93,15 +112,15 @@ const CartComponent = (props) => {
 
 
 const mapStateToProps = (state) =>{
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    console.log(state,'state')
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    //console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    //console.log(state,'state')
+    //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')ㄴ
     return {
         dataFood: state.menuReducer.dataFood,
         dataCart: state.menuReducer.dataCart,
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
-        
+        orderid: state.orderReducer.orderid,
     }
 }
 
@@ -111,7 +130,12 @@ const mapDispatchToProps = (dispatch) =>{
         incCartQuant:(item) => dispatch(incCartQuant(item)),
         decCartQuant:(item) => dispatch(decCartQuant(item)),
         addMenuToCart:(item) => dispatch(addMenuToCart(item)),
-        removeMenuToCart:() => dispatch(removeMenuToCart())
+        removeMenuToCart:() => dispatch(removeMenuToCart()),
+        resetevery:() => dispatch(resetevery()),
+        pushOrders :(user_id,store_id,totalprice,ischeck ) =>dispatch(pushOrders(user_id,store_id,totalprice,ischeck   )),
+        pushOrderDetails :(order_id, user_id,  menu_id,  menu_price,  quantity ) =>dispatch(pushOrderDetails(order_id, user_id,  menu_id,  menu_price,  quantity    )),
+        
+        
     }
 }
 

@@ -1,6 +1,5 @@
 
 import React, {Component} from 'react';
-import Subscribers from '../../components/Subscribers';
 import Comments from '../../components/Comments';
 import {Provider} from 'react-redux';
 import store from '../../redux/store'

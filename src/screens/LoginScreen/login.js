@@ -64,7 +64,7 @@ const LoginScreen = () => {
           titleStyle={styles.titleStyle} 
           type="clear"
           title={"비밀번호찾기"}
-          onPress={() => navigate("passScreen")} 
+          onPress={() => navigate("HomeScreen")} 
           />   
         </View>             
         </View>  
