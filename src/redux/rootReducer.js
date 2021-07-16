@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import subscriberReducer from './subscribers/reducera'
+import orderReducer from '../redux/orderRedux/reducer'
 import menuReducer from '../redux/menuRedux/reducer'
 import commnetsReducer from '../redux/temptest/reducer'
 
  const rootReducer = combineReducers({
-    subscriberReducer: subscriberReducer,
+    orderReducer: orderReducer,
     menuReducer : menuReducer,
     commnetsReducer: commnetsReducer,
 })
