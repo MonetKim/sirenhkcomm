@@ -4,28 +4,8 @@ import createAppContext from "../dataStore/createAppContext";
 import API from "../API/WebService";
 import aType from "../ActionTypes";
 import userReducer from "../dataStore/reducer";
- 
-/**
- * User Actions
- */
 
-/*
-name: '',
-email: '',
-password: '',
-confirm_pass: '',
-Phonenum:'',
-birth : new Date(),//입력하고
-pi_agreement: '',//입력하고
-*/
-const onSignup = (dispatch) => async ({  
-    name,
-    password,
-    Phonenum,
-    birth, 
-    pi_agreement,
-    email, 
-}) => {  
+const onSignup = (dispatch) => async ({name,password,Phonenum,birth,pi_agreement,email}) => {  
   API.post("user/signup", {    
     name, 
     password, 
@@ -34,7 +14,7 @@ const onSignup = (dispatch) => async ({
     pi_agreement,
     email, 
   })
-    .then((response) => {
+    .then((response) => {      
       configureAPI({ token: `Bearer ${response.data}` }); 
       dispatch({ type: aType.LOGIN, payload: response.data });
       navigate("HomeScreen"); 
@@ -50,7 +30,6 @@ const onSignup = (dispatch) => async ({
 //아래 에러 부분 home stack 지우기
 const onSignin = (dispatch) => async ({ email, password }) => {
   
-
   API.post("user/login", {
     email,
     password,
@@ -75,19 +54,23 @@ const PasswordFinder = (dispatch) => async({email,name,password}) => {
   alert('서버 해야해요');
 }
 
-//이메일찾기 보내는 곳
-const emailFinder = (dispatch) => async (name,Phonenum) => { 
+//이메일찾기 보내는 곳 
+const emailFinder = (dispatch) => async ({name,Phonenum,birth}) => { 
   //alert('성공일껄?');
-  //navigate("loginStack");     
-  API.post("user/emailfinder", {
+  //navigate("loginStack");      
+  API.post("user/emailfinder",{
     name,
     Phonenum,
+    birth,
   })
   .then((response) => {
-      dispatch({ type: aType.EmailFinder });
+      configureAPI({ token: `Bearer ${response.data}` }); 
+      dispatch({ type: aType.EmailFinder, payload: response.data});  
+      console.log(response.data+'리스폰 데이터');    
       navigate("LoginScreen"); 
   })
   .catch((err) => {
+    console.log(err+'에러사항');
     dispatch({
       type: aType.ERROR,
       payload: "존재하지 않은 아이디 입니다"+err,
@@ -133,8 +116,8 @@ export const { Provider, Context } = createAppContext(
     onCheckLogin,
     onSignup,
     onSignin,
-    onLogout,  
+    onLogout,    
     onDissmiss,
   },
-  { accessToken: null, msg: null }
+  { accessToken: null, msg: 'null' }
 );

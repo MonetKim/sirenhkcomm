@@ -5,12 +5,12 @@ import aType from "../ActionTypes";
  * Reducer
  */
 const userReducer = (state, action) => {
-  console.log(action);
+  
   switch (action.type) {
     case aType.LOGIN:
       saveToken(action.payload);
       console.log('로그인 호출 완료');
-      console.log(saveToken+'토큰');
+      
       return { ...state, token: action.payload };
     case aType.LOGOUT: 
       clearStorage();
@@ -25,12 +25,9 @@ const userReducer = (state, action) => {
         ...state,
         msg: null,
       };     
-    case aType.EmailFinder:
-        return {
-          ...state, 
-          finder: action.payload,
-        };  
-    case aType.PasswordFinder:
+    case aType.EmailFinder:          
+        return { ...state, msg: action.payload, token: action.payload};  
+    case aType.PasswordFinder: 
         return {
           ...state,
           passfinder: action.payload, 
@@ -41,7 +38,7 @@ const userReducer = (state, action) => {
 };
 
 const saveToken = async (token) => {
-  console.log(token); 
+  console.log(token+'토큰이니');  
   await AsyncStorage.setItem("token", `Bearer ${token}`);
 };
 

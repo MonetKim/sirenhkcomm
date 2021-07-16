@@ -26,7 +26,7 @@ const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
  
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");   
-      
+
       return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: 12,
-    fontWeight: "400",
-    color: "red",
+    fontWeight: "bold",
+    color: "black",
   },
   BouncyCheckbox:{
     height: 40, 

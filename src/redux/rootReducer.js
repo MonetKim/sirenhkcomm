@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import subscriberReducer from './subscribers/reducera'
-import menuReducer from './menuRedux/reducer'
-import commnetsReducer from './temptest/reducer'
+import menuReducer from '../redux/menuRedux/reducer'
+import commnetsReducer from '../redux/temptest/reducer'
 
  const rootReducer = combineReducers({
     subscriberReducer: subscriberReducer,

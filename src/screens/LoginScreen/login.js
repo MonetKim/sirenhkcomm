@@ -21,22 +21,11 @@ const LoginScreen = () => {
     useEffect(() => {
         setIsLoading(false);
       }, [msg]); 
-      const showAlert = () => {
-        if (msg !== null) {  
-          Alert.alert(
-            '로그인 시도 중',
-            `${msg}`, 
-            [{ text: 'Okay', onPress: () => onDissmiss }],
-            {
-              cancelable: false,
-            }
-          );
-        }
-      };         
+       
+
     return (    
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Overlay isShow={isLoading} />            
         <Video
         source={require("../../../assets//video/hksample.mp4")}
         //source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
@@ -146,9 +135,9 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     titleStyle: {
-      fontSize: 12,
-      fontWeight: "400",
-      color: "red",     
+      fontSize: 12, 
+      fontWeight: "bold",
+      color: "black",     
     },
     flex_container:{
       flexDirection: "row",

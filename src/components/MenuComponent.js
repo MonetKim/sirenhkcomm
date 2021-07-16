@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useContext,useState} from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
 import { removeMenuToCart ,addMenuToCart,showMenuDetail,fetchGetmenus} from '../redux/menuRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
-import {
+import { 
   Image,
   View,
   Text,
@@ -16,17 +16,14 @@ import {
 import { Icon } from "native-base";
 const { width, height } = Dimensions.get("window");
 
-
-
-
 const MenuComponent = (props) => {
-  console.log('!@@@@       '+props.dataFood.length+'           ~~~~')
+  
   if(props.dataFood.length <1){
     useEffect(() =>{
         props.fetchGetmenus()
     },[])
 }
-
+  
     return (
       
         <View style={styles.flex}>                     

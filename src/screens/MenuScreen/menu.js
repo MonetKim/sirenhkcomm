@@ -273,6 +273,7 @@ import store from '../../redux/store'
 
 
 export default class MenuDetailScreen extends Component{
+    
 
     render(){
         return (

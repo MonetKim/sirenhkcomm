@@ -15,7 +15,6 @@ import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
 import emailScreen from "./LoginScreen/emailfinder.js";
 import passScreen from "./LoginScreen/passwordfinder";
-
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
