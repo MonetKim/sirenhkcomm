@@ -23,7 +23,7 @@ const MenuComponent = (props) => {
         props.fetchGetmenus()
     },[])
 }
-  
+console.log('디스이즈   '+JSON.stringify(props))
     return (
       
         <View style={styles.flex}>                     

@@ -8,8 +8,10 @@ import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/acti
 //import FlatText from '../components/FlatText';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon } from 'native-base';
+
+import { FlatList } from "react-native";
 const { width } = Dimensions.get('window');
-const Ordercomponent = (props) => {
+const Ordercomponent2 = (props) => {
 
     useEffect(() => {
         props.getOrderresults(56)
@@ -17,67 +19,82 @@ const Ordercomponent = (props) => {
     useEffect(() => {
         props.getOrderresultsDetail(56)
     }, [])
+    //props.getOrderresultsDetail(56);
+    console.log( '모든걸 말할수는 없는데!   ' + JSON.stringify(props.orderresult))
     function showorderdetail(temp) {
 
         var sum = '';
-    
+        sum = '';
         //props.getOrderresultsDetail(temp);
-        console.log(temp+'맨 얼웨이즈 리그랫    ' + JSON.stringify(props.orderresult))
+        console.log(temp + '맨 얼웨이즈 리그랫1    ' + JSON.stringify(props.orderresult))
         for (var i = 0; i < props.orderresult.length; i++) {
-            sum = sum +' ' +'i'
+            if(props.orderresult[i].order_id == temp){
+                sum = sum + 'i! '+props.orderresult[i].menu_id+ '@' 
+            }
+            //sum = 'tt';
         }
-        return  <View style={styles.orderPrice}>
-                 <Text style={{ fontSize: 13, color: '#333' }}>메뉴아이디 : {sum}입니다</Text>
-                </View>
+        return sum
     }
-
-    console.log('나게엔 필요한   ' + JSON.stringify(props.dataOrder))
+    console.log( '도대체 나한테 왜그래요?    ' + JSON.stringify(props.orderresult))
+    console.log('나게엔 필요한   ' + JSON.stringify(props.orderresult.length))
     return (
         <View style={styles.flex}>
             <ScrollView style={StyleSheet.flex} >
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 20, color: '#333' }}>Alsl Ordesrs{props.temp}</Text>
+                        <Text style={{ fontSize: 20, color: '#333' }}>asrs{props.temp}</Text>
                     </View>
-                    {
-                        props.dataOrder.map((order, i) => {
-                            //props.dataCart.map((order,i) => {
-                            return (
-
-                                <TouchableOpacity key={i}>
-                                    <View style={styles.singleOrder}>
-                                        <View>
-                                            <Text style={{ fontSize: 13, color: '#333' }}>{order.orderdate}</Text>
-                                            <Image style={styles.StoreImage} source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png' }} />
-                                        </View>
-                                        <View>
-                                            <View>
-                                                <Text style={{ fontSize: 19, color: '#333' }}>{order.title}</Text>
-                                            </View>
-                                            <View>
-                                                <Text style={{ fontSize: 13, color: '#333' }}>Order No: #{order.order_id}</Text>
-                                            </View>
-                                            <View style={styles.orderPrice}>
-                                                <Text style={{ fontSize: 13, color: '#333' }}>금액 : {order.totalprice}원</Text>
-                                            </View>
-                                            
-                                            {showorderdetail(order.order_id)}
-                                        </View>
-                                        <View style={styles.viewOrderBtn}>
-                                            <Icon name="eye" color="#fff" />
-                                        </View>
-                                       
-                                    </View>
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
+                    <FlatList
+                        data={props.dataOrder}
+                        numColumns={1}
+                        renderItem={({ item }) => _renderItemOrder(item, props)}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
                 </View>
             </ScrollView>
         </View>
     );
-}
 
+
+    function _renderItemOrder(order) {
+
+        return (
+            <View style={styles.singleFood}>
+                <TouchableOpacity >
+                    <View style={styles.singleOrder}>
+                        <View>
+                            <Text style={{ fontSize: 13, color: '#333' }}>{order.orderdate}</Text>
+                            <Image style={styles.StoreImage} source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png' }} />
+                        </View>
+                        <View>
+                            <View>
+                                <Text style={{ fontSize: 19, color: '#333' }}>{order.title}</Text>
+                            </View>
+                            <View>
+                                <Text style={{ fontSize: 13, color: '#333' }}>Order No: #{order.order_id}</Text>
+                            </View>
+                            <View style={styles.orderPrice}>
+                                <Text style={{ fontSize: 13, color: '#333' }}>금액 : {order.totalprice}원</Text>
+                            </View>
+                            <View style={styles.orderPrice}>
+                                <Text style={{ fontSize: 13, color: '#333' }}>{showorderdetail(order.order_id)}입니다</Text>
+                            </View>
+                        </View>
+                        <View style={styles.viewOrderBtn}>
+                            <Icon name="eye" color="#fff" />
+                        </View>
+
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+    function onClickShowMenu(data) {
+
+        //props.showMenuDetail(data);
+        //navigate("MenuDetailScreen");
+    }
+}
 
 
 function makeDateString(temp) {
@@ -100,7 +117,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ordercomponent)
+export default connect(mapStateToProps, mapDispatchToProps)(Ordercomponent2)
 
 const styles = StyleSheet.create({
     flex: {
