@@ -95,7 +95,11 @@ const CartComponent = (props) => {
         props.pushOrders(user_id,store_id,totalprice,ischeck);
         //alert(props.orderid[0].order_id);
          for(var i = 0 ; i < props.dataFood.length ; i++){
-          props.pushOrderDetails( props.orderid[0].order_id, user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
+          console.log(props.dataFood[i].menu_id+'   말이되냐고!!   ' +props.dataFood[i].quantity ) 
+          if(props.dataFood[i].quantity >0){
+            
+             props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
+           }
          }
 
         props.removeMenuToCart();

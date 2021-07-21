@@ -1,6 +1,7 @@
 import {ADD_ORDERLIST, REMOVE_ORDERLIST , FETCH_ORDER_REQUEST,FETCH_ORDER_SUCCESS ,FETCH_ORDER_FAILURE 
     ,FETCH_ORDERDETAIL_REQUEST, FETCH_ORDERDETAIL_SUCCESS,FETCH_ORDERDETAIL_FAILURE,RESETEVERY
-    ,GET_ORDERRESULT_REQUEST,GET_ORDERRESULT_SUCCESS,GET_ORDERRESULT_FAILURE } from './type'
+    ,GET_ORDERRESULT_REQUEST,GET_ORDERRESULT_SUCCESS,GET_ORDERRESULT_FAILURE 
+    ,GET_ORDERRESULTDETAIL_REQUEST, GET_ORDERRESULTDETAIL_SUCCESS, GET_ORDERRESULTDETAIL_FAILURE} from './type'
 
 const initialstate = {
 
@@ -44,7 +45,7 @@ const orderReducer = (state = initialstate, action) => {
                 err: action.payload,
                 loading: false,
             }
-        //------------------------오더상세
+        //------------------------오더상세 설정하기
         case FETCH_ORDERDETAIL_REQUEST:
             return {
                 ...state,
@@ -61,7 +62,7 @@ const orderReducer = (state = initialstate, action) => {
                 err: action.payload,
                 loading: false,
             }
-        //------------------------오더상세
+        //------------------------오더 갖고오기
         case GET_ORDERRESULT_REQUEST:
             return {
                 ...state,
@@ -70,10 +71,28 @@ const orderReducer = (state = initialstate, action) => {
         case GET_ORDERRESULT_SUCCESS:
             return {
                 ...state,
-                orderresult: action.payload,
+                dataOrder: action.payload,
                 loading: false,
             }
         case GET_ORDERRESULT_FAILURE:
+            return {
+                ...state,
+                err: action.payload,
+                loading: false,
+            }
+            //------------------------오더상세메뉴 갖고오기
+        case GET_ORDERRESULTDETAIL_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case GET_ORDERRESULTDETAIL_SUCCESS:
+            return {
+                ...state,
+                orderresult: action.payload,
+                loading: false,
+            }
+        case GET_ORDERRESULTDETAIL_FAILURE:
             return {
                 ...state,
                 err: action.payload,
