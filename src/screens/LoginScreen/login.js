@@ -7,7 +7,7 @@ import { Context as UserContext } from '../../dataStore/userAccessContext';
 import UserLogin from '../../components/UserLogin';
 import Overlay from '../../components/Overlay';
 import AppButton from "../../components/AppButton";
-import { navigate } from '../../NavigationRef';
+import { navigate, navigateReset } from '../../NavigationRef';
   
  
 
@@ -22,7 +22,8 @@ const LoginScreen = () => {
         setIsLoading(false);
       }, [msg]); 
        
-
+ 
+    //console.log(JSON.stringify(msg)+'msg');
     return (    
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -57,9 +58,9 @@ const LoginScreen = () => {
           <Button
           titleStyle={styles.titleStyle} 
           type="clear"
-          title={"이메일 찾기"}
+          title={"이메일 찾기"} 
           onPress={() => navigate("emailScreen")} 
-          />
+          /> 
           <Button
           titleStyle={styles.titleStyle} 
           type="clear"
@@ -68,7 +69,7 @@ const LoginScreen = () => {
           />   
         </View>             
         </View>  
-      </View>   
+      </View>    
         </TouchableWithoutFeedback>      
         ); 
         
@@ -137,7 +138,8 @@ const styles = StyleSheet.create({
     titleStyle: {
       fontSize: 12, 
       fontWeight: "bold",
-      color: "black",     
+      color: "black", 
+        
     },
     flex_container:{
       flexDirection: "row",

@@ -56,7 +56,6 @@ export const fetchMenulistFailure = (error) =>{
 
 export const fetchGetmenus =() =>{
     return (dispatch) =>{
-        console.log('@^^^^^^^^^^^^^^^^')
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchMenulistRequest())

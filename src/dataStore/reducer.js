@@ -1,6 +1,7 @@
-import { AsyncStorage } from "react-native";
+//import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import aType from "../ActionTypes";
-
+ 
 /**
  * Reducer
  */
@@ -11,7 +12,7 @@ const userReducer = (state, action) => {
       saveToken(action.payload);
       console.log('로그인 호출 완료');
       
-      return { ...state, token: action.payload };
+      return { ...state, msg:action.payload, token: action.payload };
     case aType.LOGOUT: 
       clearStorage();
       return { token: null, msg: null, state };         
@@ -24,9 +25,11 @@ const userReducer = (state, action) => {
       return {
         ...state,
         msg: null,
+        token: null,
       };     
     case aType.EmailFinder:          
         return { ...state, msg: action.payload, token: action.payload};  
+     
     case aType.PasswordFinder: 
         return {
           ...state,
@@ -41,7 +44,7 @@ const saveToken = async (token) => {
   console.log(token+'토큰이니');  
   await AsyncStorage.setItem("token", `Bearer ${token}`);
 };
-
+ 
 const clearStorage = async () => {
   await AsyncStorage.clear();
 };

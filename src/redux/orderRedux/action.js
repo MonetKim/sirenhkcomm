@@ -79,7 +79,6 @@ export const pushOrders =(user_id,
     totalprice,
     ischeck,  ) =>{
     return (dispatch) =>{
-        console.log('잘가세요 와~~~      '+user_id)
         // dispatch(fetchCommentRequest())
         
         // fetch("http://jsonplaceholder.typicode.com/comments")
@@ -95,7 +94,6 @@ export const pushOrders =(user_id,
             configureAPI({ token: `Bearer ${response.data}` });
             console.log('여러분의 화려했던   '+response.data[0].order_id)
             dispatch(fetchOrderSuccess(response.data))
-            console.log(response.data[0].order_id+ '          꺵꺵꺵꺠꺵꺵꺵꺠꺵꺵꺵꺠꺵꺵꺵꺠꺵꺵꺵꺠   '+JSON.stringify(response.data))
             //dispatch(pushOrderDetails(response.data[0].order_id,1,50000,30 ))
         })
         
@@ -108,7 +106,7 @@ export const pushOrderDetails =(order_id,
     menu_price,
     quantity  ) =>{
     return (dispatch) =>{
-        console.log(menu_price+'  뚜뚜뚜뚜뚜뚜ㅜ뚜뚜뚜뚜뚜뚜뚜뚜뚜뚜      '+order_id)
+
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchOrderDetailRequest())
@@ -123,7 +121,6 @@ export const pushOrderDetails =(order_id,
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchOrderDetailSuccess(response.data))
-            console.log('미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!미쳤다!      '+response.data)
         })
         
         .catch(error=> dispatch(fetchOrderDetailFailure(error)))
@@ -139,7 +136,6 @@ export const getOrderresults =(user_id  ) =>{
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchOrderResultSuccess(response.data))
-            console.log('뎃이즈   '+JSON.stringify(response.data))
         })
         
         .catch(error=> dispatch(fetchOrderResultFailure(error)))

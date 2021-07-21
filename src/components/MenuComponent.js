@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { removeMenuToCart ,addMenuToCart,showMenuDetail,fetchGetmenus} from '../redux/menuRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
+import { Context as UserContext } from '../dataStore/userAccessContext';
 import { 
   Image,
   View,
@@ -16,12 +17,17 @@ import {
 import { Icon } from "native-base";
 const { width, height } = Dimensions.get("window");
 
+
+
+
+
 const MenuComponent = (props) => {
-  
+  const {state} = useContext(UserContext);
+  const {msg} = state;
   if(props.dataFood.length <1){
     useEffect(() =>{
         props.fetchGetmenus()
-    },[])
+    },[msg])
 }
   
     return (

@@ -1,5 +1,5 @@
-import { AsyncStorage } from "react-native";
-import { navigate } from "../NavigationRef"; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { navigate, navigateReset } from "../NavigationRef"; 
 import createAppContext from "../dataStore/createAppContext";
 import API from "../API/WebService";
 import aType from "../ActionTypes";
@@ -67,10 +67,9 @@ const emailFinder = (dispatch) => async ({name,Phonenum,birth}) => {
       configureAPI({ token: `Bearer ${response.data}` }); 
       dispatch({ type: aType.EmailFinder, payload: response.data});  
       console.log(response.data+'리스폰 데이터');    
-      navigate("LoginScreen"); 
+      //navigate("LoginScreen");       
   })
-  .catch((err) => {
-    console.log(err+'에러사항');
+  .catch((err) => {     
     dispatch({
       type: aType.ERROR,
       payload: "존재하지 않은 아이디 입니다"+err,

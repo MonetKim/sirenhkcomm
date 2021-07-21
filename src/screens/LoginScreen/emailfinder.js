@@ -1,4 +1,4 @@
-import React,  { useContext, useState, useEffect }  from "react";
+import React,  { useContext, useState, useEffect, useMemo }  from "react";
 import { View,Text, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from "react-native";
 import { Input,Button } from "react-native-elements";
 import { Ionicons } from '@expo/vector-icons';
@@ -6,9 +6,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { isEmail,isName, PhoneField, isPassword } from "../../utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Context as UserContext } from '../../dataStore/userAccessContext';
-import { userReducer } from '../../dataStore/userAccessContext';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import { navigate, navigateReset } from "../../NavigationRef";
+ 
  
  
 const Spacer = ({ children }) => {
@@ -44,8 +44,8 @@ String.prototype.zf = function(len){return "0".string(len - this.length) + this;
 Number.prototype.zf = function(len){return this.toString().zf(len);};
  
 
-const emailScreen = () => {
-     
+const emailScreen = ()  => {
+      
     const [birthValid, setBirthValid] = useState(true);    
     const [phoneValid, setphoneValid] = useState(true);
     const [nameValid, setnameValid] = useState(true);
@@ -55,11 +55,16 @@ const emailScreen = () => {
     const [name, setname] = useState("");
     const [Phonenum, setPhonenum] = useState("");
     const [birth, setbirth] = useState(""); 
+    const [returnEmail, setreturnEmail] = useState("");
     const [message, setMessage] = useState(''); 
     const {msg} = state;
+    
+      
+    const [changeInfo, setchangeInfo] = useState(false);
+    
+    
  
-
- 
+  
   //날짜 표시하기     
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -68,12 +73,13 @@ const emailScreen = () => {
   //날짜 감추기
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
-  };
+  }; 
    
   const handleConfirm = (date) => {
     
     if(birth === null){
       setBirthValid(false);
+   
     }  else {
       setBirthValid(true);
     } 
@@ -89,8 +95,9 @@ const emailScreen = () => {
       changePhone = text.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
       setphoneValid(true);
       //return changePhone;         
-    } else {
+    } else {      
       setphoneValid(false); 
+  
     }               
     setPhonenum(changePhone); 
   }
@@ -98,41 +105,41 @@ const emailScreen = () => {
   //이름 Handler
   const nameChangeHandler = (text) =>{     
     if(!isName(text)){  
-      setnameValid(false);     
+      setnameValid(false);  
     } else { 
       setnameValid(true);
     }
     setname(text);
   } 
-  
-  const onPressCheck = () => {
-    if(setname !=null && setPhonenum != null && setbirth != null) {
-      
-      emailFinder({name, Phonenum, birth}); 
-      setIsLoading(true); 
-        
-      alert('회원가입 해주신 이메일로 아이디가 발송되었습니다.'); 
-         
-      //console.log('이메일파인더'+JSON.stringify());        
+   
+  const onPressCheck = () => {    
+
+    if(name !=null && name!='' && nameValid==true && phoneValid==true && Phonenum != null && Phonenum !='' && birthValid==true && birth != null && birth !='') {
+      emailFinder({name, Phonenum, birth});    
+
+      setIsLoading(true);  
+
     } else {   
       alert('정확히 입력해 주세요'); 
+      return;
     }
   }
-   
-  //console.log(UserContext.emailFinder+'유저');
-    
-    useEffect(() => {
-        setIsLoading(false);       
-      }, [msg]);   
-       
  
 
-    //생년월일 및 광고 배너 등록 예정
-    return (
+
+
+  //console.log(UserContext.emailFinder+'유저');
+    
+    useEffect(() => { 
+        setIsLoading(false);    
+        console.log(JSON.stringify(msg)+'메세지');       
+      }, [msg]);    
         
+    //생년월일 및 광고 배너 등록 예정
+    return (        
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>                                               
-        <Spacer>            
+        
          <Input
               placeholder="이름"
               leftIcon={<MaterialCommunityIcons name="rename-box" size={24} color="black" />}
@@ -145,32 +152,31 @@ const emailScreen = () => {
               containerStyle={{marginTop:5}} 
               type='text' 
               onChangeText={ (text) => nameChangeHandler(text)} 
-              value={name}   
+              value={name}    
             />            
-            {!nameValid && <Text style={styles.innerText}>올바른 이름 입력해 주세요.</Text>} 
-        </Spacer> 
-      
-        <Spacer>
+            {!nameValid && <Text style={styles.innerText}>올바른 이름을 입력해 주세요.</Text>} 
+        
+     
         <Input
-          placeholder="휴대폰번호"          
+          placeholder="'-' 없이 숫자만 입력"          
           label="Mobile" 
           leftIcon={<Ionicons name="phone-portrait-outline" size={24} color="black"/>}
           labelStyle={{marginLeft:0}}
           inputContainerStyle={{marginRight:15}}
           containerStyle={{marginTop:5}} 
-          type='text'               
+        type='text'               
           onChangeText = {(text)=> phoneChangeHandler (text)}
           value={Phonenum} 
       />
             {!phoneValid&& <Text style={styles.innerText}>정확한 핸드폰 번호를 입력해주세요.</Text>}
 
-        </Spacer>
+    
 
-        <Spacer>
+    
         <TouchableOpacity onPress={showDatePicker}>          
         <Input 
             leftIcon={<FontAwesome name="birthday-cake" size={24} color="black" />}
-            placeholder="생년월일을 골라주세요"
+            placeholder="생년월일"
             label="Birth"
             labelStyle={{marginLeft:0}}
             inputContainerStyle={{marginRight:15}}
@@ -184,13 +190,21 @@ const emailScreen = () => {
             onConfirm={(date) => handleConfirm(date)}
             onCancel={hideDatePicker}
           /> 
-          {!birthValid&& <Text style={styles.innerText}>생년월일을 입력하세요</Text>}            
+          {!birthValid && <Text style={styles.innerText}>정확한 생년월일을 입력하세요</Text>}            
         </TouchableOpacity>
-        </Spacer>
+        <Button  
+              icon={<FontAwesome name="check-circle" size={24} color="black"/>}            
+              buttonStyle={styles.btnmove}     
+              titleStyle={styles.button} title={"이메일 찾기"}
+              type="clear"
+              onPress={() => onPressCheck()}                
+              /> 
+        { msg != 'null' &&<Text style={styles.innerText }>{msg == '해당 이메일을 찾을 수 없습니다' ? msg : msg[0].email}</Text>}  
 
-        <Button buttonStyle={styles.button} title={"아이디 찾기"}
-          onPress={() => onPressCheck()}                
+        <Button buttonStyle={styles.outterButton} title={"로그인하러 가기"}      
+          onPress={() => navigate("LoginScreen")}                 
         />
+        
 
         
       </View> 
@@ -204,7 +218,24 @@ const styles = StyleSheet.create({
         marginTop: 50,
         flex:1,
 
-    },    
+    },
+
+    btnmove:{
+      marginTop:0,
+      alignSelf: "flex-end",
+    }, 
+    outterButton:{
+        fontSize: 20,
+        width: 200,
+        height: 40, 
+        backgroundColor: '#46c3ad',    
+        alignSelf: "center", 
+        borderRadius: 30 
+    },   
+        
+    innerText:{
+      marginBottom:20,
+    }, 
 
     txtInputView: {
       marginTop: 10,
@@ -230,11 +261,8 @@ const styles = StyleSheet.create({
         color: "white",
       },    
     button: {
-        width: 300,
-        height: 40,
-        backgroundColor: '#46c3ad',    
-        alignSelf: "center", 
-        borderRadius: 30 
+        fontSize: 15,   
+        color: '#000000',   
       },
   });
   emailScreen.navigationOptions = () => {
