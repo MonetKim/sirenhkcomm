@@ -22,8 +22,8 @@ export const fetchStoreFailure = (error) =>{
 export const testing = (lat,lon) =>{
     return {
         type: TESTING,
-        payload_lat: lat,
-        payload_lon: lon,
+        lat: lat,
+        lon: lon,
     }
 }
 

@@ -32,8 +32,8 @@ const storeReducer = (state = initialState, action) => {
         case TESTING:
             return {
                 ...state,
-               // start_lat: action.payload_lat,
-              //  start_lon: action.payload_lon,
+                start_lat: lat,
+                start_lon: lon,
             }
         default: return state;
     }

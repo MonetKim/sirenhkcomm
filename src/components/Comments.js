@@ -42,10 +42,10 @@ const Comments = (props) => { //여기 한번만 로그인시키고 이후로는
         console.log(props.start_lat+"코드가 어케실행되는거야"+props.temp)
         const {coords : {latitude, longitude}}  = await Location.getCurrentPositionAsync();
             console.log(latitude, longitude);
-            //props.testing(latitude, longitude);
+            props.testing(latitude, longitude);
             console.log(props.start_lat+"실행후야"+props.temp)
-        // let location = await Location.getCurrentPositionAsync({});
-        // setLocation(location);
+            // let location = await Location.getCurrentPositionAsync({});
+           // setLocation(location);
       })();
     }, []);
   
@@ -162,7 +162,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchStores: () => dispatch(fetchStores()),
-        //testing: () => dispatch(testing()),
+        testing: () => dispatch(testing()),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)
