@@ -109,10 +109,6 @@ export const pushOrders =(user_id,
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchOrderSuccess(response.data))
-<<<<<<< HEAD
-            //dispatch(pushOrderDetails(response.data[0].order_id,1,50000,30 ))
-=======
->>>>>>> bc32b9bb020c66c481272dd3291e1b519df749b3
         })
         
         .catch(error=> dispatch(fetchOrderFailure(error)))
@@ -125,10 +121,6 @@ export const pushOrderDetails =(
     menu_price,
     quantity  ) =>{
     return (dispatch) =>{
-<<<<<<< HEAD
-
-=======
->>>>>>> bc32b9bb020c66c481272dd3291e1b519df749b3
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchOrderDetailRequest())
@@ -167,8 +159,6 @@ export const getOrderresults =(user_id  ) =>{
 //-------------------주문아이디별 상세메뉴명 갖고오기
 export const getOrderresultsDetail =(user_id ) =>{
     return (dispatch) =>{
-        
-    console.log('시작하고잇는거맞냐 ㅅㅂ   ')
         dispatch(fetchOrderResultDetailRequest())
         API.post("/user/orderresultdetail", {    
             user_id, 
@@ -176,8 +166,6 @@ export const getOrderresultsDetail =(user_id ) =>{
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchOrderResultDetailSuccess(response.data))
-            console.log('아무것도s   '+JSON.stringify(token))
-            console.log('안나오는건데   ')
         })
         
         .catch(error=> dispatch(fetchOrderResultDetailFailure(error)))

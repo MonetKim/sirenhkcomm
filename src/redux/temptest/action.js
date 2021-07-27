@@ -28,7 +28,6 @@ export const testing = () =>{
 
 export const fetchComments =() =>{
     return (dispatch) =>{
-        console.log('@^^^^^^^^^^^^^^^^')
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchCommentRequest())
@@ -56,7 +55,6 @@ export const pushComments =(name,
     pi_agreement,
     email, ) =>{
     return (dispatch) =>{
-        console.log('@^^^^^^^^^^^^^^^^')
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchCommentRequest())
@@ -77,22 +75,6 @@ export const pushComments =(name,
         .catch(error=> dispatch(fetchCommentFailure(error)))
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

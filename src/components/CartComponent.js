@@ -79,11 +79,9 @@ const CartComponent = (props) => {
       function total() {
         var total = 0;
         const cart = props.dataFood;
-        //console.log('123123');
         for (var i = 0; i < cart.length; i++) {
           if(cart[i].iscart){
             total = total + (cart[i].price * cart[i].quantity)
-            //console.log('price'+cart[i].price +'    i = ' +i +'quan =  ' +cart[i].quantity );
           }
         }
         var total_price = total;
@@ -95,7 +93,6 @@ const CartComponent = (props) => {
         props.pushOrders(user_id,store_id,totalprice,ischeck);
         //alert(props.orderid[0].order_id);
          for(var i = 0 ; i < props.dataFood.length ; i++){
-          console.log(props.dataFood[i].menu_id+'   말이되냐고!!   ' +props.dataFood[i].quantity ) 
           if(props.dataFood[i].quantity >0){
             
              props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
@@ -116,9 +113,6 @@ const CartComponent = (props) => {
 
 
 const mapStateToProps = (state) =>{
-    //console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    //console.log(state,'state')
-    //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')ㄴ
     return {
         dataFood: state.menuReducer.dataFood,
         dataCart: state.menuReducer.dataCart,
@@ -129,7 +123,6 @@ const mapStateToProps = (state) =>{
 }
 
 const mapDispatchToProps = (dispatch) =>{
-    //console.log(dispatch,'dispatch')
     return{
         incCartQuant:(item) => dispatch(incCartQuant(item)),
         decCartQuant:(item) => dispatch(decCartQuant(item)),

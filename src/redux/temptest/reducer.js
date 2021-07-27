@@ -28,12 +28,9 @@ const commnetsReducer = (state = initialState, action) => {
                 loading: false,
             }
         case TESTING:
-            const newArray = [...state.items]; //making a new array
-            newArray[0].name ="집갈래";  //수량증가
-
+     
             return {
-                ...state,
-                items: newArray,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
+                ...state
             }
         default: return state;
     }

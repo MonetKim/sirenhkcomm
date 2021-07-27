@@ -20,6 +20,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.hkTest.hkTest", 
+      "config": { "googleMaps": { "apiKey": "AIzaSyAj_R4yn52gxPm_c_9K2D7owBXoPNsDGNI" } },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
