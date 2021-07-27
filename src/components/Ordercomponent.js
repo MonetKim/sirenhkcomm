@@ -22,7 +22,6 @@ const Ordercomponent = (props) => {
         var sum = '';
     
         //props.getOrderresultsDetail(temp);
-        console.log(temp+'맨 얼웨이즈 리그랫    ' + JSON.stringify(props.orderresult))
         for (var i = 0; i < props.orderresult.length; i++) {
             sum = sum +' ' +'i'
         }
@@ -31,7 +30,7 @@ const Ordercomponent = (props) => {
                 </View>
     }
 
-    console.log('나게엔 필요한   ' + JSON.stringify(props.dataOrder))
+    
     return (
         <View style={styles.flex}>
             <ScrollView style={StyleSheet.flex} >
@@ -86,7 +85,6 @@ function makeDateString(temp) {
 
 
 const mapStateToProps = (state) => {
-    console.log(state, 'state')
     return {
         dataOrder: state.orderReducer.dataOrder,
         orderresult: state.orderReducer.orderresult,

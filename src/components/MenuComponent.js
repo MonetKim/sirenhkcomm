@@ -29,11 +29,10 @@ const MenuComponent = (props) => {
         props.fetchGetmenus()
     },[msg])
 }
-console.log('디스이즈   '+JSON.stringify(props))
     return (
       
         <View style={styles.flex}>                     
-             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text> is loading  {props.count}</Text></TouchableOpacity>
+             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text> {msg.email} is loading  {props.count}</Text></TouchableOpacity>
             <View style={styles.foodList}>
               <FlatList
                 data={props.dataFood}
@@ -53,7 +52,7 @@ console.log('디스이즈   '+JSON.stringify(props))
                     <View>
                         <Image style={styles.foodImage} source={{ uri:  item.imageview }} />
                         <View style={styles.foodTitle}>
-                        <Text> {item.title}</Text>
+                        <Text> {item.title} + {item.imageview}</Text>
                         </View>
                         <View style={styles.foodPrice}>
                             <View>
@@ -85,8 +84,6 @@ console.log('디스이즈   '+JSON.stringify(props))
 
 
 const mapStateToProps = (state) =>{
-    //console.log(state,'state')
-    const b ="dodd"
     return {
         dataFood: state.menuReducer.dataFood,
         temp: state.menuReducer.temp,
@@ -95,7 +92,6 @@ const mapStateToProps = (state) =>{
 }
 
 const mapDispatchToProps = (dispatch) =>{
-    //console.log(dispatch,'dispatch')
     return{
         addMenuToCart:(item) => dispatch(addMenuToCart(item)),
         removeMenuToCart:() => dispatch(removeMenuToCart()),

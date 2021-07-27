@@ -20,13 +20,11 @@ const Ordercomponent2 = (props) => {
         props.getOrderresultsDetail(56)
     }, [])
     //props.getOrderresultsDetail(56);
-    console.log( '모든걸 말할수는 없는데!   ' + JSON.stringify(props.orderresult))
     function showorderdetail(temp) {
 
         var sum = '';
         sum = '';
         //props.getOrderresultsDetail(temp);
-        console.log(temp + '맨 얼웨이즈 리그랫1    ' + JSON.stringify(props.orderresult))
         for (var i = 0; i < props.orderresult.length; i++) {
             if(props.orderresult[i].order_id == temp){
                 sum = sum + 'i! '+props.orderresult[i].menu_id+ '@' 
@@ -35,8 +33,6 @@ const Ordercomponent2 = (props) => {
         }
         return sum
     }
-    console.log( '도대체 나한테 왜그래요?    ' + JSON.stringify(props.orderresult))
-    console.log('나게엔 필요한   ' + JSON.stringify(props.orderresult.length))
     return (
         <View style={styles.flex}>
             <ScrollView style={StyleSheet.flex} >
@@ -49,6 +45,7 @@ const Ordercomponent2 = (props) => {
                         numColumns={1}
                         renderItem={({ item }) => _renderItemOrder(item, props)}
                         keyExtractor={(item, index) => index.toString()}
+                        inverted
                     />
                 </View>
             </ScrollView>
@@ -103,7 +100,7 @@ function makeDateString(temp) {
 
 
 const mapStateToProps = (state) => {
-    console.log(state, 'state')
+    //console.log(state, 'state')
     return {
         dataOrder: state.orderReducer.dataOrder,
         orderresult: state.orderReducer.orderresult,

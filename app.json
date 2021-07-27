@@ -20,11 +20,13 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.sirenorder.sirenhkcomm", 
+      "config": { "googleMaps": { "apiKey": "AIzaSyAj_R4yn52gxPm_c_9K2D7owBXoPNsDGNI" } },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
+    }, 
     "web": {
       "favicon": "./assets/favicon.png"
     }
