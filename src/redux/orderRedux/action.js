@@ -109,10 +109,6 @@ export const pushOrders =(user_id,
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchOrderSuccess(response.data))
-<<<<<<< HEAD
-            //dispatch(pushOrderDetails(response.data[0].order_id,1,50000,30 ))
-=======
->>>>>>> bc32b9bb020c66c481272dd3291e1b519df749b3
         })
         
         .catch(error=> dispatch(fetchOrderFailure(error)))
@@ -125,10 +121,6 @@ export const pushOrderDetails =(
     menu_price,
     quantity  ) =>{
     return (dispatch) =>{
-<<<<<<< HEAD
-
-=======
->>>>>>> bc32b9bb020c66c481272dd3291e1b519df749b3
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchOrderDetailRequest())
@@ -184,7 +176,7 @@ export const getOrderresultsDetail =(user_id ) =>{
     }
 }
 
-
+ 
 
 const configureAPI = ({ token }) => {
     API.defaults.headers.common["Authorization"] = token;

@@ -54,7 +54,7 @@ const LoginScreen = () => {
           linkText="파란만잔이 처음이시라면, 회원 가입이 필요해요 :)"
           title="로그인"
           />      
-          <View style={styles.flex_container}>
+          <View style={styles.flex_container}> 
           <Button
           titleStyle={styles.titleStyle} 
           type="clear"
@@ -62,10 +62,10 @@ const LoginScreen = () => {
           onPress={() => navigate("emailScreen")} 
           /> 
           <Button
-          titleStyle={styles.titleStyle} 
-          type="clear"
+          titleStyle={styles.titleStyle}  
+          type="clear" 
           title={"비밀번호찾기"}
-          onPress={() => navigate("HomeScreen")} 
+          onPress={() => navigate("passScreen")} 
           />   
         </View>             
         </View>  

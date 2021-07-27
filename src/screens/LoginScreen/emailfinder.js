@@ -8,12 +8,39 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Context as UserContext } from '../../dataStore/userAccessContext';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { navigate, navigateReset } from "../../NavigationRef";
- 
+import NavigationBar from 'react-native-navbar'; 
  
  
 const Spacer = ({ children }) => {
   return <View style={styles.spacer}>{children}</View>;
 };
+
+const rightButtonConfig = {
+  title :'<',
+  tintColor : 'black', 
+  handler: () => navigate('LoginScreen'),
+};
+
+
+const titleConfig = {
+  title: '이메일 찾기',
+  fontSize: 30,
+}
+
+const Mover = ({ children}) => {
+  
+  return <View> 
+              <NavigationBar
+                  backgroundColor 
+                  title={titleConfig}
+                  leftButton = {rightButtonConfig}
+                  
+              />
+        </View>
+
+}
+
+
 
 
 Date.prototype.format = function(f) {
@@ -116,7 +143,6 @@ const emailScreen = ()  => {
 
     if(name !=null && name!='' && nameValid==true && phoneValid==true && Phonenum != null && Phonenum !='' && birthValid==true && birth != null && birth !='') {
       emailFinder({name, Phonenum, birth});    
-
       setIsLoading(true);  
 
     } else {   
@@ -133,13 +159,13 @@ const emailScreen = ()  => {
     useEffect(() => { 
         setIsLoading(false);    
         console.log(JSON.stringify(msg)+'메세지');       
-      }, [msg]);    
+      });    
         
     //생년월일 및 광고 배너 등록 예정
     return (        
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>                                               
-        
+          <Mover/>
          <Input
               placeholder="이름"
               leftIcon={<MaterialCommunityIcons name="rename-box" size={24} color="black" />}
@@ -198,11 +224,11 @@ const emailScreen = ()  => {
               titleStyle={styles.button} title={"이메일 찾기"}
               type="clear"
               onPress={() => onPressCheck()}                
-              /> 
+        /> 
         { msg != 'null' &&<Text style={styles.innerText }>{msg == '해당 이메일을 찾을 수 없습니다' ? msg : msg[0].email}</Text>}  
 
         <Button buttonStyle={styles.outterButton} title={"로그인하러 가기"}      
-          onPress={() => navigate("LoginScreen")}                 
+          onPress={() => navigate("LoginScreen")}                  
         />
         
 
@@ -215,9 +241,9 @@ const emailScreen = ()  => {
 
 const styles = StyleSheet.create({
     container:{
-        marginTop: 50,
+        marginTop: 30,
         flex:1,
-
+        backgroundColor: "white",
     },
 
     btnmove:{

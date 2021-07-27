@@ -50,9 +50,26 @@ const onSignin = (dispatch) => async ({ email, password }) => {
 };
 
 //비밀번호 찾기 호출 되는 곳
-const PasswordFinder = (dispatch) => async({email,name,password}) => {
-  alert('서버 해야해요');
-}
+const PasswordFinder = (dispatch) => async({Phonenum,name,email}) => {
+  API.post("user/passfinder",{
+    name,
+    Phonenum, 
+    email,
+  })
+  .then((response) => {
+      configureAPI({ token: `Bearer ${response.data}` }); 
+      dispatch({ type: aType.PasswordFinder, payload: response.data});  
+      console.log(response.data+'리스폰 데이터');    
+      navigate("LoginScreen");       
+  })
+  .catch((err) => {     
+    dispatch({ 
+      type: aType.ERROR,
+      payload: err,
+    });
+      navigate("LoginScreen");  
+  });
+} 
 
 //이메일찾기 보내는 곳 
 const emailFinder = (dispatch) => async ({name,Phonenum,birth}) => { 
@@ -77,6 +94,27 @@ const emailFinder = (dispatch) => async ({name,Phonenum,birth}) => {
     navigate("LoginScreen");  
   });
 }; 
+ 
+const emailCheck = (dispatch) => async({email}) => {
+  console.log('여기오낭');
+  API.post("user/emailcheck",{
+    email
+  })
+  .then((response) => {
+    configureAPI({ token: `Bearer ${response.data}` }); 
+    dispatch({ type: aType.EmailCheck, payload: response.data});  
+    console.log(response.data+'리스폰 데이터');    
+              
+})
+  .catch((err) => {     
+  dispatch({
+    type: aType.ERROR,
+    payload: "이미 등록된 이메일 입니다"+err,
+  });
+  //navigate("LoginScreen");  
+});
+
+};
 
   
 const onLogout = (dispatch) => () => {
@@ -117,6 +155,7 @@ export const { Provider, Context } = createAppContext(
     onSignin,
     onLogout,    
     onDissmiss,
+    emailCheck,
   },
   { accessToken: null, msg: 'null' }
 );

@@ -1,10 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {  TextInput ,View,Text,StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {  TextInput ,View,Text,StyleSheet, TouchableWithoutFeedback, Keyboard,Alert } from 'react-native';
 import { Input, Button } from "react-native-elements";
 import { Context as UserContext } from '../../dataStore/userAccessContext';
 import { SafeAreaView } from 'react-navigation';
 import { isEmail,isName, PhoneField, isPassword } from "../../utils";
-import Overlay from '../../components/Overlay'; 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -12,9 +11,38 @@ import { FontAwesome } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
+import NavigationBar from 'react-native-navbar';
+import { navigate } from '../../NavigationRef';
 const Spacer = ({ children }) => {
   return <View style={styles.spacer}>{children}</View>;
 };
+
+
+const rightButtonConfig = {
+  title :'<',
+  tintColor : 'black', 
+  handler: () => navigate('LoginScreen'),
+};
+
+
+const titleConfig = {
+  title: '회원가입',
+  fontSize: 30,
+}
+
+const Mover = ({ children}) => {
+  
+  return <View> 
+              <NavigationBar
+                  backgroundColor 
+                  title={titleConfig}
+                  leftButton = {rightButtonConfig}
+                  
+              />
+        </View>
+
+}
+
 
 Date.prototype.format = function(f) {
   if (!this.valueOf()) return " ";
@@ -43,11 +71,10 @@ String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s
 String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
 Number.prototype.zf = function(len){return this.toString().zf(len);};
 
+
 const SignupScreen = () => {
 
-
-  const { state, onSignup } = useContext(UserContext);
-  
+  const { state, onSignup, emailCheck } = useContext(UserContext); 
   //유효성 검사
   const [isLoading, setIsLoading] = useState(false);
   const [nameValid, setnameValid] = useState(true);
@@ -57,9 +84,9 @@ const SignupScreen = () => {
   const [emailValid, setEmailValid] = useState(true);
   const [birthValid, setBirthValid] = useState(true);
   const [confirmValid, setconfirmValid] = useState(false);
+  const [emailCheckValid, setemailCheckValid] = useState(false);
   
-  
-  
+  const [fakecheck ,setfakecheck] = useState(null);
   
   //받아오는 변수
   const [password, setPassword] = useState("");
@@ -74,9 +101,25 @@ const SignupScreen = () => {
   const { msg } = state;
   
   useEffect(() => {
-    setIsLoading(false);    
-  }, [msg]);
-  
+    setIsLoading(false);
+    
+    // if(setEmailValid==true){
+    //   setfakecheck(JSON.stringify(msg[0].email));
+    //   setemailCheckValid(false); 
+    //   alert('중복된 이메일입니다.'); 
+    // } else { 
+    //   Alert.alert('안내','등록 가능한 메일입니다');
+
+    //   setemailCheckValid(true);
+    // }
+ 
+    if(fakecheck === msg){
+      setemailCheckValid(true);
+      setconfirmValid(true);       
+    } 
+   
+  });  
+   
   //날짜 표시하기
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -163,24 +206,40 @@ const SignupScreen = () => {
   // const [pi_agreement, setpi_agreement] = useState("");
   // const [email, setEmail] = useState("");   
   const onPressCheck = () => {
-    if(setname !=null && setPhonenum != null && setbirth != null && setpi_agreement !=null && setEmail !=null) {
-      console.log(Phonenum);
+    if(email !=null && email !='' &&emailValid==true     
+        && password != '' && password != null && passCheckValid==true
+        && name != null && name !='' && nameValid==true        
+        && Phonenum !=null && Phonenum != '' && phoneValid==true        
+        && birth !=null && birth !='' && birthValid==true) {      
       onSignup({email, password, name, Phonenum, birth,pi_agreement}); 
       setIsLoading(true);  
       console.log('여기까지와진다'); 
     } else {
-      alert('정확히 입력해 주세요');
+      Alert.alert('안내','정확히 입력해 주세요');
     }
+  } 
+
+  const onEmailCheck = () =>{
+     if(email ==''){
+      Alert.alert('안내','이메일을 입력해 주세요');
+      setemailCheckValid(false);
+    } else {
+      emailCheck({email});     
+      setfakecheck(email);
+    }        
   }
 
+ 
+/////////////////////////////여기 이제 작성 이메일체크
   
   return ( 
     
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>      
     <SafeAreaView style={styles.contentView} forceInset={{ top: 'always' }}>
-      <ScrollView style={styles.scrollView}>  
+      <Mover></Mover>  
+      <ScrollView style={styles.scrollView}>
       <View style={styles.containerViews}>
-          <Text style={styles.titleView}>회원가입 정보입력</Text>
+          {/* <!--<Text style={styles.titleView}>회원가입 정보입력</Text>--> */}
       <Input
           //autoComplete="off"
           label="Email"
@@ -197,10 +256,22 @@ const SignupScreen = () => {
           onChangeText={(text) => emailChangeHandler(text)}
           value={email}  
         />
+      <Text style={styles.innerText}>이메일 체크를 해주세요</Text>
+      
+      {confirmValid && <Text style={styles.innerText}>사용 가능한 이메일 입니다</Text>}
+      
+      <Button  
+              icon={<FontAwesome name="check-circle" size={24} color="black"/>}            
+              buttonStyle={styles.btnmove}     
+              titleStyle={styles.buttons} title={"이메일 중복확인"}
+              type="clear"
+              onPress={() =>  onEmailCheck()}                
+      /> 
+
         {!emailValid && <Text style={styles.innerText}>이메일을 다시 입력해 주세요.</Text>}
 
       <Input
-          placeholder="휴대폰번호"          
+          placeholder="'-' 없이 숫자만 입력"          
           label="Mobile" 
           leftIcon={<Ionicons name="phone-portrait-outline" size={24} color="black"/>}
           labelStyle={{marginLeft:0}}
@@ -292,8 +363,8 @@ const SignupScreen = () => {
    
       <Spacer></Spacer>
 
-      <Button title="회원가입" buttonStyle={styles.button} onPress={()=> onPressCheck()}/>  
-           
+      {emailCheckValid == true && <Button title="회원가입" buttonStyle={styles.button} onPress={()=> onPressCheck()}/>}
+            
       </View> 
       <Spacer></Spacer>
       <View style={styles.bottomView}>
@@ -309,6 +380,15 @@ const SignupScreen = () => {
 
  
 const styles = StyleSheet.create({
+
+  btnmove:{
+    marginTop:0,
+    alignSelf: "flex-end",
+  }, 
+  buttons: {
+    fontSize: 15,   
+    color: '#000000',   
+  },
   innerText: {
     color: 'red',
     fontWeight: 'bold',
@@ -327,8 +407,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   contentView: {
-    marginTop: 5,
-    backgroundColor: '#F2F2F2',
+    marginTop: 30,
+    backgroundColor: 'white',
     flex: 1,
   },
   titleView: {

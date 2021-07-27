@@ -29,11 +29,15 @@ const userReducer = (state, action) => {
       };     
     case aType.EmailFinder:          
         return { ...state, msg: action.payload, token: action.payload};  
-     
-    case aType.PasswordFinder: 
+    
+    case aType.PasswordFinder:           
+        return { ...state, msg: action.payload, token: action.payload};  
+                  
+    case aType.EmailCheck: 
         return {
           ...state,
-          passfinder: action.payload, 
+          msg: action.payload,
+          token: action.payload, 
         };   
     default:
       return state;
