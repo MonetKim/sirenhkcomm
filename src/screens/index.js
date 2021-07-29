@@ -23,6 +23,7 @@ import DrawerBar from "../components/Drawer";
 import { createDrawerNavigator } from "react-navigation-drawer";
 
 
+import MapStoreScreen from "./MapStoreScreen/mapstore.js";
 
 
 const HomeStack = createStackNavigator(
@@ -121,7 +122,17 @@ const PassFindersStack = createStackNavigator(
   }
 );
 
-
+const MapStoreStack = createStackNavigator(
+  { 
+    MapStoreScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "MapStoreScreen",
+    }),
+    initialRouteName: "MapStoreScreen",
+  }
+);
 
 
 const TabNavigator = createBottomTabNavigator(
@@ -184,9 +195,9 @@ const AppStack = createSwitchNavigator({
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
   MenuDetailScreen: MenuDetailScreen,
-  AppDrawerNavigator,
- // AppDrawerNavigator
-});  
+  MapStoreScreen: MapStoreScreen,  
+
+}); 
 
 const App = createAppContainer(AppStack);
 
