@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    StyleSheet
-} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import 'react-native-gesture-handler';
+
+import {
+  Button,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet
+} from 'react-native';
 
 
 
 export default class HomeScreen extends Component{
     render(){
         return (
-            <ScrollView style={styles.container}>
+  
+            <View style={styles.container}>     
                 <View style={styles.wrapContent}>
                     <View style={styles.content} ></View>
                 </View>
@@ -27,10 +32,8 @@ export default class HomeScreen extends Component{
                 </View>
                 <View style={styles.wrapContent}>
                     <View style={styles.content}></View>
-                </View>
-                
-                
-            </ScrollView>
+                </View>                                
+            </View>       
         );
     }
 }

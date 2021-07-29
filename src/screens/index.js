@@ -1,8 +1,8 @@
 import React from "react";
 import { Text } from "react-native";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator, withNavigation } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator, createMaterialTopTabNavigator, createTabNavigator } from "react-navigation-tabs";
+import { createBottomTabNavigator} from "react-navigation-tabs";
 import { Icon } from 'native-base';
 import { Provider as UserProvider } from '../dataStore/userAccessContext';
 //import { Context as UserContext } from '../../dataStore/userAccessContext';
@@ -18,8 +18,12 @@ import passScreen from "./LoginScreen/passwordfinder";
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
+import DrawerBar from "../components/Drawer";
 
-//import { createDrawerNavigator } from "react-navigation-drawer";
+import { createDrawerNavigator } from "react-navigation-drawer";
+
+
+
 
 const HomeStack = createStackNavigator(
   {
@@ -27,13 +31,13 @@ const HomeStack = createStackNavigator(
   },
   // if you need.2222sadgfds
   // recommend custom header
-  {
+  { 
     defaultNavigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.navigate('LoginScreen')} />,
+      headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
       title: <Text>파란만잔</Text> ,
       headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
     }),
-  }
+  } 
 );
 const SettingStack = createStackNavigator(
   {
@@ -124,7 +128,6 @@ const TabNavigator = createBottomTabNavigator(
   {
     홈: HomeStack,
     메뉴: MenuStack,
-    퀵오더: MenuStack,
     주문내역: OrderStack,
     마이페이지: SettingStack,
   },
@@ -138,8 +141,6 @@ const TabNavigator = createBottomTabNavigator(
           icon = "home";
         } else if (routeName === "메뉴") {
           icon = "cafe";
-        } else if (routeName === "퀵오더") {
-          icon = "flash";
         } else if (routeName === "주문내역") {
           icon = "reader";
         } else if (routeName === "마이페이지") {
@@ -163,22 +164,29 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppStack = createStackNavigator({
+
+const AppDrawerNavigator = createDrawerNavigator(
+  {
+      TabNavigator,
+  },
+  {
+    contentComponent: DrawerBar,
+    drawerBackgroundColor: 'transparent',
+    overlayColor: 'rgba(0,0,0,0.5)',
+  },
+);
+
+
+const AppStack = createSwitchNavigator({
   LoginScreen: LoginScreen,
   passScreen : passScreen,
   CartScreen: CartScreen, 
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
   MenuDetailScreen: MenuDetailScreen,
-  TabNavigator: {  
-    screen: TabNavigator,
-    navigationOptions: ({ navigation }) => ({
-      headerShown: false,
-    }), 
-  },
-
-
-}); 
+  AppDrawerNavigator,
+ // AppDrawerNavigator
+});  
 
 const App = createAppContainer(AppStack);
 
@@ -193,4 +201,3 @@ export default () => {
 
   )
 }
-
