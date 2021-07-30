@@ -34,9 +34,9 @@ const HomeStack = createStackNavigator(
 
        
       //headerLeft : <Icon as={<Ionicons name="menu" style={{paddingLeft:10}}  onPress={() => navigation.toggleDrawer()} />} />,
-      headerLeft: <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
+      headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
       title: <Text>파란만잔</Text> ,
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+      headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
     }),
   } 
 );
@@ -59,9 +59,9 @@ const MenuStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "Menu",       
-      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
+      headerLeft: () => <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
       //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>, 
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
+      headerRight: () => <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }), 
     initialRouteName: "MenuScreen",
   } 
@@ -73,9 +73,9 @@ const OrderStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "주문내역",
-      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
+      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
       //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>, 
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
+      headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "OrderScreen",
   }
@@ -110,9 +110,9 @@ const MenuDetailStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "MenuDetailScreen",
-      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
       //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,  
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
+      headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "MenuDetailScreen",
   }
@@ -136,7 +136,7 @@ const cartStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "CartScreen",
-      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      headerLeft:  () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
       //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,      
     }),
     initialRouteName: "CartScreen",
@@ -209,6 +209,7 @@ const AppDrawerNavigator = createDrawerNavigator(
 );
 
 
+
 const AppStack = createSwitchNavigator({
   LoginScreen: LoginScreen,
   passScreen : passScreen,
@@ -216,11 +217,12 @@ const AppStack = createSwitchNavigator({
   SignupScreen: SignupScreen,
   cartStack,
   MenuDetailStack,
+  MapStoreStack,
   //MenuDetailScreen,
   AppDrawerNavigator,
  // AppDrawerNavigator
 });  
-  //MapStoreScreen: MapStoreScreen,  
+  
 
 
 const App = createAppContainer(AppStack);

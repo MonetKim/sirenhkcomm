@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { Icon } from "native-base";
 import { sqrt } from "react-native-reanimated";
-import haversine from 'haversine'
+
 const { width, height } = Dimensions.get("window");
 
 
