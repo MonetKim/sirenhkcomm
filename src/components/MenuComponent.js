@@ -52,7 +52,7 @@ const MenuComponent = (props) => {
                     <View>
                         <Image style={styles.foodImage} source={{ uri:  item.imageview }} />
                         <View style={styles.foodTitle}>
-                        <Text> {item.title} + {item.imageview}</Text>
+                        <Text> {item.title}</Text>
                         </View>
                         <View style={styles.foodPrice}>
                             <View>

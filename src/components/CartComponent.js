@@ -3,7 +3,7 @@ const { width } = Dimensions.get('window');
 
 import { pushOrders ,pushOrderDetails ,resetevery} from '../redux/orderRedux/action'
 import { incCartQuant ,decCartQuant , removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
-import React, { useEffect  } from "react";
+import React, { useEffect  }  from "react";
 
 import {
   Image,
@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Alert } from 'react-native';
+import API from "../API/WebService";
 
 
 const CartComponent = (props) => {
@@ -88,16 +89,42 @@ const CartComponent = (props) => {
         return total_price;
       }
 
-      function setOrder(user_id,store_id,totalprice,ischeck){
-        
-        props.pushOrders(user_id,store_id,totalprice,ischeck);
-        //alert(props.orderid[0].order_id);
-         for(var i = 0 ; i < props.dataFood.length ; i++){
-          if(props.dataFood[i].quantity >0){
-            
-             props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
+      async function setOrder(user_id,store_id,totalprice,ischeck){
+        try{
+          //props.pushOrders(user_id,store_id,totalprice,ischeck);
+          await API.post("user/order", {    
+            user_id, 
+            store_id, 
+            totalprice,
+            ischeck,
+          });
+          console.log("비동기머누너무싫어");
+
+          for(var i = 0 ; i < props.dataFood.length ; i++){
+            if(props.dataFood[i].quantity >0){
+             
+              let menu_id=  props.dataFood[i].menu_id
+              let menu_price = props.dataFood[i].price
+              let quantity=  props.dataFood[i].quantity
+              console.log(i+"지긋지긋해"+ menu_price)
+              await API.post("user/orderdetail", {    
+                user_id, 
+                menu_id,
+                menu_price,
+                quantity
+              })
+               //props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
+             }
            }
-         }
+        }
+        catch{
+            //오류구성해주자...
+        }
+        finally{
+         
+        }
+        //alert(props.orderid[0].order_id);
+        
 
         props.removeMenuToCart();
 

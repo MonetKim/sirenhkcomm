@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import Comments from '../../components/Comments';
 import MaptestCompo from '../../components/Maptest';
@@ -12,7 +11,7 @@ export default class SomethingScreen extends Component{
     render(){
         return (
             <Provider store = {store}>
-            <NearStoreComponent />
+            <Comments />
             </Provider>
         );
     }

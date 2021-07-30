@@ -1,4 +1,4 @@
-import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING} from './type'
+import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING, GET_DIST} from './type'
 import API from "../../API/WebService";
 
 export const fetchStoreSuccess = (stores) =>{
@@ -19,11 +19,16 @@ export const fetchStoreFailure = (error) =>{
         payload: error
     }
 }
-export const testing = (lat,lon) =>{
+export const testing = (loca) =>{
     return {
         type: TESTING,
-        lat: lat,
-        lon: lon,
+        payload: loca, 
+    }
+}
+export const getdist = (dist) =>{
+    return {
+        type: GET_DIST,
+        payload: dist,
     }
 }
 

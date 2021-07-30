@@ -20,6 +20,7 @@ import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
 import DrawerBar from "../components/Drawer";
 import { createDrawerNavigator } from "react-navigation-drawer";
+import MapStoreScreen from "./MapStoreScreen/mapstore.js";
 
 
 const HomeStack = createStackNavigator(
@@ -143,6 +144,19 @@ const cartStack = createStackNavigator(
   }
 );
 
+const MapStoreStack = createStackNavigator(
+  { 
+    MapStoreScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "MapStoreScreen",
+    }),
+    initialRouteName: "MapStoreScreen",
+  }
+);
+
+
 const TabNavigator = createBottomTabNavigator(
   {
     홈: HomeStack,
@@ -203,9 +217,12 @@ const AppStack = createSwitchNavigator({
   SignupScreen: SignupScreen,
   cartStack,
   MenuDetailStack,
+  //MenuDetailScreen,
   AppDrawerNavigator,
  // AppDrawerNavigator
 });  
+  //MapStoreScreen: MapStoreScreen,  
+
 
 const App = createAppContainer(AppStack);
 

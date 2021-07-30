@@ -35,12 +35,14 @@ const Ordercomponent2 = (props) => {
     }
     return (
         <View style={styles.flex}>
-            <ScrollView style={StyleSheet.flex} >
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 20, color: '#333' }}>asrs{props.temp}</Text>
+                        <Text style={{ fontSize: 20, color: '#333' }}>asrss{props.temp}</Text>
                     </View>
                     <FlatList
+                        contentContainerStyle={{
+                            flexGrow: 1, justifyContent: 'flex-end',
+                          }}
                         data={props.dataOrder}
                         numColumns={1}
                         renderItem={({ item }) => _renderItemOrder(item, props)}
@@ -48,7 +50,6 @@ const Ordercomponent2 = (props) => {
                         inverted
                     />
                 </View>
-            </ScrollView>
         </View>
     );
 
