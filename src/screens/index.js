@@ -136,9 +136,8 @@ const cartStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "CartScreen",
-      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuDetailScreen')} />,
-      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,  
-      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
+      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,      
     }),
     initialRouteName: "CartScreen",
   }
