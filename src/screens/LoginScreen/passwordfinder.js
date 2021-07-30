@@ -18,8 +18,8 @@ const Spacer = ({ children }) => {
 
 
 const rightButtonConfig = {
-  title :'<',
-  tintColor : 'black', 
+  tintColor : "red",
+  title:'돌아가기',
   handler: () => navigate('LoginScreen'),
 };
 
@@ -28,7 +28,7 @@ const titleConfig = {
   fontSize: 30,
 }
 
-const Mover = ({ children}) => {
+const Mover = ({ children }) => {
   
   return <View> 
               <NavigationBar
@@ -101,7 +101,6 @@ const passScreen = () => {
         Alert.alert('안내','정확히 입력해주세요');         
         return;
       }
-
     }
  
     useEffect(() => {
@@ -116,9 +115,7 @@ const passScreen = () => {
         <View style={styles.container}>
           <Mover/>
           <Overlay isShow={isLoading} />
-
-
-            <Input
+        <Input
           //autoComplete="off"
           label="Email"
           leftIcon={<MaterialCommunityIcons name="email-outline" size={24} color="black" />}

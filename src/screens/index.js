@@ -19,10 +19,7 @@ import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
 import DrawerBar from "../components/Drawer";
-
 import { createDrawerNavigator } from "react-navigation-drawer";
-
-
 
 
 const HomeStack = createStackNavigator(
@@ -33,7 +30,10 @@ const HomeStack = createStackNavigator(
   // recommend custom header
   { 
     defaultNavigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name='menu' style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
+
+       
+      //headerLeft : <Icon as={<Ionicons name="menu" style={{paddingLeft:10}}  onPress={() => navigation.toggleDrawer()} />} />,
+      headerLeft: <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
       title: <Text>파란만잔</Text> ,
       headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
     }),
@@ -57,11 +57,13 @@ const MenuStack = createStackNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      title: "Menu",
+      title: "Menu",       
+      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>, 
       headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
-    }),
+    }), 
     initialRouteName: "MenuScreen",
-  }
+  } 
 );
 const OrderStack = createStackNavigator(
   {
@@ -69,7 +71,10 @@ const OrderStack = createStackNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      title: "주문내역"
+      title: "주문내역",
+      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.goBack(null)} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>, 
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "OrderScreen",
   }
@@ -104,6 +109,9 @@ const MenuDetailStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "MenuDetailScreen",
+      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuScreen')} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,  
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "MenuDetailScreen",
   }
@@ -120,9 +128,20 @@ const PassFindersStack = createStackNavigator(
     initialRouteName: "passScreen",
   }
 );
-
-
-
+const cartStack = createStackNavigator(
+  { 
+    CartScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "CartScreen",
+      headerLeft: <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('MenuDetailScreen')} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,  
+      headerRight: <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
+    }),
+    initialRouteName: "CartScreen",
+  }
+);
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -180,10 +199,10 @@ const AppDrawerNavigator = createDrawerNavigator(
 const AppStack = createSwitchNavigator({
   LoginScreen: LoginScreen,
   passScreen : passScreen,
-  CartScreen: CartScreen, 
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
-  MenuDetailScreen: MenuDetailScreen,
+  cartStack,
+  MenuDetailStack,
   AppDrawerNavigator,
  // AppDrawerNavigator
 });  
