@@ -39,25 +39,25 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
       
         useEffect(() => {
           (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-              setErrorMsg('Permission to access location was denied');
-              //네비게이트통해서 다른지도화면으로 가주자
-            //   await props.fetchStores();
-            //    console.log("승인거부할때 나타나는곳"+ JSON.stringify(location));
-            //    await props.getdist(location);
-            navigate("MenuDetailScreen");
-              return;
-            }
-             let locationtt = await Location.getCurrentPositionAsync({});
-               setLocation(locationtt);
+            // let { status } = await Location.requestForegroundPermissionsAsync();
+            // if (status !== 'granted') {
+            //   setErrorMsg('Permission to access location was denied');
+            //   //네비게이트통해서 다른지도화면으로 가주자
+            // //   await props.fetchStores();
+            // //    console.log("승인거부할때 나타나는곳"+ JSON.stringify(location));
+            // //    await props.getdist(location);
+            // navigate("MenuDetailScreen");
+            //   return;
+            // }
+            //  let locationtt = await Location.getCurrentPositionAsync({});
+            //    setLocation(locationtt);
                
                await props.fetchStores();
-               console.log("승인했을때 나오는곳"+ JSON.stringify(location));
-               await props.getdist(location);
-               await props.testing(locationtt);
+            //    console.log("승인했을때 나오는곳"+ JSON.stringify(location));
+            //    await props.getdist(location);
+            //    await props.testing(locationtt);
 
-               console.log("승인햇읗ㄹ때 거리전시"+ JSON.stringify(props.storedist));
+            //    console.log("승인햇읗ㄹ때 거리전시"+ JSON.stringify(props.storedist));
           })();
         }, []);
    
@@ -70,7 +70,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
         <View style={styles.flex}>
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 20, color: '#333' }}>가까운 상점전시{JSON.stringify(location)}</Text>
+                        <Text style={{ fontSize: 20, color: '#333' }}>가까운 {JSON.stringify(props.start_lat)}상점s전시{JSON.stringify(props.start_lon)}</Text>
                     </View>
                     <FlatList
                         //data={props.storeinfo}

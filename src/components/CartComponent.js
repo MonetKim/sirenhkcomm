@@ -4,18 +4,18 @@ const { width } = Dimensions.get('window');
 import { pushOrders ,pushOrderDetails ,resetevery} from '../redux/orderRedux/action'
 import { incCartQuant ,decCartQuant , removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
 import React, { useEffect  }  from "react";
-
+import { navigate } from '../NavigationRef';
 import {
   Image,
   View,
   Text,
+  Alert,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
   Dimensions,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Alert } from 'react-native';
 import API from "../API/WebService";
 
 
@@ -127,13 +127,18 @@ const CartComponent = (props) => {
         
 
         props.removeMenuToCart();
-
-        const temptemp = props.count;
-        calltest(temptemp);
+        saveStore();
       }
-      function calltest(temptemp){
-        alert(temptemp);
-      }
+      
+      function saveStore() {
+        Alert.alert(
+            "주문이 완료되었습니다.",
+            navigate("OrderScreen")
+           
+        )
+    }
+    
+      
 }
 
  
