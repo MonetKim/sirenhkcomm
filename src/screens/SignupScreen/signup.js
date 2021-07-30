@@ -19,8 +19,8 @@ const Spacer = ({ children }) => {
 
 
 const rightButtonConfig = {
-  title :'<',
-  tintColor : 'black', 
+  tintColor : "red",
+  title:'돌아가기',
   handler: () => navigate('LoginScreen'),
 };
 

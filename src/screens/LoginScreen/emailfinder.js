@@ -9,15 +9,15 @@ import { Context as UserContext } from '../../dataStore/userAccessContext';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { navigate, navigateReset } from "../../NavigationRef";
 import NavigationBar from 'react-native-navbar'; 
- 
+
  
 const Spacer = ({ children }) => {
   return <View style={styles.spacer}>{children}</View>;
 };
 
-const rightButtonConfig = {
-  title :'<',
-  tintColor : 'black', 
+const rightButtonConfig = {  
+  tintColor : "red",
+  title:'돌아가기',
   handler: () => navigate('LoginScreen'),
 };
 
@@ -32,9 +32,8 @@ const Mover = ({ children}) => {
   return <View> 
               <NavigationBar
                   backgroundColor 
-                  title={titleConfig}
-                  leftButton = {rightButtonConfig}
-                  
+                  title={titleConfig}                  
+                  leftButton = {rightButtonConfig}                                  
               />
         </View>
 
