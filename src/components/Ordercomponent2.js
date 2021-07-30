@@ -1,14 +1,20 @@
 
-import { View, StyleSheet, Image, Dimensions, RefreshControl, Text } from 'react-native';
 import { connect } from 'react-redux'
 
 import React, { useEffect } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/action'
 //import FlatText from '../components/FlatText';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon } from 'native-base';
-
+import {
+    Image,
+    View,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    StyleSheet,
+    Dimensions,
+} from "react-native";
 import { FlatList } from "react-native";
 const { width } = Dimensions.get('window');
 const Ordercomponent2 = (props) => {
@@ -33,6 +39,8 @@ const Ordercomponent2 = (props) => {
         }
         return sum
     }
+
+    console.log("오더리스트 체크 리덕" + JSON.stringify(props.dataOrder))
     return (
         <View style={styles.flex}>
                 <View style={styles.container}>
@@ -40,14 +48,17 @@ const Ordercomponent2 = (props) => {
                         <Text style={{ fontSize: 20, color: '#333' }}>asrss{props.temp}</Text>
                     </View>
                     <FlatList
-                        contentContainerStyle={{
-                            flexGrow: 1, justifyContent: 'flex-end',
-                          }}
-                        data={props.dataOrder}
+                       
+                        //data={props.dataOrder}
+                        data={props.dataOrder.sort((a, b) => (String(b.order_id)).localeCompare(String(a.order_id)))}
                         numColumns={1}
                         renderItem={({ item }) => _renderItemOrder(item, props)}
                         keyExtractor={(item, index) => index.toString()}
-                        inverted
+                        //inverted
+
+                        
+
+
                     />
                 </View>
         </View>
