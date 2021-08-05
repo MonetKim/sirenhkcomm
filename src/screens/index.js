@@ -21,6 +21,7 @@ import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
 import DrawerBar from "../components/Drawer";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
+import TestScreen from "./TestScreen/test.js";
 
 
 const HomeStack = createStackNavigator(
@@ -154,6 +155,17 @@ const MapStoreStack = createStackNavigator(
     initialRouteName: "MapStoreScreen",
   }
 );
+const TestStack = createStackNavigator(
+  { 
+    TestScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "TestScreen",
+    }),
+    initialRouteName: "TestScreen",
+  }
+);
 
 
 const TabNavigator = createBottomTabNavigator(
@@ -220,6 +232,7 @@ const AppStack = createSwitchNavigator({
   MapStoreStack,
   //MenuDetailScreen,
   AppDrawerNavigator,
+  TestStack,
  // AppDrawerNavigator
 });  
   

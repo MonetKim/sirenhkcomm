@@ -2,7 +2,7 @@ import * as Location from "expo-location";
 import React, { useState, useEffect } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
-import { fetchStores } from '../redux/storeRedux/action'
+import { fetchStores, SetCurStoreInfo } from '../redux/storeRedux/action'
 import { StackActions, NavigationActions } from 'react-navigation';
 import MapView from 'react-native-maps';
 import styled from "styled-components/native";
@@ -44,20 +44,21 @@ const Comments = (props) => { //여기 한번만 로그인시키고 이후로는
     //     )
     // }
 
-    function saveStore(storeid,storename) {
+    function saveStore(storeid, storename) {
         Alert.alert(
             String(storename),
-            "선택하신 매장이 맞습니까?",
+            "선택하신 매장이 맞습니까? " + Number(storeid),
             [
-                {text: '확인', onPress: _logout.bind(this)},
-                {text: '취소', onPress: () => null},
+                //{ text: '확인', onPress: _gomenu.bind(this) },
+                { text: '확인', onPress: () => _gomenu(storeid) },
+                { text: '취소', onPress: () => null },
             ],
             { cancelable: true }
-            
+
         )
     }
 
-    function _logout(){
+    function _gomenu(storeid){
         // const resetAction = StackActions.reset({
         //     index: 0,
         //     key: null,
@@ -67,6 +68,7 @@ const Comments = (props) => { //여기 한번만 로그인시키고 이후로는
         // navigation.dispatch(resetAction);
         
         //스토어 아이디 테이블에 저장해야함...
+        props.SetCurStoreInfo(storeid);
         navigate("MenuScreen");
     }
    
@@ -117,6 +119,8 @@ const Comments = (props) => { //여기 한번만 로그인시키고 이후로는
         </MapView>
     );
 
+    
+
 }
 
 
@@ -135,6 +139,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchStores: () => dispatch(fetchStores()),
+        SetCurStoreInfo: (storeid) => dispatch(SetCurStoreInfo(storeid)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)

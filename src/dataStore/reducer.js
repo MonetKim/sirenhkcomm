@@ -10,7 +10,6 @@ const userReducer = (state, action) => {
   switch (action.type) {
     case aType.LOGIN:
       saveToken(action.payload);
-      console.log('로그인 호출 완료');
       
       return { ...state, msg:action.payload, token: action.payload };
     case aType.LOGOUT: 

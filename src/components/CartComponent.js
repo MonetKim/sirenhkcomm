@@ -3,7 +3,8 @@ const { width } = Dimensions.get('window');
 
 import { pushOrders ,pushOrderDetails ,resetevery} from '../redux/orderRedux/action'
 import { incCartQuant ,decCartQuant , removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
-import React, { useEffect  }  from "react";
+import React, { useEffect, useContext, useState  }  from "react";
+import { Context as UserContext } from '../dataStore/userAccessContext';
 import { navigate } from '../NavigationRef';
 import {
   Image,
@@ -20,12 +21,23 @@ import API from "../API/WebService";
 
 
 const CartComponent = (props) => {
+  const {state} = useContext(UserContext);
+  const {msg} = state;
+  const [disabled,setDisabled]=useState(false);
+  // useEffect(() =>{
+  // },[msg])  
+  function getstoreinfo(matchstoreid){
+    for(var i =0; i < props.storeinfo.length; i++){
+      if(props.storeinfo[i].store_id == matchstoreid )
+        return props.storeinfo[i].store_name
+    }
+  }
 
-    
+
     return (
         <View style={styles.flex}>
-            <View><Text>&^&^&^{props.count}</Text></View>
-            <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>!@#!@#  </Text></TouchableOpacity>
+            <View><Text>{getstoreinfo(props.current_store_info)}</Text></View>
+            <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>{getstoreinfo(props.current_store_info)} </Text></TouchableOpacity>
           <ScrollView style={ styles.scrollHeight } >
             {
               props.dataFood.map((item,i) => {
@@ -70,7 +82,7 @@ const CartComponent = (props) => {
                 </View>
               </View>
           <View>
-            <TouchableOpacity style={styles.bottomButton} onPress={() => setOrder('56','65','60000',true)}>
+            <TouchableOpacity style={styles.bottomButton} disabled={disabled} onPress={() => setOrder(msg[0].index_id,props.current_store_info,total(),true)}>
             <Text style ={{fontSize : 20 ,color : '#333'}}>주문하기</Text>
             </TouchableOpacity>
           </View>
@@ -92,26 +104,34 @@ const CartComponent = (props) => {
       async function setOrder(user_id,store_id,totalprice,ischeck){
         try{
           //props.pushOrders(user_id,store_id,totalprice,ischeck);
+          
+          setDisabled(true);
+          let store_name = getstoreinfo(props.current_store_info);
           await API.post("user/order", {    
             user_id, 
             store_id, 
             totalprice,
             ischeck,
+            store_name,
           });
-          console.log("비동기머누너무싫어");
 
           for(var i = 0 ; i < props.dataFood.length ; i++){
             if(props.dataFood[i].quantity >0){
              
-              let menu_id=  props.dataFood[i].menu_id
-              let menu_price = props.dataFood[i].price
-              let quantity=  props.dataFood[i].quantity
-              console.log(i+"지긋지긋해"+ menu_price)
+              let menu_id=  props.dataFood[i].menu_id;
+              let menu_price = props.dataFood[i].price;
+              let quantity=  props.dataFood[i].quantity;
+              let store_id = props.current_store_info;
+              let title=  props.dataFood[i].title;
+              let store_name = getstoreinfo(props.current_store_info);
               await API.post("user/orderdetail", {    
                 user_id, 
                 menu_id,
+                store_id,
                 menu_price,
-                quantity
+                quantity,
+                title,
+                store_name,
               })
                //props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
              }
@@ -151,6 +171,8 @@ const mapStateToProps = (state) =>{
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
         orderid: state.orderReducer.orderid,
+        current_store_info: state.storeReducer.current_store_info,
+        storeinfo: state.storeReducer.storeinfo,
     }
 }
 

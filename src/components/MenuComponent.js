@@ -13,6 +13,7 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Icon } from "native-base";
 const { width, height } = Dimensions.get("window");
@@ -29,12 +30,33 @@ const MenuComponent = (props) => {
         props.fetchGetmenus()
     },[msg])
 }
-  console.log("이메일아이디"+JSON.stringify(msg[0].email));
-  //console.log("이미지a"+JSON.stringify(props.dataFood[0].imageview));
+
+  function _gostore() {
+    Alert.alert(
+        "매장이 선택되어있지 않습니다. 매장을 먼전 선택하세요",
+        [
+            { text: '확인', onPress:  navigate("SomethingScreen") },
+        ],
+
+    )
+  }
+
+  if (props.current_store_info === null) {
+    return (
+      <View >
+        <TouchableOpacity onPress={() =>  navigate("SomethingScreen")}>
+          <Text > {props.current_store_info} 매장을 먼저 선택해 주세요~~</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+
+else{
     return (
       
         <View style={styles.flex}>                     
-             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text var temp ="3"> {msg.email} is loading  {props.count}</Text></TouchableOpacity>
+             <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text var temp ="3"> {msg[0].email} is loading  {props.current_store_info}</Text></TouchableOpacity>
             <View style={styles.foodList}>
               <FlatList
                 data={props.dataFood}
@@ -46,13 +68,14 @@ const MenuComponent = (props) => {
         </View>
         
     );
+    }
     function _renderItemFood(item) {
 
         return (
             <View style={styles.singleFood}>
                 <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
                     <View>
-                        <Image  style={styles.foodImage} source={{ uri: "assets:/icon.jpg"}} />
+                        <Image  style={styles.foodImage} source={require('../../assets/image/coffee/espresso.jpg')} />
 
                         <View style={styles.foodTitle}>
                         <Text> {item.title}</Text>
@@ -73,10 +96,9 @@ const MenuComponent = (props) => {
     }
     
   function onClickShowMenu(data) {
-
-    console.log("이메일아이디" + JSON.stringify(msg));
     props.showMenuDetail(data);
     navigate("MenuDetailScreen");
+    //navigate("TestScreen");
   }    
 }
 
@@ -89,6 +111,7 @@ const mapStateToProps = (state) =>{
         dataFood: state.menuReducer.dataFood,
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
+        current_store_info: state.storeReducer.current_store_info,
     }
 }
 

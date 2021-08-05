@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import React, { Component } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { removeMenuToCart ,addMenuToCart,showMenuDetail} from '../redux/menuRedux/action'
 //import FlatText from '../components/FlatText';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon } from 'native-base';
@@ -27,28 +28,28 @@ const Menudetail = (props) => {
                         <View style={styles.singleOrder}>
                             <View>
                                 <Text style={{ fontSize: 13, color: '#333' }}>{props.dataMenudetail.title}</Text>
-                                <Image style={styles.StoreImage} source={{ uri: props.dataMenudetail.imageview }} />
+                                <Image style={styles.StoreImage} source={require('../../assets/image/coffee/espresso.jpg')} />
                             </View>
                             <View>
                                 <View>
                                     <Text style={{ fontSize: 19, color: '#333' }}>{props.dataMenudetail.storename}</Text>
                                 </View>
                                 <View>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>Order No: #{props.dataMenudetail.menu_id}</Text>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>메뉴설명</Text>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>설명Discription : {JSON.stringify(props.dataMenudetail.title)}</Text>
                                 </View>
-
                                 <View style={styles.flexDirection}>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>주문하기</Text>
+                                    <TouchableOpacity onPress={() => props.addMenuToCart(props.dataMenudetail.menu_id)}>
+                                        <Text style={{ fontSize: 13, color: '#333' }}>카트담기</Text>
+                                    </TouchableOpacity>
+                                        <Text style={{ fontSize: 13, color: '#333' }}>          </Text>
+                                    <TouchableOpacity onPress={() => props.addMenuToCart(props.dataMenudetail.menu_id)}>
+                                        <Text style={{ fontSize: 13, color: '#333' }}>주문하기</Text>
+                                    </TouchableOpacity>
                                 </View>
-                                
-
-
                             </View>
-
                         </View>
                     </View>
-
-
                 </View>
             </ScrollView>
         </View>
@@ -62,7 +63,7 @@ function makeDateString(temp) {
 
 
 const mapStateToProps = (state) => {
-    //console.log(state,'state')
+    console.log('메뉴디테일 넌 스트링 ?'+ JSON.stringify(state.menuReducer.dataMenudetail));
     return {
         dataMenudetail: state.menuReducer.dataMenudetail,
         temp: state.menuReducer.temp,
@@ -78,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
         showMenuDetail: (item) => dispatch(showMenuDetail(item)),
     }
 }
-
+export default connect(mapStateToProps, mapDispatchToProps)(Menudetail)
 
 const styles = StyleSheet.create({
     flex: {
@@ -143,4 +144,3 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menudetail)

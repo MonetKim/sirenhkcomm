@@ -32,11 +32,11 @@ const HomeComponent = (props) => { //여기 한번만 로그인시키고 이후�
             {
                 coords: {
                     latitude: 37.532600, //기본값 서울 중앙
-                    longitude: 127.024612
+                    longitude: -127.024612
                 }
             }
         );
-        const [errorMsg, setErrorMsg] = useState(null);
+        const [loading, setLoading] = useState(true);
         const [tempAddress, setTempAddress] = useState([]);
       
         useEffect(() => {
@@ -51,15 +51,23 @@ const HomeComponent = (props) => { //여기 한번만 로그인시키고 이후�
             //navigate("MenuDetailScreen");
               return;
             }
-             let locationtt = await Location.getCurrentPositionAsync({});
+            else{
+                let locationtt = await Location.getCurrentPositionAsync({});
                setLocation(locationtt);
                
                await props.fetchStores();
-               console.log("홈화면 승인했을때 나오는곳"+ JSON.stringify(location));
-               await props.getdist(location);
-               await props.testing(locationtt);
 
-               console.log("홈화면 승인햇읗ㄹ때 거리전시"+ JSON.stringify(props.storedist));
+            //    console.log("홈화면 인포전시"+ JSON.stringify(props.storeinfo));
+            //    console.log("홈화면 셋로케이션 전시"+ JSON.stringify(location));
+            //    console.log("홈화면 셋로케이션tt 전시"+ JSON.stringify(locationtt));
+
+               await props.getdist(locationtt);
+               await props.testing(locationtt);
+               setLoading(false);
+
+             //  console.log("홈화면 디스턴스 전시"+ JSON.stringify(props.storedist));
+            }
+             
           })();
         }, []);
    
@@ -69,6 +77,7 @@ const HomeComponent = (props) => { //여기 한번만 로그인시키고 이후�
     
     
     return (
+        
         <View style={styles.container}>     
         <View style={styles.wrapContent}>
             <View style={styles.content} ></View>
