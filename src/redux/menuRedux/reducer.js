@@ -18,7 +18,7 @@ const menuReducer = (state = initialstate, action) => {
       const newArray = [...state.dataFood]; //making a new array
       newArray[index].iscart = true;//changing value in the new array
       newArray[index].quantity = newArray[index].quantity + 1;  //수량증가
-
+    
       return {
         ...state,
         dataFood: newArray,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기

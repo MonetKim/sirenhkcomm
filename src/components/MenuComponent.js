@@ -29,8 +29,11 @@ const MenuComponent = (props) => {
         props.fetchGetmenus()
     },[msg])
 }
-  console.log("이메일아이디"+JSON.stringify(msg[0].email));
-  //console.log("이미지a"+JSON.stringify(props.dataFood[0].imageview));
+  
+   
+  //console.log("이메일아이디22"+JSON.stringify(props.dataFood[3].images));
+  //console.log("이미지a"+JSON.stringify(props.dataFood[3].images));
+
     return (
       
         <View style={styles.flex}>                     
@@ -46,14 +49,15 @@ const MenuComponent = (props) => {
         </View>
         
     );
-    function _renderItemFood(item) {
+    //사진 반영 완료
+    function _renderItemFood(item) { 
 
         return (
             <View style={styles.singleFood}>
                 <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
                     <View>
-                        <Image  style={styles.foodImage} source={{ uri: "assets:/icon.jpg"}} />
-
+                        <Image  style={styles.foodImage} source={{uri: item.imageview}}/>
+                     
                         <View style={styles.foodTitle}>
                         <Text> {item.title}</Text>
                         </View>

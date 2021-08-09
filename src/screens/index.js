@@ -21,7 +21,7 @@ import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
 import DrawerBar from "../components/Drawer";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
-
+import introductionScreen from "./IntroScreen/introduction";
 
 const HomeStack = createStackNavigator(
   {
@@ -80,6 +80,8 @@ const OrderStack = createStackNavigator(
     initialRouteName: "OrderScreen",
   }
 );
+
+
 const SignupStack = createStackNavigator(
   {
     SignupScreen,
@@ -155,6 +157,18 @@ const MapStoreStack = createStackNavigator(
   }
 );
 
+const IntroStack = createStackNavigator(
+  {
+    introductionScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "introductionScreen",
+    }),
+    initialRouteName: "introductionScreen",
+  }
+);
+
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -210,11 +224,14 @@ const AppDrawerNavigator = createDrawerNavigator(
 
 
 
+
 const AppStack = createSwitchNavigator({
+  //introScreen : introScreen,
   LoginScreen: LoginScreen,
   passScreen : passScreen,
   emailScreen: emailScreen,  
   SignupScreen: SignupScreen,
+  IntroStack,
   cartStack,
   MenuDetailStack,
   MapStoreStack,

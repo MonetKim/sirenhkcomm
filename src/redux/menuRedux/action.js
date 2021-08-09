@@ -64,6 +64,7 @@ export const fetchGetmenus =() =>{
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchMenulistSuccess(response.data))
+            console.log('이미지쪽'+ JSON.stringify(response.data)); 
         })
         
         .catch(error=> dispatch(fetchMenulistFailure(error)))

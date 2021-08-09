@@ -1,6 +1,42 @@
 import React from 'react';
 import { View, TouchableOpacity, Dimensions, Text, Alert, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { navigate } from '../NavigationRef';
+import introScreen from "../screens/IntroScreen/introduction";
+
+
+function Drawers ({idx,title,route}){
+  return (
+    <View>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: 5,
+            paddingTop: 25,
+            paddingLeft: 30,
+          }                
+        }
+        onPress={() => navigate(`${route}`) 
+          //Alert.alert('title', `1${idx}`);
+          //console.log('나오는 곳' + `${route}`);
+
+        }
+        >
+          <Text
+            style={{
+              marginLeft: 12,
+              color: '#272727',
+              fontSize: 16,
+              lineHeight: 19,
+            }}>
+            {title}
+          </Text>
+          </TouchableOpacity>
+    </View>
+  );
+
+}
 
 export default class DrawerBar extends React.Component {
   constructor(props) {
@@ -10,49 +46,39 @@ export default class DrawerBar extends React.Component {
         {
           idx: 0,
           title: '소개',
-        },
+          route: 'introductionScreen'          
+        },             
         {
           idx: 1,
-          title: '공지사항',
+          title: '뉴스',
+          route: 'News',
         },
         {
           idx: 2,
-          title: '정보',
-        },
+          title: '포인트',
+          route: 'point'
+        }, 
         {
           idx: 3,
-          title: '뉴스',
+          title: '고객센터',
+          route: 'callCenter'
         },
         {
           idx: 4,
-          title: '포인트',
-        },
-        {
-          idx: 5,
-          title: '초대',
-        },
-        {
-          idx: 6,
-          title: '고객센터',
-        },
-        {
-          idx: 7,
-          title: '설정',
-        },
-        {
-          idx: 8,
-          title: '로그아웃',
-        },
+          title: '가맹문의',
+          route: 'lead'
+        }        
       ],
     };
   }
 
-  navigateToScreen = route => () => {
-    const navigate = NavigationActions.navigate({
-      routeName: route,
-    });
-    this.props.navigation.dispatch(navigate);
-  };
+  // navigateToScreen = route => () => {
+  //   const navigate = NavigationActions.navigate({
+  //     routeName: route,
+  //   });
+  //   this.props.navigation.dispatch(navigate);
+  // };
+
 
   render() {
     return (
@@ -65,55 +91,22 @@ export default class DrawerBar extends React.Component {
         }}>
         <View
           style={{
-            height: 200,
-            backgroundColor: 'rgba(213,213,213,0.27)',
+            height: 110,
+            backgroundColor: '#46c3ad',
             borderTopRightRadius: 50,
-            paddingTop: 50,
+            paddingTop: 20,
             paddingLeft: 30,
           }}>
+             
           <Image
-            style={{ height: 72, width: 72, borderRadius: 37 }}
-            source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png' }}
+            style={{ height: 100, width: 100, borderRadius: 25 }}
+            source={require('../../assets/image/logo/logo.png')}
           />
-          <Text
-            style={{
-              marginTop: 15,
-              fontSize: 26,
-              fontWeight: 'bold',
-              fontStyle: 'normal',
-              lineHeight: 31,
-              letterSpacing: 0,
-              textAlign: 'left',
-              color: '#272727',
-            }}>
-            airplane
-          </Text>
+
         </View>
         <View>
-          {this.state.list.map(data => (
-            <View>
-              <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingVertical: 5,
-                  paddingTop: 27,
-                  paddingLeft: 30,
-                }}
-                onPress={() => {
-                  data.idx === 8 ? this._logout() : Alert.alert('title', `1${data.idx}`);
-                }}>
-                <Text
-                  style={{
-                    marginLeft: 12,
-                    color: '#272727',
-                    fontSize: 16,
-                    lineHeight: 19,
-                  }}>
-                  {data.title}
-                </Text>
-              </TouchableOpacity>
-            </View>
+          {this.state.list.map(list => (
+            <Drawers key={list.idx} title={list.title} idx={list.idx} route={list.route}></Drawers>
           ))}
         </View>
       </View>
