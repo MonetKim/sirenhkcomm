@@ -74,7 +74,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
             <View style={styles.flex}>
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 10, color: '#333' }}>가까운 {JSON.stringify(props.storeinfo)}상점{JSON.stringify(props.storedist)}전시{JSON.stringify(props.start_lon)}</Text>
+                        <Text style={{ fontSize: 10, color: '#333' }}>가까운 상점전시</Text>
                     </View>
                     <FlatList
                         //data={props.storeinfo}
@@ -96,7 +96,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
             <View style={styles.flex}>
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 10, color: '#333' }}>가까운 {JSON.stringify(props.storeinfo)}상점{JSON.stringify(props.storedist)}전시{JSON.stringify(props.start_lon)}</Text>
+                        <Text style={{ fontSize: 10, color: '#333' }}>위치허락안햇다! 전시</Text>
                     </View>
                     <FlatList
                         //data={props.storeinfo}
@@ -171,7 +171,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
                                 <Text style={{ fontSize: 13, color: '#333' }}>주소: #{store.store_address}</Text>
                             </View>
                             <View style={styles.orderPrice}>
-                                <Text style={{ fontSize: 13, color: '#333' }}>금액 : {store.store_dist}KM</Text>
+                                <Text style={{ fontSize: 13, color: '#333' }}>상태 : {store.store_state}</Text>
                             </View>
                             <View style={styles.orderPrice}>
                                 <Text style={{ fontSize: 13, color: '#333' }}>{store.store_state}</Text>
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
     flexDirection: {

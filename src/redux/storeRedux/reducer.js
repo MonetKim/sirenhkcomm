@@ -18,10 +18,10 @@ const initialState = {
 const storeReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_CUR_STORE_INFO:
-            var storeinfo = Number(action.payload);
+            var storeinfoid = Number(action.payload);
             return {
                 ...state,
-                current_store_info: storeinfo,
+                current_store_info: storeinfoid,
             }
         case FETCH_STORES_REQUEST:
             return {
