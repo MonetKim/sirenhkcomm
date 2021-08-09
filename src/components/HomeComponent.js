@@ -78,23 +78,11 @@ const HomeComponent = (props) => { //여기 한번만 로그인시키고 이후�
     
     return (
         
-        <View style={styles.container}>     
-        <View style={styles.wrapContent}>
-            <View style={styles.content} ></View>
-        </View>
-        <View style={styles.wrapContent}>
-            <View style={styles.content}></View>
-        </View>
-        <View style={styles.wrapContent}>
-            <View style={styles.content}></View>
-        </View>
-        <View style={styles.wrapContent}>
-            <View style={styles.content}></View>
-        </View>
-        <View style={styles.wrapContent}>
-            <View style={styles.content}></View>
-        </View>                                
-    </View>       
+        <View style={styles.container}>
+                  <View style={styles.container}>
+                    <Text>홈 페이지 입니다.</Text>
+                 </View>                                          
+        </View>       
     );
 
 }

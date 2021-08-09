@@ -90,9 +90,8 @@ const MenuComponent = (props) => {
         return (
           <View style={styles.singleFood}>
             <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
-              <View>
-                <Image style={styles.foodImage} source={require('../../assets/image/coffee/espresso.jpg')} />
-
+              <View>                
+                <Image style={styles.foodImage} source={{uri:item.Imageview}} />
                 <View style={styles.foodTitle}>
                   <Text> {item.title}</Text>
                 </View>
@@ -139,7 +138,7 @@ const MenuComponent = (props) => {
         <View style={styles.singleFood}>
           <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
             <View>
-              <Image style={styles.foodImage} source={require('../../assets/image/coffee/espresso.jpg')} />
+              <Image style={styles.foodImage} source={{uri:item.Imageview}} />
               <View style={styles.foodTitle}>
                 <Text> {item.title}</Text>
               </View>
