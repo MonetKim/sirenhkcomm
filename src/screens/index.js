@@ -18,27 +18,32 @@ import passScreen from "./LoginScreen/passwordfinder";
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js"; 
-import DrawerBar from "../components/Drawer";
-import { createDrawerNavigator } from "react-navigation-drawer";
+//import DrawerBar from "../components/Drawer";
+//import { createDrawerNavigator, DrawerActions } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
-import introductionScreen from "./IntroScreen/introduction";
+//import introductionScreen from "./IntroScreen/introduction";
 import TestScreen from "./TestScreen/test.js";
  
-
 const HomeStack = createStackNavigator(
   {
     HomeScreen,
   },
   // if you need.2222sadgfds
   // recommend custom header
-  { 
-    defaultNavigationOptions: ({ navigation }) => ({
+  // { 
+  //   defaultNavigationOptions: ({ navigation }) => ({
 
        
-      //headerLeft : <Icon as={<Ionicons name="menu" style={{paddingLeft:10}}  onPress={() => navigation.toggleDrawer()} />} />,
-      headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
-      title: <Text>파란만잔</Text> ,
-      headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+  //     //headerLeft : <Icon as={<Ionicons name="menu" style={{paddingLeft:10}}  onPress={() => navigation.toggleDrawer()} />} />,
+  //     headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
+  //     title: <Text>파란만잔</Text> ,
+  //     headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+  //   }),
+  // } 
+
+    { 
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerShown: false,
     }),
   } 
 );
@@ -85,30 +90,6 @@ const OrderStack = createStackNavigator(
   }
 );
 
-
-const SignupStack = createStackNavigator(
-  {
-    SignupScreen,
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      title: "Signup",
-    }),
-    initialRouteName: "Signup",
-  }
-);
-
-const emailFindersStack = createStackNavigator(
-  { 
-    emailScreen,
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      title: "emailfinder",
-    }),
-    initialRouteName: "emailfinder",
-  }
-);
 const MenuDetailStack = createStackNavigator(
   { 
     MenuDetailScreen,
@@ -121,18 +102,6 @@ const MenuDetailStack = createStackNavigator(
       headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,  
     }),
     initialRouteName: "MenuDetailScreen",
-  }
-);
-
-const PassFindersStack = createStackNavigator(
-  { 
-    passScreen,
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      title: "passScreen",
-    }),
-    initialRouteName: "passScreen",
   }
 );
 const cartStack = createStackNavigator(
@@ -174,19 +143,24 @@ const TestStack = createStackNavigator(
   }
 );
 
-const IntroStack = createStackNavigator(
-  {
-    introductionScreen,
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      title: "introductionScreen",
-    }),
-    initialRouteName: "introductionScreen",
-  }
-);
 
 
+// const IntroStack = createStackNavigator(
+//   {
+//     introductionScreen,
+//   },
+//   {
+//     defaultNavigationOptions: ({ navigation }) => ({ 
+
+//       //headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
+//       headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,      
+//       title: <Text>파란만잔</Text> ,
+//       headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+//     }),
+//     initialRouteName: "introductionScreen",
+//   }
+// );
+ 
 const TabNavigator = createBottomTabNavigator(
   {
     홈: HomeStack,
@@ -195,7 +169,8 @@ const TabNavigator = createBottomTabNavigator(
     마이페이지: SettingStack,
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({ 
+
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let icon = "▲";
@@ -219,43 +194,44 @@ const TabNavigator = createBottomTabNavigator(
         );
       },
     }),
-    lazy: false,
-    tabBarOptions: {
-      activeTintColor: "#46c3ad",
-      inactiveTintColor: "#888",
-    },
   }
 );
+ 
+
+// const AppDrawerNavigator = createDrawerNavigator(
+//   {
+//       TabNavigator,
+//   }, 
+//   {
+//     contentComponent: DrawerBar,
+//     drawerBackgroundColor: 'transparent',
+//     overlayColor: 'rgba(0,0,0,0.5)',
+//   },
+// );
 
 
-const AppDrawerNavigator = createDrawerNavigator(
-  {
-      TabNavigator,
-  },
-  {
-    contentComponent: DrawerBar,
-    drawerBackgroundColor: 'transparent',
-    overlayColor: 'rgba(0,0,0,0.5)',
-  },
-);
 
 
-
-
-const AppStack = createSwitchNavigator({
+const AppStack = createStackNavigator({
   //introScreen : introScreen,
-  LoginScreen: LoginScreen,
-  passScreen : passScreen,
-  emailScreen: emailScreen,  
-  SignupScreen: SignupScreen,
-  IntroStack,
+
+  LoginScreen,
+  passScreen,
+  emailScreen,  
+  SignupScreen,  
   cartStack,
   MenuDetailStack,
   MapStoreStack,
   //MenuDetailScreen,
-  AppDrawerNavigator,
-  TestStack,
- // AppDrawerNavigator
+  //IntroStack,
+  //AppDrawerNavigator,
+  TestStack, 
+  TabNavigator: {  
+    screen: TabNavigator,
+    navigationOptions: ({ navigation }) => ({
+      headerShown: false,
+    }),
+  }, 
 });  
   
 

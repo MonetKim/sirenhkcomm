@@ -46,7 +46,8 @@ const introductionScreen = ()  => {
     
   //생년월일 및 광고 배너 등록 예정
     return (        
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>     
+
         <View style={styles.container}>
             <Text>소개 페이지 입니다.</Text>
       </View> 
@@ -57,7 +58,6 @@ const introductionScreen = ()  => {
 
 const styles = StyleSheet.create({
     container:{
-        marginTop: 30,
         flex:1,
         backgroundColor: "white",
     },
@@ -107,9 +107,19 @@ const styles = StyleSheet.create({
         color: '#000000',   
       },
   });
+
+  // {
+  //   defaultNavigationOptions: ({ navigation }) => ({ 
+
+  //     headerLeft: () => <Icon name="menu" style={{paddingLeft:10}} onPress={() => navigation.toggleDrawer()} />,
+  //     title: <Text>파란만잔</Text> ,
+  //     headerRight: () =>  <Icon name='ios-cart-outline' style={{paddingRight:10}} onPress={() => navigation.navigate('CartScreen')} />,
+  //   }),
+  //   initialRouteName: "introductionScreen",
+  // }
   introductionScreen.navigationOptions = () => {
     return {
-      headerShown: false,
+      headerShown: true,                
     };
   };
 

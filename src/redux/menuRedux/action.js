@@ -68,16 +68,16 @@ export const fetchGetmenus = () => {
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchMenulistRequest())
-        API.post("user/menu",)
-            //.then(response => response.json())
-            .then((response) => {
-                configureAPI({ token: `Bearer ${response.data}` });
-                dispatch(fetchMenulistSuccess(response.data))
-                console.log('이미지쪽' + JSON.stringify(response.data));
-                //console.log("갑자기왜그래!"+  JSON.stringify(response.data))
-            })
-
-            .catch(error => dispatch(fetchMenulistFailure(error)))
+        API.post("user/menu", )
+        //.then(response => response.json())
+        .then((response) => {
+            configureAPI({ token: `Bearer ${response.data}` });
+            dispatch(fetchMenulistSuccess(response.data))
+            console.log('이미지쪽'+ JSON.stringify(response.data)); 
+            //console.log("갑자기왜그래!"+  JSON.stringify(response.data))
+        })
+        
+        .catch(error=> dispatch(fetchMenulistFailure(error)))
     }
 }
 

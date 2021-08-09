@@ -72,12 +72,12 @@ export default class DrawerBar extends React.Component {
     };
   }
 
-  // navigateToScreen = route => () => {
-  //   const navigate = NavigationActions.navigate({
-  //     routeName: route,
-  //   });
-  //   this.props.navigation.dispatch(navigate);
-  // };
+  navigateToScreen = route => () => {
+    const navigate = NavigationActions.navigate({
+      routeName: route,
+    });
+    this.props.navigation.dispatch(navigate);
+  };
 
 
   render() {
