@@ -1,4 +1,4 @@
-import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING,GET_DIST} from './type'
+import { FETCH_STORES, FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS, FETCH_STORES_FAILURE, TESTING, GET_DIST, SET_CUR_STORE_INFO, SHOW_STORE_DETAIL } from './type'
 import haversine from 'haversine'
 
 const initialState = {
@@ -6,14 +6,23 @@ const initialState = {
     loading: false,
     temp: 'fuasd',
     err: null,
-    storeinfo:[],
-    storedist:[],
+    storeinfo: [],
+    storedist: [],
     start_lat: 37.532600,
     start_lon: 127.024612,
+    current_store_info: null,
+    datastoredetail: [],
+
 }
 
 const storeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_CUR_STORE_INFO:
+            var storeinfoid = Number(action.payload);
+            return {
+                ...state,
+                current_store_info: storeinfoid,
+            }
         case FETCH_STORES_REQUEST:
             return {
                 ...state,
@@ -34,9 +43,6 @@ const storeReducer = (state = initialState, action) => {
         case TESTING:
             var curlat = Number(action.payload.coords.latitude);
             var curlon = Number(action.payload.coords.longitude);
-            console.log("저기압주의보 모두조심");
-
-            
             return {
                 ...state,
                 start_lat: curlat,
@@ -48,12 +54,10 @@ const storeReducer = (state = initialState, action) => {
             //newArray[index].iscart = true;//changing value in the new array
             //newArray[index].quantity = newArray[index].quantity + 1;  //수량증가
             for (var i = 0; i < newArray.length; i++) {
-                
+
 
                 let a = { latitude: Number(newArray[i].store_lat), longitude: Number(newArray[i].store_lon) }
                 let b = { latitude: Number(action.payload.coords.latitude), longitude: Number(action.payload.coords.longitude) }
-                
-                console.log("오늘은 또 무슨일인거니" + haversine(a, b));
 
 
                 newArray[i].store_dist = haversine(a, b).toFixed(2);
@@ -62,11 +66,21 @@ const storeReducer = (state = initialState, action) => {
             }
 
             return {
-              ...state,
-              storedist: newArray,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
+                ...state,
+                storedist: newArray,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
             }
-        default: return state;
-    }
+        case SHOW_STORE_DETAIL:   //상세메뉴보여주기
+            const indexshow = state.storeinfo.findIndex(storeinfo => storeinfo.store_id == action.payload); //인덱스찾기..
+            const newArrayshow = [...state.storeinfo]; //making a new array
 
+            return {
+                ...state,
+                datastoredetail: newArrayshow[indexshow],    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
+            }
+            
+    default: return state
+ 
+    }
+    
 }
 export default storeReducer

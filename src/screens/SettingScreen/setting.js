@@ -50,6 +50,12 @@ export default class SettingScreen extends Component{
                     onPress={this._checkLogout.bind(this)}>
                     <Text>🔓 Logout</Text>
                 </TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.wrapButton}
+                    onPress={this._navigate.bind(this)}>
+                    <Text>🏅 Something</Text>
+                </TouchableOpacity>
+                
             </View>
         );
     }

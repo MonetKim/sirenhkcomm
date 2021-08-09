@@ -8,9 +8,10 @@ export const addMenuToCart = (item) => {
         payload: item
     }
 }
-export const removeMenuToCart = () => {
+export const removeMenuToCart = (item) => {
     return {
-        type: REMOVE_MENUTOCART
+        type: REMOVE_MENUTOCART,
+        payload: item
     }
 }
 export const incCartQuant = (item) => {
@@ -64,7 +65,11 @@ export const fetchGetmenus =() =>{
         .then((response) => {
             configureAPI({ token: `Bearer ${response.data}` });
             dispatch(fetchMenulistSuccess(response.data))
+<<<<<<< HEAD
             console.log('이미지쪽'+ JSON.stringify(response.data)); 
+=======
+            //console.log("갑자기왜그래!"+  JSON.stringify(response.data))
+>>>>>>> 97a24d4a3eebd1e7771f6121813c90e92705901c
         })
         
         .catch(error=> dispatch(fetchMenulistFailure(error)))

@@ -1,10 +1,16 @@
 import {ADD_ORDERLIST, REMOVE_ORDERLIST , FETCH_ORDER_REQUEST,FETCH_ORDER_SUCCESS ,FETCH_ORDER_FAILURE 
         ,FETCH_ORDERDETAIL_REQUEST, FETCH_ORDERDETAIL_SUCCESS,FETCH_ORDERDETAIL_FAILURE,RESETEVERY
         ,GET_ORDERRESULT_REQUEST,GET_ORDERRESULT_SUCCESS,GET_ORDERRESULT_FAILURE 
-        ,GET_ORDERRESULTDETAIL_REQUEST, GET_ORDERRESULTDETAIL_SUCCESS, GET_ORDERRESULTDETAIL_FAILURE} from './type'
+        ,GET_ORDERRESULTDETAIL_REQUEST, GET_ORDERRESULTDETAIL_SUCCESS, GET_ORDERRESULTDETAIL_FAILURE,SAVE_ORDERID} from './type'
 import API from "../../API/WebService";
 
 
+export  const showOrderbystoreDetail  =(item) =>{
+    return {
+        type: SAVE_ORDERID,
+        payload :item
+    }
+}
 export const addDataorder =() =>{
     return {
         type: ADD_ORDERLIST
@@ -125,7 +131,6 @@ export const pushOrderDetails =(
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchOrderDetailRequest())
         API.post("user/orderdetail", {    
-           
             user_id, 
             menu_id,
             menu_price,

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; 
 import { Text } from "react-native";
 import { createAppContainer, createSwitchNavigator, withNavigation } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -17,11 +17,13 @@ import emailScreen from "./LoginScreen/emailfinder.js";
 import passScreen from "./LoginScreen/passwordfinder";
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
-import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js";
+import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js"; 
 import DrawerBar from "../components/Drawer";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
 import introductionScreen from "./IntroScreen/introduction";
+import TestScreen from "./TestScreen/test.js";
+ 
 
 const HomeStack = createStackNavigator(
   {
@@ -156,6 +158,17 @@ const MapStoreStack = createStackNavigator(
     initialRouteName: "MapStoreScreen",
   }
 );
+const TestStack = createStackNavigator(
+  { 
+    TestScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "TestScreen",
+    }),
+    initialRouteName: "TestScreen",
+  }
+);
 
 const IntroStack = createStackNavigator(
   {
@@ -237,6 +250,7 @@ const AppStack = createSwitchNavigator({
   MapStoreStack,
   //MenuDetailScreen,
   AppDrawerNavigator,
+  TestStack,
  // AppDrawerNavigator
 });  
   
