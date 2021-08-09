@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Comments from '../../components/Comments';
+import MaptstoreComponent from '../../components/MaptstoreComponent';
 import MaptestCompo from '../../components/Maptest';
 import NearStoreComponent from '../../components/NearStoreComponent';
 import {Provider} from 'react-redux';
@@ -11,7 +11,7 @@ export default class SomethingScreen extends Component{
     render(){
         return (
             <Provider store = {store}>
-            <Comments />
+            <MaptstoreComponent />
             </Provider>
         );
     }

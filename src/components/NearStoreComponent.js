@@ -62,7 +62,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
     //   })();
     // }, []);
     useEffect(() => {
-        const ac = new AbortController();
+        //const ac = new AbortController();
         props.getdist(location);
     }, []);
 
@@ -120,11 +120,11 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
                 <View style={styles.singleFood}>
                     <TouchableOpacity onPress={() => saveStore(store.store_id, store.store_name)}>
                         <View style={styles.singleOrder}>
-                            <View>
+                            <View flex={3}>
                                 <Text style={{ fontSize: 13, color: '#333' }}>{store.store_id}</Text>
                                 <Image style={styles.StoreImage} source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png' }} />
                             </View>
-                            <View>
+                            <View flex={8}>
                                 <View>
                                     <Text style={{ fontSize: 19, color: '#333' }}>{store.store_name}</Text>
                                 </View>
@@ -138,7 +138,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
                                     <Text style={{ fontSize: 13, color: '#333' }}>{store.store_state}</Text>
                                 </View>
                             </View>
-                            <View style={styles.viewOrderBtn}>
+                            <View style={styles.viewOrderBtn} flex={2}>
                                 {
                                     store.store_dist >= 1
                                         ? <Text style={{ fontSize: 13, color: '#333' }}>거리  {store.store_dist}KM</Text>
@@ -294,7 +294,8 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'flex-end',
     }
 });
 

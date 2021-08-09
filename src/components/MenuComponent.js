@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
-import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus } from '../redux/menuRedux/action'
+import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus,changeCategory } from '../redux/menuRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { Context as UserContext } from '../dataStore/userAccessContext';
@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get("window");
 
 
 const MenuComponent = (props) => {
-  
+
   const { state } = useContext(UserContext);
   const { msg } = state;
   if (props.dataFood.length < 1) {
@@ -32,22 +32,30 @@ const MenuComponent = (props) => {
     }, [msg])
   }
 
-  const [categorynum, setCategorynum] = useState(0);
-  
+
   function _gostore() {
     Alert.alert(
-      "매장이 선택되어있지 않습니다. 매장을 먼전 선택하세요",
+      "매장이 선택되어있지 않습니다",
+      `매장을 먼전 선택하세요`,  
       [
-        { text: '확인', onPress: navigate("SomethingScreen") },
+        
+        { text: "확인",  onPress:() => navigate("SomethingScreen") }
       ],
-
-    )
+      { cancelable: false }
+    );
+    // Alert.alert(
+    //   "매장이 선택되어있지 않습니다. 매장을 먼전 선택하세요",
+    //   [
+    //     { text: '확인', onPress:() => navigate("SomethingScreen") },
+    //   ],
+    //   { cancelable: false }
+    // )
+    //navigate("SomethingScreen");
   }
-
   if (props.current_store_info === null) {
     return (
       <View >
-        <TouchableOpacity onPress={() => navigate("SomethingScreen")}>
+        <TouchableOpacity onPress={() => _gostore()}>
           <Text > {props.current_store_info} 매장을 먼저 선택해 주세요~~</Text>
         </TouchableOpacity>
       </View>
@@ -59,24 +67,23 @@ const MenuComponent = (props) => {
     return (
 
       <View style={styles.flex}>
-        <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text > {msg[0].email} 제목 : {categorynum}</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text > {msg[0].email} 제목 : {props.category}</Text></TouchableOpacity>
         <View style={styles.menucategory}>
-        <TouchableOpacity onPress={() => setCategorynum(0)}>
+          <TouchableOpacity onPress={() => props.changeCategory(0)}>
             <Text>전체보기</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setCategorynum(1)}>
+          <TouchableOpacity onPress={() => props.changeCategory(1)}>
             <Text>음료</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setCategorynum(2)}>
+          <TouchableOpacity onPress={() => props.changeCategory(2)}>
             <Text>빵</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.foodList}>
-          {categorynum ==1 ?<View></View> :<View></View> }
           <FlatList
             data={props.dataFood}
             numColumns={2}
-            renderItem={({ item }) => _renderItemFood(item,categorynum, props)}
+            renderItem={({ item }) => _renderItemFood(item, props)}
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
@@ -84,14 +91,14 @@ const MenuComponent = (props) => {
 
     );
   }
-  function _renderItemFood(item ,temp) {
-    if (temp === 1) {
+  function _renderItemFood(item) {
+    if (props.category === 1) {
       if (item.category == 1) {
         return (
           <View style={styles.singleFood}>
             <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
               <View>
-                <Image style={styles.foodImage} source={require('../../assets/image/coffee/espresso.jpg')} />
+                <Image style={styles.foodImage} source={{ uri: item.imageview }}  />
 
                 <View style={styles.foodTitle}>
                   <Text> {item.title}</Text>
@@ -110,13 +117,13 @@ const MenuComponent = (props) => {
         );
       }
     }
-    else if (temp === 2) {
+    else if (props.category === 2) {
       if (item.category == 2) {
         return (
           <View style={styles.singleFood}>
             <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
               <View>
-                <Image style={styles.foodImage} source={require('../../assets/image/bread/freshbread.jpg')} />
+                <Image style={styles.foodImage} source={{ uri: item.imageview }}  />
                 <View style={styles.foodTitle}>
                   <Text> {item.title}</Text>
                 </View>
@@ -135,26 +142,27 @@ const MenuComponent = (props) => {
       }
     }
     else {
-      return (
-        <View style={styles.singleFood}>
-          <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
-            <View>
-              <Image style={styles.foodImage} source={require('../../assets/image/coffee/espresso.jpg')} />
-              <View style={styles.foodTitle}>
-                <Text> {item.title}</Text>
-              </View>
-              <View style={styles.foodPrice}>
-                <View>
-                  <Text> {item.price}</Text>
-                </View>
-                <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
-                  <Icon name="add" size={30} color="#ff3252" />
-                </TouchableOpacity>
-              </View>
+    return (
+      <View style={styles.singleFood}>
+        <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
+          <View>
+
+            <Image style={styles.foodImage} source={{ uri: item.imageview }} />
+            <View style={styles.foodTitle}>
+              <Text> {item.title}</Text>
             </View>
-          </TouchableOpacity>
-        </View>
-      );
+            <View style={styles.foodPrice}>
+              <View>
+                <Text> {item.price}</Text>
+              </View>
+              <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
+                <Icon name="add" size={30} color="#ff3252" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
     }
   }
 
@@ -175,6 +183,7 @@ const mapStateToProps = (state) => {
     temp: state.menuReducer.temp,
     count: state.menuReducer.count,
     current_store_info: state.storeReducer.current_store_info,
+    category: state.menuReducer.category,
   }
 }
 
@@ -184,6 +193,7 @@ const mapDispatchToProps = (dispatch) => {
     removeMenuToCart: () => dispatch(removeMenuToCart()),
     showMenuDetail: (item) => dispatch(showMenuDetail(item)),
     fetchGetmenus: () => dispatch(fetchGetmenus()),
+    changeCategory: (item) => dispatch(changeCategory(item)),
   }
 }
 
@@ -220,7 +230,7 @@ const styles = StyleSheet.create({
   },
 
   flex: {
-    flex: 1 
+    flex: 1
   },
   foodList: {
     paddingVertical: 20,

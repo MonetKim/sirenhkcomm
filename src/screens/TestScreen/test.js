@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import Comments from '../../components/Comments';
+import MaptstoreComponent from '../../components/MaptstoreComponent';
 import MaptestCompo from '../../components/Maptest';
 import NearStoreComponent from '../../components/NearStoreComponent';
 import Orderdetail from '../../components/OrderdetailComponent';

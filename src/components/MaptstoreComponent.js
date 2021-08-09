@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get("window");
 
 
 
-const Comments = (props) => { //여기 한번만 로그인시키고 이후로는 안하도록 해야함 if문써서 만약 데이터카트가 존재하면 그만하도록~
+const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 이후로는 안하도록 해야함 if문써서 만약 데이터카트가 존재하면 그만하도록~
     //if (props.storeinfo.length < 1) {
     //로딩을 줘서 무조건 스테이트가 즉각반영하게해야해!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     useEffect(() => {
@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => {
         SetCurStoreInfo: (storeid) => dispatch(SetCurStoreInfo(storeid)),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Comments)
+export default connect(mapStateToProps, mapDispatchToProps)(MaptstoreComponent)
 
 
 
