@@ -1,6 +1,6 @@
 import {
   ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,
-  FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE
+  FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY
 } from './type'
 
 const initialstate = {
@@ -9,16 +9,17 @@ const initialstate = {
   count: 100,
   dataMenudetail: [],
   temp: '   @@Testa@@2',
+  category: 0,
 }
 
 const menuReducer = (state = initialstate, action) => {
   switch (action.type) {
+  
     case ADD_MENUTOCART: //카트수량증가
       const index = state.dataFood.findIndex(dataFood => dataFood.menu_id == action.payload); //인덱스찾기..
       const newArray = [...state.dataFood]; //making a new array
       newArray[index].iscart = true;//changing value in the new array
       newArray[index].quantity = newArray[index].quantity + 1;  //수량증가
-    
       return {
         ...state,
         dataFood: newArray,    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
@@ -76,6 +77,14 @@ const menuReducer = (state = initialstate, action) => {
         err: action.payload,
         loading: false,
       }
+      case CHANGE_CATEGORY: 
+        let newCategory = state.category; //making a new array
+        newCategory= action.payload;//changing value in the new array
+        console.log(action.payload+"확인하자"+newCategory)
+        return {
+          ...state,
+          category: Number(newCategory),    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
+        }
     
 
 //-----------------------------------------

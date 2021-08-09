@@ -51,6 +51,8 @@ const SettingStack = createStackNavigator(
   {
     SettingScreen,
     SomethingScreen,
+    MapStoreScreen,
+    
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -123,6 +125,7 @@ const MapStoreStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "MapStoreScreen",
+      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('SomethingScreen')} />,
     }),
     initialRouteName: "MapStoreScreen",
   }
@@ -134,6 +137,7 @@ const TestStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "TestScreen",
+      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('OrderScreen')} />,
     }),
     initialRouteName: "TestScreen",
   }

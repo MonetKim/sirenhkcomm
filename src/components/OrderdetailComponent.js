@@ -55,7 +55,7 @@ const Orderdetail = (props) => {
                                 props.orderresult.map((item, i) => {
                                     if (item.order_id === props.save_orderid) {
                                         return (
-                                            <View style={styles.singleFood}>
+                                            <View style={styles.singleFood}  key={i}> 
                                                 <View>
                                                     <Image style={styles.StoreImage} source={require('../../assets/image/coffee/espresso.jpg')} />
 

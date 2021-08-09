@@ -1,7 +1,15 @@
-import { ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL ,
-    FETCH_MENULIST,FETCH_MENULIST_REQUEST,FETCH_MENULIST_SUCCESS,FETCH_MENULIST_FAILURE} from './type'
-    import API from "../../API/WebService";
+import {
+    ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,
+    FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY,
+} from './type'
+import API from "../../API/WebService";
 
+export const changeCategory = (item) => {
+    return {
+        type: CHANGE_CATEGORY,
+        payload: item
+    }
+}
 export const addMenuToCart = (item) => {
     return {
         type: ADD_MENUTOCART,
@@ -34,19 +42,19 @@ export const showMenuDetail = (item) => {
 }
 
 //--------------------데이터갖고오기 DB
-export const fetchMenulistSuccess = (comments) =>{
+export const fetchMenulistSuccess = (comments) => {
     return {
         type: FETCH_MENULIST_SUCCESS,
         payload: comments
     }
 }
-export const fetchMenulistRequest = () =>{
+export const fetchMenulistRequest = () => {
     return {
         type: FETCH_MENULIST_REQUEST,
 
     }
 }
-export const fetchMenulistFailure = (error) =>{
+export const fetchMenulistFailure = (error) => {
     return {
         type: FETCH_MENULIST_FAILURE,
         payload: error
@@ -55,8 +63,8 @@ export const fetchMenulistFailure = (error) =>{
 //------------------------------------
 
 
-export const fetchGetmenus =() =>{
-    return (dispatch) =>{
+export const fetchGetmenus = () => {
+    return (dispatch) => {
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchMenulistRequest())
@@ -75,4 +83,4 @@ export const fetchGetmenus =() =>{
 
 const configureAPI = ({ token }) => {
     API.defaults.headers.common["Authorization"] = token;
-  };
+};
