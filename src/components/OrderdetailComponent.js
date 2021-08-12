@@ -55,7 +55,7 @@ const Orderdetail = (props) => {
                                 numColumns={1}
                                 renderItem={({ item }) => _renderItemOrder(item, props)}
                                 keyExtractor={(item, index) => index.toString()}
-                            /> s*/}
+                            /> */}
                             {
                                 props.orderresult.map((item, i) => {
                                     if (item.order_id === props.save_orderid) {
