@@ -1,16 +1,9 @@
 
 import { View, StyleSheet, Image, Dimensions, RefreshControl, Text } from 'react-native';
 import { connect } from 'react-redux'
-
-import React, { Component } from 'react';
+import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { removeMenuToCart ,addMenuToCart,showMenuDetail} from '../redux/menuRedux/action'
-//import FlatText from '../components/FlatText';
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon } from 'native-base';
-//import AsyncStorage from '@react-native-community/async-storage';
-//import { ActivityIndicator } from 'react-native-paper';
-//import config from '../../config/config.json';
 const { width, height } = Dimensions.get('window');
 const Menudetail = (props) => {
 
@@ -23,12 +16,11 @@ const Menudetail = (props) => {
                     <View style={styles.headerTitle}>
                         <Text style={{ fontSize: 20, color: '#333' }}>메뉴디테일화면</Text>
                     </View>
-
                     <View >
                         <View style={styles.singleOrder}>
                             <View>
                                 <Text style={{ fontSize: 13, color: '#333' }}>{props.dataMenudetail.title}</Text>
-                                <Image style={styles.StoreImage} source={require('../../assets/image/coffee/espresso.jpg')} />
+                                <Image style={styles.StoreImage} source={{ uri: props.dataMenudetail.imageview }} />
                             </View>
                             <View>
                                 <View>
@@ -55,15 +47,14 @@ const Menudetail = (props) => {
         </View>
     );
 }
-
-function makeDateString(temp) {
-    return temp.getFullYear() + '년 ' + (temp.getMonth() + 1) + '월 ' + temp.getDate() + '일';
-}
+/*  년월일 반환해주는 함수  */
+// function makeDateString(temp) {
+//     return temp.getFullYear() + '년 ' + (temp.getMonth() + 1) + '월 ' + temp.getDate() + '일';
+// }
 
 
 
 const mapStateToProps = (state) => {
-    console.log('메뉴디테일 넌 스트링 ?'+ JSON.stringify(state.menuReducer.dataMenudetail));
     return {
         dataMenudetail: state.menuReducer.dataMenudetail,
         temp: state.menuReducer.temp,
@@ -72,7 +63,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    //console.log(dispatch,'dispatch')
     return {
         addMenuToCart: (item) => dispatch(addMenuToCart(item)),
         removeMenuToCart: () => dispatch(removeMenuToCart()),

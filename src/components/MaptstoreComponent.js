@@ -102,6 +102,7 @@ const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 �
                             title={maploca.store_name}
                             description={maploca.store_state}
                             onPress={() => saveStore(maploca.store_id,maploca.store_name)}
+                            image={{uri: 'https://hkclient.herokuapp.com/images/jihokim.jpg'}}
                         />
                     )
                 })

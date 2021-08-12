@@ -1,4 +1,5 @@
-import { FETCH_STORES, FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS, FETCH_STORES_FAILURE, TESTING, GET_DIST, SET_CUR_STORE_INFO, SHOW_STORE_DETAIL } from './type'
+import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING, GET_DIST,SET_CUR_STORE_INFO,SHOW_STORE_DETAIL
+    ,FIND_STORE} from './type'
 import haversine from 'haversine'
 
 const initialState = {
@@ -12,6 +13,8 @@ const initialState = {
     start_lon: 127.024612,
     current_store_info: null,
     datastoredetail: [],
+    find_store: null,
+    count:10,
 
 }
 

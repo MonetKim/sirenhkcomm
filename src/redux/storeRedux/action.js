@@ -1,4 +1,5 @@
-import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING, GET_DIST,SET_CUR_STORE_INFO,SHOW_STORE_DETAIL} from './type'
+import { FETCH_STORES,FETCH_STORES_REQUEST, FETCH_STORES_SUCCESS,FETCH_STORES_FAILURE ,TESTING, GET_DIST,SET_CUR_STORE_INFO,SHOW_STORE_DETAIL
+        ,FIND_STORE} from './type'
 import API from "../../API/WebService";
 
 export const fetchStoreSuccess = (stores) =>{
@@ -52,6 +53,7 @@ export const fetchStores =() =>{
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchStoreRequest())
         API.post("/user/store", {
+            
           })
         //.then(response => response.json())
         .then((response) => {

@@ -16,6 +16,7 @@ import {
     StyleSheet,
     Dimensions,
 } from "react-native";
+import { Input, Button } from "react-native-elements";
 import { Icon } from "native-base";
 import { sqrt } from "react-native-reanimated";
 
@@ -37,7 +38,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
     );
     const [errorMsg, setErrorMsg] = useState(null);
     const [tempAddress, setTempAddress] = useState([]);
-
+    const [searchstore, setSearchstore] = useState("");
     // useEffect(() => {
     //   (async () => {
     //     // let { status } = await Location.requestForegroundPermissionsAsync();
@@ -68,25 +69,42 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
 
 
 
-
     if (Number(props.start_lat) != 37.532600) {
         return (
             <View style={styles.flex}>
+                 <TouchableOpacity style={styles.background}/>
                 <View style={styles.container}>
                     <View style={styles.headerTitle}>
-                        <Text style={{ fontSize: 10, color: '#333' }}>가까운 상점전시</Text>
+                        <Text style={{ fontSize: 10, color: '#333' }}>가까운 상점전시{searchstore}</Text>
                     </View>
+                    <Input
+                        placeholder="매장이름을 입력하세요"
+                        label="매장 검색"
+                        labelStyle={{ marginLeft: 0 }}
+                        inputContainerStyle={{ marginRight: 15 }}
+                        containerStyle={{ marginTop: 5 }}
+                        type='text'
+                        onChangeText={(text) => setSearchstore(text)}
+                        value={searchstore}
+                        
+                    />
+                    {/* 매장검색을 버튼으로 하고싶을때는 이부분 필요함 
+                    <TouchableOpacity onPress={() => findstroe()} 
+                        <Text style={{ fontSize: 20, color: '#333' }}>          매장이름검색</Text>
+                    </TouchableOpacity> */}
                     <FlatList
-                        //data={props.storeinfo}
-                        data={props.storedist.sort((a, b) => (String(a.store_dist)).localeCompare(String(b.store_dist)))}
+                        //data={props.storeinfo} 정렬없이 기본형태
+                        data={props.storedist.sort((a, b) => (String(Number(a.store_dist / 1000))).localeCompare(String(Number(b.store_dist / 1000))))}
                         numColumns={1}
                         renderItem={({ item }) => _renderItemLocation(item, props)}
                         keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
-                <TouchableOpacity onPress={() => navigate("MapStoreScreen")} >
-                    <Text style={{ fontSize: 20, color: '#333' }}>                         지도에서 찾기</Text>
+                <View >
+                <TouchableOpacity  onPress={() => navigate("MapStoreScreen")} >
+                    <Text style={{ fontSize: 20, color: '#333' }}> 지도에서 찾기</Text>
                 </TouchableOpacity>
+                </View>
             </View>
 
         );
@@ -98,6 +116,16 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
                     <View style={styles.headerTitle}>
                         <Text style={{ fontSize: 10, color: '#333' }}>위치허락안햇다! 전시</Text>
                     </View>
+                    <Input
+                        placeholder="매장이름을 입력하세요"
+                        label="매장 검색"
+                        labelStyle={{ marginLeft: 0 }}
+                        inputContainerStyle={{ marginRight: 15 }}
+                        containerStyle={{ marginTop: 5 }}
+                        type='text'
+                        onChangeText={(text) => setSearchstore(text)}
+                        value={searchstore}
+                    />
                     <FlatList
                         //data={props.storeinfo}
                         data={props.storeinfo.sort((a, b) => (String(a.store_name)).localeCompare(String(b.store_name)))}
@@ -115,7 +143,7 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
     }
 
     function _renderItemLocation(store) {
-        if (store.store_dist <= 10) {
+        if ((store.store_name).includes(searchstore) || (store.store_address).includes(searchstore)) {
             return (
                 <View style={styles.singleFood}>
                     <TouchableOpacity onPress={() => saveStore(store.store_id, store.store_name)}>
@@ -130,9 +158,6 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
                                 </View>
                                 <View>
                                     <Text style={{ fontSize: 13, color: '#333' }}>주소: #{store.store_address}</Text>
-                                </View>
-                                <View style={styles.orderPrice}>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>금액 : {store.store_dist}KM</Text>
                                 </View>
                                 <View style={styles.orderPrice}>
                                     <Text style={{ fontSize: 13, color: '#333' }}>{store.store_state}</Text>
@@ -155,36 +180,35 @@ const NearStoreComponent = (props) => { //여기 한번만 로그인시키고 �
     }
 
     function _renderItemALL(store) {
-        return (
-            <View style={styles.singleFood}>
-                <TouchableOpacity onPress={() => saveStore(store.store_id, store.store_name)}>
-                    <View style={styles.singleOrder}>
-                        <View>
-                            <Text style={{ fontSize: 13, color: '#333' }}>{store.store_id}</Text>
-                            <Image style={styles.StoreImage} source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png' }} />
-                        </View>
-                        <View>
+        if ((store.store_name).includes(searchstore) || (store.store_address).includes(searchstore)) {
+            return (
+                <View style={styles.singleFood}>
+                    <TouchableOpacity onPress={() => saveStore(store.store_id, store.store_name)}>
+                        <View style={styles.singleOrder}>
                             <View>
-                                <Text style={{ fontSize: 19, color: '#333' }}>{store.store_name}</Text>
+                                <Text style={{ fontSize: 13, color: '#333' }}>{store.store_id}</Text>
+                                <Image style={styles.StoreImage} source={{ uri: 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png' }} />
                             </View>
                             <View>
-                                <Text style={{ fontSize: 13, color: '#333' }}>주소: #{store.store_address}</Text>
+                                <View>
+                                    <Text style={{ fontSize: 19, color: '#333' }}>{store.store_name}</Text>
+                                </View>
+                                <View>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>주소: #{store.store_address}</Text>
+                                </View>
+                                <View style={styles.orderPrice}>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>상태 : {store.store_state}</Text>
+                                </View>
+                                <View style={styles.orderPrice}>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>{store.store_state}</Text>
+                                </View>
                             </View>
-                            <View style={styles.orderPrice}>
-                                <Text style={{ fontSize: 13, color: '#333' }}>상태 : {store.store_state}</Text>
-                            </View>
-                            <View style={styles.orderPrice}>
-                                <Text style={{ fontSize: 13, color: '#333' }}>{store.store_state}</Text>
-                            </View>
+
                         </View>
-
-                    </View>
-                </TouchableOpacity>
-            </View>
-        );
-
-
-
+                    </TouchableOpacity>
+                </View>
+            );
+        }
     }
 
 
@@ -293,9 +317,32 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'flex-end',
-    }
+    },
+    allover:{
+        position : 'absolute',
+        backgroundColor: 'red',
+        top:'90%',
+        
+        //bottom:50,
+        
+        left:'80%',
+        
+        //right:50
+        
+        },
+        alloverblue:{
+            position : 'absolute',
+            backgroundColor: 'blue',
+            top:'90%',
+            
+            //bottom:50,
+            
+            left:'80%',
+            
+            //right:50
+            
+            }
 });
 

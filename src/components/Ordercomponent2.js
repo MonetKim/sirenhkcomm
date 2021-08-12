@@ -1,4 +1,3 @@
-
 import { connect } from 'react-redux'
 import { navigate } from '../NavigationRef';
 import React, { useEffect,useContext } from 'react';
@@ -29,7 +28,8 @@ const Ordercomponent2 = (props) => {
     useEffect(() => {
         props.getOrderresultsDetail(msg[0].index_id)
     }, [])
-    //props.getOrderresultsDetail(56);
+    
+    /* 주문에서 주문번호에 따른 메뉴 리스트 요약본만들기 */
     function showorderdetail(temp) {
 
         var sum = '';
@@ -52,7 +52,7 @@ const Ordercomponent2 = (props) => {
 
         return sum
     }
-
+    console.log("시간 나오는곳 "+JSON.stringify(props.dataOrder))
 
     return (
         <View style={styles.flex}>
@@ -62,15 +62,12 @@ const Ordercomponent2 = (props) => {
                     </View>
                     <FlatList
                        
-                        //data={props.dataOrder}
-                        data={props.dataOrder.sort((a, b) => (String(b.orderdate)).localeCompare(String(a.orderdate)))}
+                        //data={props.dataOrder} 기본데이터 
+                        data={props.dataOrder.sort((a, b) => (String(b.timezone)).localeCompare(String(a.timezone)))}
                         numColumns={1}
                         renderItem={({ item }) => _renderItemOrder(item, props)}
                         keyExtractor={(item, index) => index.toString()}
-                        //inverted
-
-                        
-
+                        //inverted 역순으로 전시
 
                     />
                 </View>
@@ -89,7 +86,10 @@ const Ordercomponent2 = (props) => {
                         </View>
                         <View>
                             <View>
-                                <Text style={{ fontSize: 13, color: '#333' }}>{(order.orderdate).substr(0,10)+" " +(order.orderdate).substr(11,5)}</Text>
+                                <Text style={{ fontSize: 13, color: '#333' }}>{(order.timezone).substr(0,10)+" " +(order.timezone).substr(11,5)}</Text>
+                            </View>
+                            <View>
+                                <Text style={{ fontSize: 13, color: '#333' }}>{order.timezone}</Text>
                             </View>
                             <View>
                                 <Text style={{ fontSize: 13, color: '#333' }}>매장: {order.store_name}</Text>

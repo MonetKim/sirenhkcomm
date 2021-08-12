@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import React, { useEffect } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/action'
-//import FlatText from '../components/FlatText';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon } from 'native-base';
 const { width } = Dimensions.get('window');

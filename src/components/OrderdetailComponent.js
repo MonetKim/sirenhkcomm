@@ -33,7 +33,7 @@ const Orderdetail = (props) => {
                                 </View>
                                 <View>
                                     <Text style={{ fontSize: 13, color: '#333' }}>위치 : {props.datastoredetail.store_address}</Text>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>전화번호 : ~~~</Text>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>전화번호 : {props.datastoredetail.store_tel}</Text>
                                 </View>
                                 <View style={styles.flexDirection}>
                                     <TouchableOpacity onPress={() => navigate('MenuScreen')}>
@@ -44,30 +44,38 @@ const Orderdetail = (props) => {
                                         <Text style={{ fontSize: 13, color: '#333' }}>추가항목{props.save_orderid}</Text>
                                     </TouchableOpacity>
                                 </View>
+                                <View style={styles.flexstart} >
+                                        <Text style={{ fontSize: 20, color: '#333'}}>
+                                            주문 메뉴
+                                        </Text>
+                                    </View>
                             </View>
                             {/* <FlatList
                                 data={props.orderresult}
                                 numColumns={1}
                                 renderItem={({ item }) => _renderItemOrder(item, props)}
                                 keyExtractor={(item, index) => index.toString()}
-                            /> */}
+                            /> s*/}
                             {
                                 props.orderresult.map((item, i) => {
                                     if (item.order_id === props.save_orderid) {
                                         return (
-                                            <View style={styles.singleFood}  key={i}> 
-                                                <View>
-                                                    <Image style={styles.StoreImage} source={require('../../assets/image/coffee/espresso.jpg')} />
-
-                                                    <View style={styles.foodTitle}>
-                                                        <Text>메뉴이름 : {item.menu_title}</Text>
+                                            <View style={styles.singleFood} key={i}>
+                                                <View style={styles.multiMenu}>
+                                                    <View>
+                                                        <Image style={styles.OrderImages} source={require('../../assets/image/coffee/espresso.jpg')} />
                                                     </View>
-                                                    <View style={styles.foodPrice}>
-                                                        <View>
-                                                            <Text>메뉴 가격 {item.menu_price}</Text>
+                                                    <View>
+                                                        <View style={styles.foodTitle}>
+                                                            <Text>메뉴이름 : {item.menu_title}</Text>
                                                         </View>
-                                                        <View>
-                                                            <Text>메뉴 수량 {item.quantity}</Text>
+                                                        <View style={styles.foodPrice}>
+                                                            <View>
+                                                                <Text>메뉴 가격 {item.menu_price}</Text>
+                                                            </View>
+                                                            <View>
+                                                                <Text>메뉴 수량 {item.quantity}</Text>
+                                                            </View>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -81,18 +89,17 @@ const Orderdetail = (props) => {
                 </View>
             </ScrollView>
         </View>
-    );//총금액과 주문시간 결제방법정도? 네비게이터 뒤로가기만들기 
+    );//총금액과 주문시간 테이크아웃시간? 네비게이터 뒤로가기만들기 
     function _renderItemOrder(item) {
         if (item.order_id === props.save_orderid) {
             return (
                 <View style={styles.singleFood}>
                     <View>
-                        <Image style={styles.StoreImage} source={require('../../assets/image/coffee/espresso.jpg')} />
-
+                        <Image style={styles.OrderImages} source={{ uri: item.imageview }} />
                         <View style={styles.foodTitle}>
                             <Text>메뉴이름 : {item.menu_title}</Text>
                         </View>
-                        <View style={styles.foodPrice}>
+                        <View style={styles.mainContainer}>
                             <View>
                                 <Text>메뉴 가격 {item.menu_price}</Text>
                             </View>
@@ -116,7 +123,6 @@ function makeDateString(temp) {
 
 
 const mapStateToProps = (state) => {
-    console.log('오더스토어디테일 넌 스트링 ?' + JSON.stringify(state.storeReducer.datastoredetail));
     return {
         datastoredetail: state.storeReducer.datastoredetail,
         save_orderid: state.orderReducer.save_orderid,
@@ -161,6 +167,15 @@ const styles = StyleSheet.create({
         height: height - 350,
         //borderRadius: 50
     },
+    OrderImages: {
+        width: 80,
+        height: 80,
+        borderRadius: 50,
+        justifyContent: 'flex-start',
+    },
+    flexstart: {
+        justifyContent: 'flex-start',
+    },
     singleOrder: {
         backgroundColor: '#fff',
         paddingVertical: 10,
@@ -169,6 +184,16 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         //flexDirection: 'row',
         justifyContent: 'space-between',
+        //alignItems: 'center'
+    },
+    multiMenu: {
+        backgroundColor: '#fff',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
     flexDirection: {
@@ -190,8 +215,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'flex-end',
     }
 });
 

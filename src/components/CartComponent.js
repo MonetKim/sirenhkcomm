@@ -1,6 +1,4 @@
 import { Col, Icon } from 'native-base';
-const { width } = Dimensions.get('window');
-
 import { pushOrders, pushOrderDetails, resetevery } from '../redux/orderRedux/action'
 import { incCartQuant, decCartQuant, removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
 import React, { useEffect, useContext, useState } from "react";
@@ -18,32 +16,25 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import API from "../API/WebService";
+const { width } = Dimensions.get('window');
 
 
 const CartComponent = (props) => {
   const { state } = useContext(UserContext);
   const { msg } = state;
   const [disabled, setDisabled] = useState(false);
-  // useEffect(() =>{
-  // },[msg])  
-  function getstoreinfo(matchstoreid) {
-    for (var i = 0; i < props.storeinfo.length; i++) {
-      if (props.storeinfo[i].store_id == matchstoreid)
-        return props.storeinfo[i].store_name
-    }
-  }
+  
+ 
 
 
   return (
     <View style={styles.flex}>
       <View><Text>{getstoreinfo(props.current_store_info)}</Text></View>
-      <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text>{getstoreinfo(props.current_store_info)} </Text></TouchableOpacity>
       <ScrollView style={styles.scrollHeight} >
         {
           props.dataFood.map((item, i) => {
             if (item.iscart) {
               return (
-
                 <View style={styles.singleCartItem} key={i}>
                   <Image style={styles.cartItemImage} source={{ uri: item.imageview }} />
                   <View style={styles.widthSection}>
@@ -88,7 +79,7 @@ const CartComponent = (props) => {
       </View>
     </View>
   );
-
+    /*카트에 담긴 총 가격 계산 */
   function total() {
     var total = 0;
     const cart = props.dataFood;
@@ -101,23 +92,30 @@ const CartComponent = (props) => {
     return total_price;
   }
 
+   /*매장 아이디로 매장 이름 찾아오기 */
+   function getstoreinfo(matchstoreid) {
+    for (var i = 0; i < props.storeinfo.length; i++) {
+      if (props.storeinfo[i].store_id == matchstoreid)
+        return props.storeinfo[i].store_name
+    }
+  }
+
+  /* DB에 주문리스트 저장하기 */
   async function setOrder(user_id, store_id, totalprice, ischeck) {
     try {
-      //props.pushOrders(user_id,store_id,totalprice,ischeck);
-
       setDisabled(true);
-      if (total() != 0) {
+      if (total() != 0) { /* 장바구니에 담겨져있을때만 가능하도록*/
         let store_name = getstoreinfo(props.current_store_info);
-        await API.post("user/order", {
+        await API.post("user/order", {       /* db order 에 저장*/
           user_id,
           store_id,
           totalprice,
           ischeck,
           store_name,
         });
-
+        /* DB  ordermenu 테이블에 저장 */
         for (var i = 0; i < props.dataFood.length; i++) {
-          if (props.dataFood[i].quantity > 0) {
+          if (props.dataFood[i].quantity > 0) {   
 
             let menu_id = props.dataFood[i].menu_id;
             let menu_price = props.dataFood[i].price;
@@ -134,7 +132,6 @@ const CartComponent = (props) => {
               title,
               store_name,
             })
-            //props.pushOrderDetails(  user_id,  props.dataFood[i].menu_id, props.dataFood[i].price, props.dataFood[i].quantity);
           }
         }
       }
@@ -146,9 +143,7 @@ const CartComponent = (props) => {
       //오류구성해주자...
     }
     finally {
-
     }
-    //alert(props.orderid[0].order_id);
     if (total() != 0) {
       props.removeMenuToCart();
       saveOrder();
@@ -158,14 +153,14 @@ const CartComponent = (props) => {
     }
   }
 
-  function saveOrder() {
+  function saveOrder() {  /* 주문성공시  */
     Alert.alert(
       "주문이 완료되었습니다.",
       navigate("OrderScreen")
 
     )
   }
-  function rejectOrder() {
+  function rejectOrder() { /* 주문실패시  */
     Alert.alert(
       "장바구니가 비워있습니다.",
 
