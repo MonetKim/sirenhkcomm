@@ -8,12 +8,12 @@ import {Provider} from 'react-redux';
 import store from '../../redux/store'
 
 
-export default class SomethingScreen extends Component{
+export default class CartDetailScreen extends Component{
 
     render(){
         return (
             <Provider store = {store}>
-            <NearStoreComponent />
+            <CartDetailComponent />
             </Provider>
         );
     }

@@ -3,11 +3,11 @@ import { View, StyleSheet, Image, Dimensions, RefreshControl, Text } from 'react
 import { connect } from 'react-redux'
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { removeMenuToCart ,addMenuToCart,showMenuDetail} from '../redux/menuRedux/action'
+import { removeMenuToCart ,addMenuToCart,showMenuDetail ,insertCart} from '../redux/menuRedux/action'
 const { width, height } = Dimensions.get('window');
 const Menudetail = (props) => {
 
-
+    console.log("데이터카트  "+ JSON.stringify(props.datacart))
 
     return (
         <View style={styles.flex}>
@@ -35,7 +35,7 @@ const Menudetail = (props) => {
                                         <Text style={{ fontSize: 13, color: '#333' }}>카트담기</Text>
                                     </TouchableOpacity>
                                         <Text style={{ fontSize: 13, color: '#333' }}>          </Text>
-                                    <TouchableOpacity onPress={() => props.addMenuToCart(props.dataMenudetail.menu_id)}>
+                                    <TouchableOpacity onPress={() => props.insertCart(props.dataMenudetail)}>
                                         <Text style={{ fontSize: 13, color: '#333' }}>주문하기</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -57,6 +57,7 @@ const Menudetail = (props) => {
 const mapStateToProps = (state) => {
     return {
         dataMenudetail: state.menuReducer.dataMenudetail,
+        datacart: state.menuReducer.datacart,
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
     }
@@ -67,6 +68,7 @@ const mapDispatchToProps = (dispatch) => {
         addMenuToCart: (item) => dispatch(addMenuToCart(item)),
         removeMenuToCart: () => dispatch(removeMenuToCart()),
         showMenuDetail: (item) => dispatch(showMenuDetail(item)),
+        insertCart: (item) => dispatch(insertCart(item)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Menudetail)

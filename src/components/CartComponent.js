@@ -1,8 +1,10 @@
 import { Col, Icon } from 'native-base';
 import { pushOrders, pushOrderDetails, resetevery } from '../redux/orderRedux/action'
-import { incCartQuant, decCartQuant, removeMenuToCart, addMenuToCart, } from '../redux/menuRedux/action'
+import { incCartQuant, decCartQuant, removeMenuToCart, addMenuToCart, fetchGetmenus } from '../redux/menuRedux/action'
+import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/action'
 import React, { useEffect, useContext, useState } from "react";
 import { Context as UserContext } from '../dataStore/userAccessContext';
+import { fetchStores, testing, getdist, SetCurStoreInfo } from '../redux/storeRedux/action'
 import { navigate } from '../NavigationRef';
 import {
   Image,
@@ -23,13 +25,39 @@ const CartComponent = (props) => {
   const { state } = useContext(UserContext);
   const { msg } = state;
   const [disabled, setDisabled] = useState(false);
-  
- 
 
 
+  /* 모든 장바구니 비우기 */
+  function _cleanCart() {
+    Alert.alert(
+      "정말로 장바구니를 비우시겠습니까?",
+      ` `,
+      [
+
+        { text: "확인", onPress: () => props.fetchGetmenus() },
+        {text: '취소', onPress: () => null},
+      ],
+      { cancelable: false }
+    );
+  }
+
+  if(!emtycheck()){
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={{ fontSize: 20, color: '#333' }}>장바구니가 텅텅</Text>
+      </View>
+    );
+  }
+  else{
   return (
     <View style={styles.flex}>
       <View><Text>{getstoreinfo(props.current_store_info)}</Text></View>
+      <View style={styles.cartRightSection}>
+        <Text > 장바구니 모두 비우기</Text>
+        <TouchableOpacity onPress={() => _cleanCart()}>
+          <Icon name="trash" size={28} color="#C01C27" />
+        </TouchableOpacity>
+      </View>
       <ScrollView style={styles.scrollHeight} >
         {
           props.dataFood.map((item, i) => {
@@ -73,13 +101,14 @@ const CartComponent = (props) => {
         </View>
       </View>
       <View>
-        <TouchableOpacity style={styles.bottomButton} disabled={disabled} onPress={() => setOrder(msg[0].index_id, props.current_store_info, total(), true)}>
+        <TouchableOpacity style={styles.bottomButton} disabled={disabled} onPress={() => navigate("CartDetailScreen")}>
           <Text style={{ fontSize: 20, color: '#333' }}>주문하기</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-    /*카트에 담긴 총 가격 계산 */
+      }
+  /*카트에 담긴 총 가격 계산 */ // 다시바꿔야함 datacart로
   function total() {
     var total = 0;
     const cart = props.dataFood;
@@ -92,12 +121,24 @@ const CartComponent = (props) => {
     return total_price;
   }
 
-   /*매장 아이디로 매장 이름 찾아오기 */
-   function getstoreinfo(matchstoreid) {
+  /*매장 아이디로 매장 이름 찾아오기 */
+  function getstoreinfo(matchstoreid) {
     for (var i = 0; i < props.storeinfo.length; i++) {
       if (props.storeinfo[i].store_id == matchstoreid)
         return props.storeinfo[i].store_name
     }
+  }
+
+  /* 장바구니 갯수 체크 */
+  function emtycheck() {
+    var ischeck = false;
+    const numOfcart = props.dataFood;
+    for (var i = 0; i < numOfcart.length; i++) {
+      if (numOfcart[i].iscart) {
+        ischeck =true;
+      }
+    }
+    return ischeck;
   }
 
   /* DB에 주문리스트 저장하기 */
@@ -115,7 +156,7 @@ const CartComponent = (props) => {
         });
         /* DB  ordermenu 테이블에 저장 */
         for (var i = 0; i < props.dataFood.length; i++) {
-          if (props.dataFood[i].quantity > 0) {   
+          if (props.dataFood[i].quantity > 0) {
 
             let menu_id = props.dataFood[i].menu_id;
             let menu_price = props.dataFood[i].price;
@@ -143,13 +184,15 @@ const CartComponent = (props) => {
       //오류구성해주자...
     }
     finally {
-    }
-    if (total() != 0) {
-      props.removeMenuToCart();
-      saveOrder();
-    }
-    else {
-      rejectOrder();
+      if (total() != 0) {
+        props.removeMenuToCart();
+        props.getOrderresults(msg[0].index_id);
+        props.getOrderresultsDetail(msg[0].index_id);
+        saveOrder();
+      }
+      else {
+        rejectOrder();
+      }
     }
   }
 
@@ -193,8 +236,9 @@ const mapDispatchToProps = (dispatch) => {
     resetevery: () => dispatch(resetevery()),
     pushOrders: (user_id, store_id, totalprice, ischeck) => dispatch(pushOrders(user_id, store_id, totalprice, ischeck)),
     pushOrderDetails: (order_id, user_id, menu_id, menu_price, quantity) => dispatch(pushOrderDetails(order_id, user_id, menu_id, menu_price, quantity)),
-
-
+    getOrderresults: (item) => dispatch(getOrderresults(item)),
+    getOrderresultsDetail: (item) => dispatch(getOrderresultsDetail(item)),
+    fetchGetmenus: () => dispatch(fetchGetmenus()),
   }
 }
 

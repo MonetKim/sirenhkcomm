@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
 import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus, changeCategory } from '../redux/menuRedux/action'
+import { fetchStores, testing, getdist, SetCurStoreInfo } from '../redux/storeRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { Context as UserContext } from '../dataStore/userAccessContext';
@@ -14,6 +15,7 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  ImageBackground,
 } from "react-native";
 import { Icon } from "native-base";
 const { width, height } = Dimensions.get("window");
@@ -31,9 +33,23 @@ const MenuComponent = (props) => {
       props.fetchGetmenus();
     }, [msg])
   }
-
+  
+  
+  /*  매장이 선택되어 있지 않을 시 매장선택화면으로 이동 전 데이터설정 */
   /*  매장이 선택되어 있지 않을 시 매장선택화면으로 이동  */
   function _gostore() {
+
+    let location = 
+      {
+        coords: {
+          latitude: props.start_lat, //기본값 서울 중앙
+          longitude: props.start_lon
+        }
+      }
+    
+    console.log("로케이션 위치 알림 " + JSON.stringify(location));
+    props.fetchStores();
+    props.getdist(location);
     Alert.alert(
       "매장이 선택되어있지 않습니다",
       `매장을 먼전 선택하세요`,
@@ -44,6 +60,15 @@ const MenuComponent = (props) => {
       { cancelable: false }
     );
   }
+  /* 스토어아이디로 스토어이름 찾기 */
+  function getstoreinfo(matchstoreid) {
+    for (var i = 0; i < props.storeinfo.length; i++) {
+      if (props.storeinfo[i].store_id == matchstoreid)
+        return props.storeinfo[i].store_name
+    }
+  }
+
+
   /* 현재 매장 미선택되어 있을때 전시화면  */
   if (props.current_store_info === null) {
     return (
@@ -60,18 +85,29 @@ const MenuComponent = (props) => {
   else {
     return (
       <View style={styles.flex}>
-        <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text > {msg[0].email} 제목 : {props.category}</Text></TouchableOpacity>
+          <ImageBackground source={require('../../assets/image/logo/test1.png')} style={styles.backgroundImage}>
+        <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text > {msg[0].email} 카테고리a : {props.category}</Text></TouchableOpacity>
         <View style={styles.menucategory}>
-          <TouchableOpacity onPress={() => props.changeCategory(0)}>
-            <Text>전체보기</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => props.changeCategory(1)}>
-            <Text>음료</Text>
+            <Text style={{ fontSize: 12, color: '#333'}}>AMERICANO</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => props.changeCategory(2)}>
-            <Text>빵</Text>
+            <Text style={{ fontSize: 12, color: '#333'}}>COFFEE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.changeCategory(3)}>
+            <Text style={{ fontSize: 12, color: '#333'}}>NON-COFFEE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.changeCategory(4)}>
+            <Text style={{ fontSize: 12, color: '#333'}}>ESPRESSO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.changeCategory(5)}>
+            <Text style={{ fontSize: 12, color: '#333'}}>BAKERY</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.changeCategory(6)}>
+            <Text style={{ fontSize: 12, color: '#333'}}>MD</Text>
           </TouchableOpacity>
         </View>
+
         <View style={styles.foodList}>
           <FlatList
             data={props.dataFood}
@@ -79,6 +115,8 @@ const MenuComponent = (props) => {
             renderItem={({ item }) => _renderItemFood(item, props)}
             keyExtractor={(item, index) => index.toString()}
           />
+        </View>
+        <View style={styles.allstorebar}>
         </View>
         <View style={styles.allover}>
           <TouchableOpacity onPress={() => navigate("CartScreen")} >
@@ -90,13 +128,13 @@ const MenuComponent = (props) => {
             <Text>{getCartnum()}</Text>
           </TouchableOpacity>
         </View>
+        </ImageBackground>
       </View>
 
     );
   }
-  function _renderItemFood(item) {
-    if (props.category === 1) { /* 선택한 카테고리가 1일때  */
-      if (item.category == 1) { /* 메뉴중에서 카테고리가 1인것들 서로합치기  */
+  function _renderItemFood(item) { /* 스위치문으로 만들지 고민 */
+    if (item.category === props.category ) { /* 선택한 카테고리가 1일때  */
         return (
           <View style={styles.singleFood}>
             <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
@@ -118,54 +156,6 @@ const MenuComponent = (props) => {
             </TouchableOpacity>
           </View>
         );
-      }
-    }
-    else if (props.category === 2) {
-      if (item.category == 2) {
-        return (
-          <View style={styles.singleFood}>
-            <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
-              <View>
-                <Image style={styles.foodImage} source={{ uri: item.imageview }} />
-                <View style={styles.foodTitle}>
-                  <Text> {item.title}</Text>
-                </View>
-                <View style={styles.foodPrice}>
-                  <View>
-                    <Text> {item.price}</Text>
-                  </View>
-                  <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
-                    <Icon name="add" size={30} color="#ff3252" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        );
-      }
-    }
-    else {  /* 모든 메뉴 전시 */
-      return (
-        <View style={styles.singleFood}>
-          <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
-            <View>
-
-              <Image style={styles.foodImage} source={{ uri: item.imageview }} />
-              <View style={styles.foodTitle}>
-                <Text> {item.title}</Text>
-              </View>
-              <View style={styles.foodPrice}>
-                <View>
-                  <Text> {item.price}</Text>
-                </View>
-                <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
-                  <Icon name="add" size={30} color="#ff3252" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-      );
     }
   }
 
@@ -197,6 +187,9 @@ const mapStateToProps = (state) => {
     count: state.menuReducer.count,
     current_store_info: state.storeReducer.current_store_info,
     category: state.menuReducer.category,
+    start_lat: state.storeReducer.start_lat,
+    start_lon: state.storeReducer.start_lon,
+    storeinfo: state.storeReducer.storeinfo,
   }
 }
 
@@ -207,6 +200,8 @@ const mapDispatchToProps = (dispatch) => {
     showMenuDetail: (item) => dispatch(showMenuDetail(item)),
     fetchGetmenus: () => dispatch(fetchGetmenus()),
     changeCategory: (item) => dispatch(changeCategory(item)),
+    fetchStores: () => dispatch(fetchStores()),
+    getdist: (dist) => dispatch(getdist(dist)),
   }
 }
 
@@ -241,9 +236,17 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1
   },
-
+  backgroundImage: {
+    height: height,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    alignItems: "stretch",
+    bottom: 0,
+    right: 0
+  },
   flex: {
-    flex: 1
+    flex: 1,
   },
   foodList: {
     paddingVertical: 20,
@@ -302,23 +305,16 @@ const styles = StyleSheet.create({
   alloverblue: {
     position: 'absolute',
     top: '88.3%',
-
-    //bottom:50,
-
     left: '85.5%',
-
-    //right:50
-
   },
   allovertop: {
     position: 'absolute',
     top: '1%',
-
-    //bottom:50,
-
     left: '96.5%',
-
-    //right:50
-
+  },
+  allstorebar: {
+    position: 'absolute',
+    top: '90.7%',
+    left: '10%',
   }
 });

@@ -55,7 +55,7 @@ const HomeComponent = (props) => {
 
                 //    console.log("홈화면 인포전시"+ JSON.stringify(props.storeinfo));
                 //    console.log("홈화면 셋로케이션 전시"+ JSON.stringify(location));
-                //    console.log("홈화면 셋로케이션tt 전시"+ JSON.stringify(locationtt));
+                    console.log("홈화면 셋로케이션tt 전시"+ JSON.stringify(locationtt));
 
                 await props.getdist(locationtt);
                 await props.testing(locationtt);

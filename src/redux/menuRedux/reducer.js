@@ -1,15 +1,16 @@
 import {
-  ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,
+  ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,INSERT_CART,
   FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY
 } from './type'
 
 const initialstate = {
 
   dataFood: [],
+  datacart: [], // 카트목록 새로 만들기(옵션기능 추가하기위해) 0820
   count: 100,
   dataMenudetail: [],
   temp: '   @@Testa@@2',
-  category: 0,
+  category: 1,
 }
 
 const menuReducer = (state = initialstate, action) => {
@@ -28,6 +29,11 @@ const menuReducer = (state = initialstate, action) => {
       return {
         ...state,
         count: state.count - 1
+      }
+      case INSERT_CART: //테스트
+      return {
+        ...state,
+        datacart: [...state.datacart, action.payload]
       }
     case INC_CARTQUANT:   //수량추가
       const indexinc = state.dataFood.findIndex(dataFood => dataFood.menu_id == action.payload); //인덱스찾기..

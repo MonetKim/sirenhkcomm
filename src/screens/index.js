@@ -18,6 +18,7 @@ import passScreen from "./LoginScreen/passwordfinder";
 import OrderScreen from "./OrderScreen/order.js";
 import { setNavigator } from "../NavigationRef";
 import MenuDetailScreen from "./MenuDetailScreen/menuDetail.js"; 
+import CartDetailScreen from "./CartDetailScreen/cartdetail.js";
 //import DrawerBar from "../components/Drawer";
 //import { createDrawerNavigator, DrawerActions } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
@@ -115,6 +116,19 @@ const cartStack = createStackNavigator(
       //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,      
     }),
     initialRouteName: "CartScreen",
+  }
+);
+const cartDetailStack = createStackNavigator(
+  { 
+    CartDetailScreen,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      title: "CartDetailScreen",
+      headerLeft:  () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('CartScreen')} />,
+      //headerLeft :  <Button title="Go back" onPress={() => navigation.goBack()}/>,      
+    }),
+    initialRouteName: "CartDetailScreen",
   }
 );
 
@@ -222,6 +236,7 @@ const AppStack = createStackNavigator({
   cartStack,
   MenuDetailStack,
   MapStoreStack,
+  cartDetailStack,
   //MenuDetailScreen,
   //IntroStack,
   //AppDrawerNavigator,

@@ -39,8 +39,8 @@ const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 �
     //             { text: '확인', onPress: navigate("MenuScreen") },
     //             { text: '취소', onPress: () => null },
     //         ],
-    //         { cancelable: true }
-
+    //         { cancelable: true }  
+                    // 35 45    const 80 react 90   70  240  300 640 600                
     //     )
     // }
 

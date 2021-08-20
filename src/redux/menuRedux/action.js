@@ -1,5 +1,5 @@
 import {
-    ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,
+    ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,INSERT_CART,
     FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY,
 } from './type'
 import API from "../../API/WebService";
@@ -40,6 +40,13 @@ export const showMenuDetail = (item) => {
         payload: item
     }
 }
+export const insertCart = (item) => {
+    return {
+        type: INSERT_CART,
+        payload: item
+    }
+}
+
 
 //--------------------데이터갖고오기 DB
 export const fetchMenulistSuccess = (comments) => {
