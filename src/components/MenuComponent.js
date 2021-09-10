@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
-import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus, changeCategory } from '../redux/menuRedux/action'
+import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus, fetchGetOption, changeCategory } from '../redux/menuRedux/action'
 import { fetchStores, testing, getdist, SetCurStoreInfo } from '../redux/storeRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
@@ -31,12 +31,13 @@ const MenuComponent = (props) => {
   if (props.dataFood.length < 1) {
     useEffect(() => {
       props.fetchGetmenus();
+      props.fetchGetOption();
     }, [msg])
   }
   
   
   /*  매장이 선택되어 있지 않을 시 매장선택화면으로 이동 전 데이터설정 */
-  /*  매장이 선택되어 있지 않을 시 매장선택화면으로 이동  */
+  /*  매장이 선택되어 있지 않을 시 매장선택화면으로 이동 s */
   function _gostore() {
 
     let location = 
@@ -69,7 +70,7 @@ const MenuComponent = (props) => {
   }
 
 
-  /* 현재 매장 미선택되어 있을때 전시화면  */
+  /* 현재 매장 미선택되어 있을때 전시화면;  */
   if (props.current_store_info === null) {
     return (
       <View style={styles.gostore}>
@@ -85,8 +86,6 @@ const MenuComponent = (props) => {
   else {
     return (
       <View style={styles.flex}>
-          <ImageBackground source={require('../../assets/image/logo/test1.png')} style={styles.backgroundImage}>
-        <TouchableOpacity onPress={() => props.removeMenuToCart()}><Text > {msg[0].email} 카테고리a : {props.category}</Text></TouchableOpacity>
         <View style={styles.menucategory}>
           <TouchableOpacity onPress={() => props.changeCategory(1)}>
             <Text style={{ fontSize: 12, color: '#333'}}>AMERICANO</Text>
@@ -128,7 +127,6 @@ const MenuComponent = (props) => {
             <Text>{getCartnum()}</Text>
           </TouchableOpacity>
         </View>
-        </ImageBackground>
       </View>
 
     );
@@ -143,14 +141,6 @@ const MenuComponent = (props) => {
 
                 <View style={styles.foodTitle}>
                   <Text> {item.title}</Text>
-                </View>
-                <View style={styles.foodPrice}>
-                  <View>
-                    <Text> {item.price}</Text>
-                  </View>
-                  <TouchableOpacity onPress={() => props.addMenuToCart(item.menu_id)}>
-                    <Icon name="add" size={30} color="#ff3252" />
-                  </TouchableOpacity>
                 </View>
               </View>
             </TouchableOpacity>
@@ -199,6 +189,7 @@ const mapDispatchToProps = (dispatch) => {
     removeMenuToCart: () => dispatch(removeMenuToCart()),
     showMenuDetail: (item) => dispatch(showMenuDetail(item)),
     fetchGetmenus: () => dispatch(fetchGetmenus()),
+    fetchGetOption: () => dispatch(fetchGetOption()),
     changeCategory: (item) => dispatch(changeCategory(item)),
     fetchStores: () => dispatch(fetchStores()),
     getdist: (dist) => dispatch(getdist(dist)),
@@ -273,15 +264,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   foodTitle: {
-    marginTop: 5,
-    marginBottom: 5
+    marginTop: 10,
+    marginBottom: 5,
+    alignItems: 'center'
   },
   menucategory: {
     backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'

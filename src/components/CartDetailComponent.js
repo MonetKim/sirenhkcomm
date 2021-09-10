@@ -30,7 +30,7 @@ const CartDetailComponent = (props) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const [searchstore, setSearchstore] = useState("");
-    console.log(JSON.stringify(msg)+"       ASDASDAS")
+    console.log(JSON.stringify(msg) + "       ASDASDAS")
     return (
         <View style={styles.flex}>
             <ScrollView style={styles.scrollHeight} >
@@ -39,24 +39,52 @@ const CartDetailComponent = (props) => {
                 <View><Text>주문자 {msg[0].name}(글자색, 백그라운드설정)</Text></View>
                 <View><Text>주문자 전화번호 {msg[0].phone}(글자색, 백그라운드설정)</Text></View>
                 {
-                    props.dataFood.map((item, i) => {
-                        if (item.iscart) {
-                            return (
-                                <View style={styles.singleCartItem} key={i}>
-                                    <Image style={styles.cartItemImage} source={{ uri: item.imageview }} />
-                                    <View style={styles.widthSection}>
-                                        <Text> {item.title}</Text>
-                                        <View style={styles.cartRightSection}>
-                                            <Text> {item.price * item.quantity}</Text>
-                                            <View style={styles.qualityCart}>
-                                                <Text>수량 : {item.quantity} </Text>
-                                            </View>
-                                        </View>
+                    props.datacart.map((item, i) => {
+                        return (
+                            <View style={styles.singleCartItem} key={i}>
+                                <Image style={styles.cartItemImage} source={{ uri: item.imageview }} />
+                                <View style={styles.widthSection}>
+                                    
+                                    <View style={styles.cartRightSection}>
+                                    <Text style={{ fontSize: 16, color: '#333' }}> {item.title}</Text>
+                                            <Text style={{ fontSize: 16, color: '#333' }}>{(
+                                            item.price +
+                                            findOptionPrice(item.menu_option_insert) +
+                                            findOptionPrice(item.taste_option_insert) +
+                                            findOptionPrice(item.add_option_insert)
+                                        )
+                                        }</Text>
+                                    </View>
+                                    {
+                                        findOptionName(item.menu_option_insert) == 0 ? <View></View> :
+                                            <Text > {findOptionName(item.menu_option_insert)}</Text>
+                                    }
+                                    {
+                                        findOptionName(item.taste_option_insert) == 0 ? <View></View> :
+                                            <Text> {findOptionName(item.taste_option_insert)}</Text>
+                                    }
+                                    {
+                                        findOptionName(item.add_option_insert) == 0 ? <View></View> :
+                                            <Text> {findOptionName(item.add_option_insert)}</Text>
+                                    }
+                                    <View style={styles.cartRightSection}>
+                                        <Text> 수량 </Text>
+                                            <Text>{item.quantity} </Text>
+                                    </View>
+                                    <View style={styles.cartRightSection}>
+                                       <Text style={{ fontSize: 16, color: '#333' }}> 합계 </Text>
+                                        <Text style={{ fontSize: 16, color: '#333' }}> {(
+                                            item.price +
+                                            findOptionPrice(item.menu_option_insert) +
+                                            findOptionPrice(item.taste_option_insert) +
+                                            findOptionPrice(item.add_option_insert)
+                                        )*item.quantity
+                                        }</Text>
                                     </View>
                                 </View>
+                            </View>
 
-                            )
-                        }
+                        )
                     })
                 }
                 <View style={styles.cartItem}>
@@ -70,23 +98,6 @@ const CartDetailComponent = (props) => {
                 <View style={styles.cartItem}>
                     <Text style={{ fontSize: 20, color: '#333' }} >예상소요시간</Text>
                     <Text style={{ fontSize: 20, color: '#333' }} >30 분</Text>
-                </View>
-                <View >
-                    <Text style={{ fontSize: 20, color: '#333' }} >픽업예약시간</Text>
-                    <TouchableOpacity onPress={() => ShowTimePicker()} >
-                        <Input
-                            
-                            placeholder="픽업시간을 정해주세요"
-                            value={startDate}
-                            editable={false}
-                        />
-                        <DateTimePickerModal
-                            isVisible={isDatePickerVisible}
-                            mode="time"
-                            onConfirm={(startDate) => handleConfirm(startDate)}
-                            onCancel={hideDatePicker}
-                        />
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
             <View>
@@ -103,32 +114,56 @@ const CartDetailComponent = (props) => {
     function hideDatePicker() {
         setDatePickerVisibility(false);
     }
-    function handleConfirm(time){
+    function handleConfirm(time) {
         console.log("A date has been picked: ", time);
-        hideDatePicker(); 
+        hideDatePicker();
         setStartDate(String(time.format("hh-mm")));
         console.log("저장시간은: ", time);
-      };
-     
-/*
-192.168.0.99
-250 50 300 
+    };
 
-90 65 35 30 50 260 
-560 520 
-*/
+    /*
+    192.168.0.99
+    250 50 300 
+    
+    90 65 35 30 50 260 
+    560 520 
+    */
 
     /*카트에 담긴 총 가격 계산 */
-    function total() {
+    function total() { //데이터카트에 닮긴 옵션가격도 추가해주자.
         var total = 0;
-        const cart = props.dataFood;
+        const cart = props.datacart;
         for (var i = 0; i < cart.length; i++) {
-            if (cart[i].iscart) {
-                total = total + (cart[i].price * cart[i].quantity)
-            }
+            total = total + ((cart[i].price
+                + findOptionPrice(cart[i].menu_option_insert)
+                + findOptionPrice(cart[i].taste_option_insert)
+                + findOptionPrice(cart[i].add_option_insert)         // 체크박스로 변경될시 여러개들어올것 체크 가격부분 저장 콤마로 나누기등등 다 고려해야함
+            )
+                * cart[i].quantity);
         }
         var total_price = total;
         return total_price;
+    }
+
+    //옵션 이름찾기
+    function findOptionName(option_num) {
+        if (option_num === null) {
+            return 0;
+        }
+        for (var i = 0; i < props.option.length; i++) {
+            if (props.option[i].option_id == option_num)
+                return props.option[i].option_name;
+        }
+    }
+    //옵션 가격찾기
+    function findOptionPrice(option_num) {
+        if (option_num === null) {
+            return 0;
+        }
+        for (var i = 0; i < props.option.length; i++) {
+            if (props.option[i].option_id == option_num)
+                return props.option[i].option_price;
+        }
     }
 
     /*매장 아이디로 매장 이름 찾아오기 */
@@ -153,25 +188,31 @@ const CartDetailComponent = (props) => {
                     store_name,
                 });
                 /* DB  ordermenu 테이블에 저장 */
-                for (var i = 0; i < props.dataFood.length; i++) {
-                    if (props.dataFood[i].quantity > 0) {
-
-                        let menu_id = props.dataFood[i].menu_id;
-                        let menu_price = props.dataFood[i].price;
-                        let quantity = props.dataFood[i].quantity;
-                        let store_id = props.current_store_info;
-                        let title = props.dataFood[i].title;
-                        let store_name = getstoreinfo(props.current_store_info);
-                        await API.post("user/orderdetail", {
-                            user_id,
-                            menu_id,
-                            store_id,
-                            menu_price,
-                            quantity,
-                            title,
-                            store_name,
-                        })
-                    }
+                for (var i = 0; i < props.datacart.length; i++) {
+                    let imageview = props.datacart[i].imageview;
+                    let menu_id = props.datacart[i].menu_id;
+                    let menu_price = props.datacart[i].price;
+                    let quantity = props.datacart[i].quantity;
+                    let store_id = props.current_store_info;
+                    let title = props.datacart[i].title;
+                    let store_name = getstoreinfo(props.current_store_info);
+                    let menu_option = props.datacart[i].menu_option_insert;
+                    let taste_option = props.datacart[i].taste_option_insert;
+                    let add_option = props.datacart[i].add_option_insert;
+                    console.log("적당히해    " + JSON.stringify(props.datacart[i]));
+                    await API.post("user/orderdetail", {
+                        imageview,
+                        user_id,
+                        menu_id,
+                        store_id,
+                        menu_price,
+                        quantity,
+                        title,
+                        store_name,
+                        menu_option,
+                        taste_option,
+                        add_option
+                    })
                 }
             }
             else {
@@ -182,8 +223,8 @@ const CartDetailComponent = (props) => {
             //오류구성해주자...
         }
         finally {
-            if (total() != 0) {
-                props.removeMenuToCart();
+            if (total() != 0) { //이부분 반드시수정하자 0901  김태현 금액말고 전시되는것이없는경우로하자
+                props.removeMenuToCart(); // 여기서 이제  datacart 초기화해주자
                 props.getOrderresults(msg[0].index_id);
                 props.getOrderresultsDetail(msg[0].index_id);
                 saveOrder();
@@ -216,12 +257,13 @@ const CartDetailComponent = (props) => {
 const mapStateToProps = (state) => {
     return {
         dataFood: state.menuReducer.dataFood,
-        dataCart: state.menuReducer.dataCart,
+        datacart: state.menuReducer.datacart,
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
         orderid: state.orderReducer.orderid,
         current_store_info: state.storeReducer.current_store_info,
         storeinfo: state.storeReducer.storeinfo,
+        option: state.menuReducer.option,
     }
 }
 
@@ -267,7 +309,7 @@ const styles = StyleSheet.create({
     },
     cartRightSection: {
         flexDirection: 'row',
-        marginTop: 15,
+        marginTop: 3,
         justifyContent: 'space-between'
     },
     widthSection: {

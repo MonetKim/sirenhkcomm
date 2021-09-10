@@ -89,9 +89,6 @@ const Ordercomponent2 = (props) => {
                                 <Text style={{ fontSize: 13, color: '#333' }}>{(order.timezone).substr(0,10)+" " +(order.timezone).substr(11,5)}</Text>
                             </View>
                             <View>
-                                <Text style={{ fontSize: 13, color: '#333' }}>{order.timezone}</Text>
-                            </View>
-                            <View>
                                 <Text style={{ fontSize: 13, color: '#333' }}>매장: {order.store_name}</Text>
                             </View>
                             <View>

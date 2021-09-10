@@ -10,7 +10,19 @@ import { navigate } from '../NavigationRef';
 const { width, height } = Dimensions.get('window');
 const Orderdetail = (props) => {
 
-
+    function findOptionName(option_num) {
+        for (var i = 0; i < props.option.length; i++) {
+            if (props.option[i].option_id == option_num)
+                return props.option[i].option_name;
+        }
+    }
+    //옵션 가격찾기
+    function findOptionPrice(option_num) {
+        for (var i = 0; i < props.option.length; i++) {
+            if (props.option[i].option_id == option_num)
+                return props.option[i].option_price;
+        }
+    }
 
     return (
 
@@ -45,10 +57,10 @@ const Orderdetail = (props) => {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.flexstart} >
-                                        <Text style={{ fontSize: 20, color: '#333'}}>
-                                            주문 메뉴
-                                        </Text>
-                                    </View>
+                                    <Text style={{ fontSize: 20, color: '#333' }}>
+                                        주문 메뉴
+                                    </Text>
+                                </View>
                             </View>
                             {/* <FlatList
                                 data={props.orderresult}
@@ -62,8 +74,8 @@ const Orderdetail = (props) => {
                                         return (
                                             <View style={styles.singleFood} key={i}>
                                                 <View style={styles.multiMenu}>
-                                                    <View>
-                                                        <Image style={styles.OrderImages} source={require('../../assets/image/coffee/espresso.jpg')} />
+                                                    <View style={styles.imageviewst}>
+                                                        <Image style={styles.OrderImages} source={{ uri: item.imageview }} />
                                                     </View>
                                                     <View>
                                                         <View style={styles.foodTitle}>
@@ -75,6 +87,36 @@ const Orderdetail = (props) => {
                                                             </View>
                                                             <View>
                                                                 <Text>메뉴 수량 {item.quantity}</Text>
+                                                            </View>
+                                                            <View style={styles.cartRightSection}>
+                                                                {
+                                                                    findOptionName(item.menu_option) == 0 ? <View></View> :
+                                                                        <Text> {findOptionName(item.menu_option)}</Text>
+                                                                }
+                                                                {
+                                                                    findOptionPrice(item.menu_option) == 0 ? <View></View> :
+                                                                        <Text> {findOptionPrice(item.menu_option)}</Text>
+                                                                }
+                                                            </View>
+                                                            <View style={styles.cartRightSection}>
+                                                                {
+                                                                    findOptionName(item.taste_option) == 0 ? <View></View> :
+                                                                        <Text> {findOptionName(item.taste_option)}</Text>
+                                                                }
+                                                                {
+                                                                    findOptionPrice(item.taste_option) == 0 ? <View></View> :
+                                                                        <Text> {findOptionPrice(item.taste_option)}</Text>
+                                                                }
+                                                            </View>
+                                                            <View style={styles.cartRightSection}>
+                                                                {
+                                                                    findOptionName(item.add_option_insert) == 0 ? <View></View> :
+                                                                        <Text> {findOptionName(item.add_option)}</Text>
+                                                                }
+                                                                {
+                                                                    findOptionPrice(item.add_option_insert) == 0 ? <View></View> :
+                                                                        <Text> {findOptionPrice(item.add_option)}</Text>
+                                                                }
                                                             </View>
                                                         </View>
                                                     </View>
@@ -127,6 +169,7 @@ const mapStateToProps = (state) => {
         datastoredetail: state.storeReducer.datastoredetail,
         save_orderid: state.orderReducer.save_orderid,
         orderresult: state.orderReducer.orderresult,
+        option: state.menuReducer.option,
     }
 }
 
@@ -202,6 +245,15 @@ const styles = StyleSheet.create({
     },
     orderPrice: {
         marginTop: 7
+    },
+    imageviewst: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cartRightSection: {
+        flexDirection: 'row',
+        marginTop: 3,
+        justifyContent: 'space-between'
     },
     qualityCart: {
         flexDirection: 'row',
