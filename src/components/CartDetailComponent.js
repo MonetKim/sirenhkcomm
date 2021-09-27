@@ -1,9 +1,8 @@
-import { Col, Icon } from 'native-base';
-import { pushOrders, pushOrderDetails, resetevery } from '../redux/orderRedux/action'
-import { incCartQuant, decCartQuant, removeMenuToCart, addMenuToCart, fetchGetmenus } from '../redux/menuRedux/action'
+
 import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/action'
 import React, { useEffect, useContext, useState } from "react";
 import { Context as UserContext } from '../dataStore/userAccessContext';
+import { removeAllCart } from '../redux/menuRedux/action'
 import { navigate } from '../NavigationRef';
 import { Input, Button } from "react-native-elements";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -224,7 +223,7 @@ const CartDetailComponent = (props) => {
         }
         finally {
             if (total() != 0) { //이부분 반드시수정하자 0901  김태현 금액말고 전시되는것이없는경우로하자
-                props.removeMenuToCart(); // 여기서 이제  datacart 초기화해주자
+                props.removeAllCart();
                 props.getOrderresults(msg[0].index_id);
                 props.getOrderresultsDetail(msg[0].index_id);
                 saveOrder();
@@ -256,11 +255,7 @@ const CartDetailComponent = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        dataFood: state.menuReducer.dataFood,
         datacart: state.menuReducer.datacart,
-        temp: state.menuReducer.temp,
-        count: state.menuReducer.count,
-        orderid: state.orderReducer.orderid,
         current_store_info: state.storeReducer.current_store_info,
         storeinfo: state.storeReducer.storeinfo,
         option: state.menuReducer.option,
@@ -269,16 +264,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        incCartQuant: (item) => dispatch(incCartQuant(item)),
-        decCartQuant: (item) => dispatch(decCartQuant(item)),
-        addMenuToCart: (item) => dispatch(addMenuToCart(item)),
         removeMenuToCart: () => dispatch(removeMenuToCart()),
-        resetevery: () => dispatch(resetevery()),
-        pushOrders: (user_id, store_id, totalprice, ischeck) => dispatch(pushOrders(user_id, store_id, totalprice, ischeck)),
-        pushOrderDetails: (order_id, user_id, menu_id, menu_price, quantity) => dispatch(pushOrderDetails(order_id, user_id, menu_id, menu_price, quantity)),
         getOrderresults: (item) => dispatch(getOrderresults(item)),
         getOrderresultsDetail: (item) => dispatch(getOrderresultsDetail(item)),
-        fetchGetmenus: () => dispatch(fetchGetmenus()),
+        removeAllCart: () => dispatch(removeAllCart()),
     }
 }
 

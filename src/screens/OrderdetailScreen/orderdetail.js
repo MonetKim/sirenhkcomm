@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import store from '../../redux/store'
 
 
-export default class TestScreen extends Component{
+export default class OrderdetailScreen extends Component{
 
     render(){
         return (

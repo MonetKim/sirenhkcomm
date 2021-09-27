@@ -1,6 +1,7 @@
 import {
-    ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL,INSERT_CART,FETCH_OPTION_REQUEST,FETCH_OPTION_SUCCESS,FETCH_OPTION_FAILURE,
-    FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY,REMOVE_ALL_CART,CHANGE_CART_NUM,SET_DATACART
+    ADD_MENUTOCART, REMOVE_MENUTOCART, INC_CARTQUANT, DEC_CARTQUANT, SHOW_MENUDETAIL, INSERT_CART, FETCH_OPTION_REQUEST, FETCH_OPTION_SUCCESS, FETCH_OPTION_FAILURE,
+    FETCH_MENULIST, FETCH_MENULIST_REQUEST, FETCH_MENULIST_SUCCESS, FETCH_MENULIST_FAILURE, CHANGE_CATEGORY, REMOVE_ALL_CART, CHANGE_CART_NUM, SET_DATACART,
+    FETCH_ROASTING_REQUEST, FETCH_ROASTING_SUCCESS, FETCH_ROASTING_FAILURE,
 } from './type'
 import API from "../../API/WebService";
 
@@ -22,7 +23,7 @@ export const removeMenuToCart = (item) => {
         payload: item
     }
 }
-export const incCartQuant = (item,menu_option_insert,taste_option_insert,add_option_insert) => {
+export const incCartQuant = (item, menu_option_insert, taste_option_insert, add_option_insert) => {
     return {
         type: INC_CARTQUANT,
         payload: item,
@@ -31,7 +32,7 @@ export const incCartQuant = (item,menu_option_insert,taste_option_insert,add_opt
         payadd: add_option_insert,
     }
 }
-export const decCartQuant = (item,menu_option_insert,taste_option_insert,add_option_insert) => {
+export const decCartQuant = (item, menu_option_insert, taste_option_insert, add_option_insert) => {
     return {
         type: DEC_CARTQUANT,
         payload: item,
@@ -59,7 +60,7 @@ export const removeAllCart = () => {
     }
 }
 
-export const changeCartNum = (item,num) => {
+export const changeCartNum = (item, num) => {
     return {
         type: CHANGE_CART_NUM,
         payload: item,
@@ -67,7 +68,7 @@ export const changeCartNum = (item,num) => {
     }
 }
 
-//--------------------메뉴데이터갖고오기 DB
+//--------------------메뉴 데이터갖고오기 DB
 export const fetchMenulistSuccess = (comments) => {
     return {
         type: FETCH_MENULIST_SUCCESS,
@@ -88,14 +89,14 @@ export const fetchMenulistFailure = (error) => {
 }
 //---------------------------------데이터카트 저장하기
 
-export const setDataCart = (item,kind) => {
+export const setDataCart = (item, kind) => {
     return {
         type: SET_DATACART,
         payload: item,
         kind: kind,
     }
 }
-//--------------------옵션데이터갖고오기 DB
+//--------------------옵션 데이터갖고오기 DB
 export const fetchOptionSuccess = (comments) => {
     return {
         type: FETCH_OPTION_SUCCESS,
@@ -114,43 +115,81 @@ export const fetchOptionFailure = (error) => {
         payload: error
     }
 }
+//--------------------로스팅 데이터갖고오기 DB
+export const fetchRoastingSuccess = (comments) => {
+    return {
+        type: FETCH_ROASTING_SUCCESS,
+        payload: comments
+    }
+}
+export const fetchRoastingRequest = () => {
+    return {
+        type: FETCH_ROASTING_REQUEST,
+
+    }
+}
+export const fetchRoastingFailure = (error) => {
+    return {
+        type: FETCH_ROASTING_FAILURE,
+        payload: error
+    }
+}
 
 //------------------------------------
-
+//메뉴 갖고오기
 
 export const fetchGetmenus = () => {
     return (dispatch) => {
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchMenulistRequest())
-        API.post("user/menu", )
-        //.then(response => response.json())
-        .then((response) => {
-            configureAPI({ token: `Bearer ${response.data}` });
-            dispatch(fetchMenulistSuccess(response.data))
-            console.log('이미지쪽'+ JSON.stringify(response.data)); 
-            //console.log("갑자기왜그래!"+  JSON.stringify(response.data))
-        })
-        
-        .catch(error=> dispatch(fetchMenulistFailure(error)))
+        API.post("user/menu",)
+            //.then(response => response.json())
+            .then((response) => {
+                configureAPI({ token: `Bearer ${response.data}` });
+                dispatch(fetchMenulistSuccess(response.data));
+            })
+
+            .catch(error => dispatch(fetchMenulistFailure(error)))
     }
 }
-
+//옵션 갖고오기
 export const fetchGetOption = () => {
     return (dispatch) => {
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchOptionRequest())
-        API.post("user/option", )
-        //.then(response => response.json())
-        .then((response) => {
-            configureAPI({ token: `Bearer ${response.data}` });
-            dispatch(fetchOptionSuccess(response.data))
-            console.log('옵션 갖고오나     '+ JSON.stringify(response.data)); 
-        })
-        .catch(error=> dispatch(fetchOptionFailure(error)))
+        API.post("user/option",)
+            //.then(response => response.json())
+            .then((response) => {
+                configureAPI({ token: `Bearer ${response.data}` });
+                dispatch(fetchOptionSuccess(response.data));
+            })
+            .catch(error => dispatch(fetchOptionFailure(error)))
     }
 }
+//로스팅 갖고오기
+export const fetchGetRoasting = (store_id, menu_id) => {
+    return (dispatch) => {
+        console.log("이런타고잇는거니 "+menu_id);
+        // dispatch(fetchCommentRequest())
+        // fetch("http://jsonplaceholder.typicode.com/comments")
+        dispatch(fetchRoastingRequest())
+        API.post("user/roasting", {    
+            store_id, 
+            menu_id,
+          })
+            //.then(response => response.json())
+            .then((response) => {
+                configureAPI({ token: `Bearer ${response.data}` });
+                dispatch(fetchRoastingSuccess(response.data));
+                console.log("  로스팅정보리덕스  "+ JSON.stringify( response.data ));
+            })
+            .catch(error => dispatch(fetchRoastingFailure(error)))
+    }
+}
+
+
 const configureAPI = ({ token }) => {
     API.defaults.headers.common["Authorization"] = token;
 };

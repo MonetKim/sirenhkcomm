@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { navigate } from '../NavigationRef';
 import { connect } from 'react-redux'
-import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus, fetchGetOption, changeCategory } from '../redux/menuRedux/action'
+import { removeMenuToCart, addMenuToCart, showMenuDetail, fetchGetmenus, fetchGetOption, changeCategory ,fetchGetRoasting} from '../redux/menuRedux/action'
 import { fetchStores, testing, getdist, SetCurStoreInfo } from '../redux/storeRedux/action'
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
@@ -56,7 +56,7 @@ const MenuComponent = (props) => {
       `매장을 먼전 선택하세요`,
       [
 
-        { text: "확인", onPress: () => navigate("SomethingScreen") }
+        { text: "확인", onPress: () => navigate("NearStoreScreen") }
       ],
       { cancelable: false }
     );
@@ -86,6 +86,7 @@ const MenuComponent = (props) => {
   else {
     return (
       <View style={styles.flex}>
+        <Text style={{ fontSize: 12, color: '#333'}}>현재스터오: {props.current_store_info}</Text>
         <View style={styles.menucategory}>
           <TouchableOpacity onPress={() => props.changeCategory(1)}>
             <Text style={{ fontSize: 12, color: '#333'}}>AMERICANO</Text>
@@ -151,17 +152,15 @@ const MenuComponent = (props) => {
 
   /*  카트아이콘에 숫자표시 하기위한 카트 아이템 수 구하기 */
   function getCartnum() {
-    let num = 0;
-    for (var i = 0; i < props.dataFood.length; i++) {
-      if (props.dataFood[i].iscart) {
-        num++;
-      }
-    }
+    let num = props.datacart.length;
+    
     return num;
   }
   /* 메뉴클릭시 상세화면으로 이동 */
-  function onClickShowMenu(data) {
-    props.showMenuDetail(data);
+  function onClickShowMenu(menu_id) {
+    props.showMenuDetail(menu_id);
+    props.fetchGetRoasting(props.current_store_info,menu_id);
+    console.log(JSON.stringify("  로스팅정보  "+ props.roasting ));
     navigate("MenuDetailScreen");
   }
 }
@@ -180,6 +179,8 @@ const mapStateToProps = (state) => {
     start_lat: state.storeReducer.start_lat,
     start_lon: state.storeReducer.start_lon,
     storeinfo: state.storeReducer.storeinfo,
+    roasting: state.menuReducer.roasting,
+    datacart: state.menuReducer.datacart,
   }
 }
 
@@ -193,6 +194,7 @@ const mapDispatchToProps = (dispatch) => {
     changeCategory: (item) => dispatch(changeCategory(item)),
     fetchStores: () => dispatch(fetchStores()),
     getdist: (dist) => dispatch(getdist(dist)),
+    fetchGetRoasting: (store_id,menu_id) => dispatch(fetchGetRoasting(store_id,menu_id)),
   }
 }
 

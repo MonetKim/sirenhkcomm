@@ -9,7 +9,7 @@ import { Provider as UserProvider } from '../dataStore/userAccessContext';
 import LoginScreen from "./LoginScreen/login.js";
 import HomeScreen from "./HomeScreen/home.js"; 
 import SettingScreen from "./SettingScreen/setting.js";
-import SomethingScreen from "./SomethingScreen/extra.js";
+import NearStoreScreen from "./NearStoreScreen/nearstore.js";
 import MenuScreen from "./MenuScreen/menu.js";
 import SignupScreen from "./SignupScreen/signup.js";
 import CartScreen from "./CartScreen/cart.js";
@@ -23,7 +23,8 @@ import CartDetailScreen from "./CartDetailScreen/cartdetail.js";
 //import { createDrawerNavigator, DrawerActions } from "react-navigation-drawer";
 import MapStoreScreen from "./MapStoreScreen/mapstore.js";
 //import introductionScreen from "./IntroScreen/introduction";
-import TestScreen from "./TestScreen/test.js";
+import OrderdetailScreen from "./OrderdetailScreen/orderdetail.js";
+import ManagerScreen from "./ManagerScreen/manager.js";
  
 const HomeStack = createStackNavigator(
   {
@@ -51,7 +52,7 @@ const HomeStack = createStackNavigator(
 const SettingStack = createStackNavigator(
   {
     SettingScreen,
-    SomethingScreen,
+    NearStoreScreen,
     MapStoreScreen,
     
   },
@@ -139,21 +140,21 @@ const MapStoreStack = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => ({
       title: "MapStoreScreen",
-      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('SomethingScreen')} />,
+      headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('NearStoreScreen')} />,
     }),
     initialRouteName: "MapStoreScreen",
   }
 );
-const TestStack = createStackNavigator(
+const OrderdetailStack = createStackNavigator(
   { 
-    TestScreen,
+    OrderdetailScreen,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      title: "TestScreen",
+      title: "OrderdetailScreen",
       headerLeft: () =>  <Icon name='arrow-back-outline' style={{paddingLeft:10}} onPress={() => navigation.navigate('OrderScreen')} />,
     }),
-    initialRouteName: "TestScreen",
+    initialRouteName: "OrderdetailScreen",
   }
 );
 
@@ -233,6 +234,7 @@ const AppStack = createStackNavigator({
   passScreen,
   emailScreen,  
   SignupScreen,  
+  ManagerScreen,
   cartStack,
   MenuDetailStack,
   MapStoreStack,
@@ -240,7 +242,7 @@ const AppStack = createStackNavigator({
   //MenuDetailScreen,
   //IntroStack,
   //AppDrawerNavigator,
-  TestStack, 
+  OrderdetailStack, 
   TabNavigator: {  
     screen: TabNavigator,
     navigationOptions: ({ navigation }) => ({

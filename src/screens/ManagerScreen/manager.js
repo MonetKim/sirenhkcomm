@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import store from '../../redux/store'
 
 
-export default class MapStoreScreen extends Component{
+export default class ManagerScreen extends Component{
 
     render(){
         return (

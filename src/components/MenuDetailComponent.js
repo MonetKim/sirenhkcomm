@@ -6,7 +6,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import RadioButtonRN from 'radio-buttons-react-native';
 import React, { useEffect, useContext, useState } from "react";
-import { removeMenuToCart, addMenuToCart, showMenuDetail, insertCart, changeCartNum, setDataCart } from '../redux/menuRedux/action'
+import { removeMenuToCart, addMenuToCart, showMenuDetail, insertCart, changeCartNum, setDataCart,  } from '../redux/menuRedux/action'
 import { navigate } from '../NavigationRef';
 const { width, height } = Dimensions.get('window');
 const Menudetail = (props) => {
@@ -18,7 +18,7 @@ const Menudetail = (props) => {
     const [disabled, setDisabled] = useState(false);
     const [ischeck, setIscheck] = useState(false);
     var cartInsert = JSON.parse(JSON.stringify(props.dataMenudetail));
-    console.log(" 현재 임시 변수는  " + JSON.stringify(props.dataMenudetail))
+    //console.log(" 현재 임시 변수는  " + JSON.stringify(props.dataMenudetail))
 
     function testloop(option_num) {
         //setIsche(ische+1);
@@ -30,7 +30,7 @@ const Menudetail = (props) => {
             </View>
         );
 
-        //0901 데이터 선택한거 넣어야함
+        //0901 데이터 선택한거 넣어야함rn
         console.log("어레이는   " + array.length);
         return (
             <View >
@@ -116,12 +116,11 @@ const Menudetail = (props) => {
 
         await props.setDataCart(menunum, 1);
         props.dataMenudetail.quantity = menunum;
-        console.log(" 모라도 나와야지 ㅡㅡ" + JSON.stringify(props.dataMenudetail));
+        //console.log(" 모라도 나와야지 ㅡㅡ" + JSON.stringify(props.dataMenudetail));
         if (check_cart()) {
             //중복된 카트데이터찾아서 수량만 증가시키기
         }
         else {
-            cartInsert.quantity = menunum;
             props.insertCart(props.dataMenudetail);
         }
         go_cart_screen();
@@ -150,7 +149,7 @@ const Menudetail = (props) => {
                 props.datacart[i].add_option_insert == props.dataMenudetail.add_option_insert) {
                 check = true;
                 props.changeCartNum(i, menunum);
-                console.log(" 똑같은거 찾은거다@@@@@@@@@@@@@@@@  " + JSON.stringify(props.dataMenudetail))
+                //console.log(" 똑같은거 찾은거다@@@@@@@@@@@@@@@@  " + JSON.stringify(props.dataMenudetail))
             }
         }
         return check;
@@ -190,7 +189,7 @@ const Menudetail = (props) => {
                                     <Text style={{ fontSize: 19, color: '#333' }}>{props.dataMenudetail.storename}</Text>
                                 </View>
                                 <View>
-                                    <Text style={{ fontSize: 13, color: '#333' }}>메뉴설명</Text>
+                                    <Text style={{ fontSize: 13, color: '#333' }}>메뉴설명 + 로스팅 기간 설명해줘요</Text>
                                     <Text style={{ fontSize: 13, color: '#333' }}>설명Discription : {JSON.stringify(props.dataMenudetail.title)}</Text>
                                 </View>
                                 <View style={styles.rowdisplay}>
@@ -267,6 +266,7 @@ const mapStateToProps = (state) => {
         temp: state.menuReducer.temp,
         count: state.menuReducer.count,
         option: state.menuReducer.option,
+        roasting: state.menuReducer.roasting,
     }
 }
 

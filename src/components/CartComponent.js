@@ -1,10 +1,8 @@
 import { Col, Icon } from 'native-base';
-import { pushOrders, pushOrderDetails, resetevery } from '../redux/orderRedux/action'
-import { incCartQuant, decCartQuant, removeMenuToCart, addMenuToCart, fetchGetmenus, removeAllCart } from '../redux/menuRedux/action'
+import { incCartQuant, decCartQuant, removeAllCart } from '../redux/menuRedux/action'
 import { getOrderresults, getOrderresultsDetail } from '../redux/orderRedux/action'
 import React, { useEffect, useContext, useState } from "react";
 import { Context as UserContext } from '../dataStore/userAccessContext';
-import { fetchStores, testing, getdist, SetCurStoreInfo } from '../redux/storeRedux/action'
 import { navigate } from '../NavigationRef';
 import {
   Image,
@@ -238,7 +236,6 @@ const CartComponent = (props) => {
     }
     finally {
       if (total() != 0) {
-        props.removeMenuToCart();
         props.getOrderresults(msg[0].index_id);
         props.getOrderresultsDetail(msg[0].index_id);
         saveOrder();
@@ -272,9 +269,6 @@ const mapStateToProps = (state) => {
   return {
     dataFood: state.menuReducer.dataFood,
     datacart: state.menuReducer.datacart,
-    temp: state.menuReducer.temp,
-    count: state.menuReducer.count,
-    orderid: state.orderReducer.orderid,
     current_store_info: state.storeReducer.current_store_info,
     storeinfo: state.storeReducer.storeinfo,
     option: state.menuReducer.option,
@@ -285,14 +279,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     incCartQuant: (item,menu_option_insert,taste_option_insert,add_option_insert) => dispatch(incCartQuant(item,menu_option_insert,taste_option_insert,add_option_insert)),
     decCartQuant: (item,menu_option_insert,taste_option_insert,add_option_insert) => dispatch(decCartQuant(item,menu_option_insert,taste_option_insert,add_option_insert)),
-    addMenuToCart: (item) => dispatch(addMenuToCart(item)),
-    removeMenuToCart: () => dispatch(removeMenuToCart()),
-    resetevery: () => dispatch(resetevery()),
-    pushOrders: (user_id, store_id, totalprice, ischeck) => dispatch(pushOrders(user_id, store_id, totalprice, ischeck)),
-    pushOrderDetails: (order_id, user_id, menu_id, menu_price, quantity) => dispatch(pushOrderDetails(order_id, user_id, menu_id, menu_price, quantity)),
     getOrderresults: (item) => dispatch(getOrderresults(item)),
     getOrderresultsDetail: (item) => dispatch(getOrderresultsDetail(item)),
-    fetchGetmenus: () => dispatch(fetchGetmenus()),
     removeAllCart: () => dispatch(removeAllCart()),
   }
 }

@@ -11,7 +11,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 export default class SettingScreen extends Component{
     _navigate(){
-        this.props.navigation.navigate('SomethingScreen');
+        this.props.navigation.navigate('NearStoreScreen');
     }
  
     _checkLogout(){
@@ -32,7 +32,7 @@ export default class SettingScreen extends Component{
             index: 0,
             key: null,
             actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
-            //actions: [NavigationActions.navigate({ routeName: 'SomethingScreen' })],
+            //actions: [NavigationActions.navigate({ routeName: 'NearStoreScreen' })],
         });
         this.props.navigation.dispatch(resetAction);
     }
@@ -43,7 +43,7 @@ export default class SettingScreen extends Component{
                 <TouchableOpacity 
                     style={styles.wrapButton}
                     onPress={this._navigate.bind(this)}>
-                    <Text>🏅 Something</Text>
+                    <Text>🏅 NearStoreScreen</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style={styles.wrapButton}
@@ -53,7 +53,7 @@ export default class SettingScreen extends Component{
                 <TouchableOpacity 
                     style={styles.wrapButton}
                     onPress={this._navigate.bind(this)}>
-                    <Text>🏅 Something</Text>
+                    <Text>🏅 ManagerScreen</Text>
                 </TouchableOpacity>
                 
             </View>

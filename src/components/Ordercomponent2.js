@@ -114,7 +114,7 @@ const Ordercomponent2 = (props) => {
     function onClickOrderdetail(store_id,order_id) {
         props.showOrderbystoreDetail(order_id);
         props.showStoreDetail(store_id);
-        navigate("TestScreen");
+        navigate("OrderdetailScreen");
         //서버요청필요할시 이부분 리스폰스로 작성하자...
     }
 }

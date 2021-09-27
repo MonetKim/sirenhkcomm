@@ -146,7 +146,7 @@ export const pushOrderDetails =(
     }
 }
 //-------------------주문아이디갖고오기
-export const getOrderresults =(user_id  ) =>{
+export const getOrderresults =(user_id) =>{
     return (dispatch) =>{
         dispatch(fetchOrderResultRequest())
         API.post("/user/orderresult", {    
@@ -162,7 +162,7 @@ export const getOrderresults =(user_id  ) =>{
 }
 
 //-------------------주문아이디별 상세메뉴명 갖고오기
-export const getOrderresultsDetail =(user_id ) =>{
+export const getOrderresultsDetail =(user_id) =>{
     return (dispatch) =>{
         dispatch(fetchOrderResultDetailRequest())
         API.post("/user/orderresultdetail", {    

@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import store from '../../redux/store'
 
 
-export default class SomethingScreen extends Component{
+export default class NearStoreScreen extends Component{
 
     render(){
         return (

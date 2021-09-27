@@ -63,7 +63,7 @@ const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 �
         //     index: 0,
         //     key: null,
         //     actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
-        //     //actions: [NavigationActions.navigate({ routeName: 'SomethingScreen' })],
+        //     //actions: [NavigationActions.navigate({ routeName: 'NearStoreScreen' })],
         // });
         // navigation.dispatch(resetAction);
         
