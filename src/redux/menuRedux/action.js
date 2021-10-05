@@ -171,7 +171,6 @@ export const fetchGetOption = () => {
 //로스팅 갖고오기
 export const fetchGetRoasting = (store_id, menu_id) => {
     return (dispatch) => {
-        console.log("이런타고잇는거니 "+menu_id);
         // dispatch(fetchCommentRequest())
         // fetch("http://jsonplaceholder.typicode.com/comments")
         dispatch(fetchRoastingRequest())
@@ -183,7 +182,6 @@ export const fetchGetRoasting = (store_id, menu_id) => {
             .then((response) => {
                 configureAPI({ token: `Bearer ${response.data}` });
                 dispatch(fetchRoastingSuccess(response.data));
-                console.log("  로스팅정보리덕스  "+ JSON.stringify( response.data ));
             })
             .catch(error => dispatch(fetchRoastingFailure(error)))
     }

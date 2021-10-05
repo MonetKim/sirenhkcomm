@@ -27,7 +27,6 @@ const CartComponent = (props) => {
 
   /* 모든 장바구니 비우기 */
   function _cleanCart() {
-    console.log(" 세이브이후  " + JSON.stringify(props.datacart));
     Alert.alert(
       "정말로 장바구니를 비우시겠습니까?",
       ` `,

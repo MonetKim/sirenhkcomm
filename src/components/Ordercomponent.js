@@ -1,4 +1,4 @@
-
+//삭제하기
 import { View, StyleSheet, Image, Dimensions, RefreshControl, Text } from 'react-native';
 import { connect } from 'react-redux'
 

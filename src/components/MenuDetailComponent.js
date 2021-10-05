@@ -1,7 +1,7 @@
 
-import { View, StyleSheet, Image, Dimensions, RefreshControl, Text, Alert } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, RefreshControl, CheckBox, Text, Alert } from 'react-native';
 import { connect } from 'react-redux'
-import { CheckBox, Icon } from 'native-base';
+import {  Icon } from 'native-base';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import RadioButtonRN from 'radio-buttons-react-native';
@@ -18,7 +18,6 @@ const Menudetail = (props) => {
     const [disabled, setDisabled] = useState(false);
     const [ischeck, setIscheck] = useState(false);
     var cartInsert = JSON.parse(JSON.stringify(props.dataMenudetail));
-    //console.log(" 현재 임시 변수는  " + JSON.stringify(props.dataMenudetail))
 
     function testloop(option_num) {
         //setIsche(ische+1);
@@ -31,7 +30,6 @@ const Menudetail = (props) => {
         );
 
         //0901 데이터 선택한거 넣어야함rn
-        console.log("어레이는   " + array.length);
         return (
             <View >
                 {testdis}
@@ -44,9 +42,6 @@ const Menudetail = (props) => {
 
         var arrtes = option_display.split(",");
         var contest = [];
-        var temp = [];
-        temp = JSON.parse(JSON.stringify(props.dataMenudetail));
-        temp.title = 'ssibal';console.log("65y56hys" + JSON.stringify(ischeck));
         for (var i = 0; i < arrtes.length; i++) {
             contest = [...contest, { label: props.option[arrtes[i] - 1].option_name+"   +"+props.option[arrtes[i] - 1].option_price, 
                         num: props.option[arrtes[i] - 1].option_id }]
@@ -57,6 +52,7 @@ const Menudetail = (props) => {
                 <RadioButtonRN
                     data={contest}
                     initial={1}
+                    checkBoxColor = {'#ea4335'}
                     selectedBtn={(e) => save_option(e.num, kind_num)}
                 />
             </View>
@@ -72,31 +68,32 @@ const Menudetail = (props) => {
             contest = [...contest, { key: props.option[arrtes[i] - 1].option_name, id: props.option[arrtes[i] - 1].option_id }]
             //setSaveoption(contest);;
         }
-        console.log("774325" + JSON.stringify(ischeck));
+        
         return contest.map((item, id) => {
             return (
-                <TouchableOpacity style={{ flexDirection: "row" }} key={id}>
-                    <CheckBox value = {ischeck} onValueChange ={(newValue)=> setIscheck(newValue)}/>
-                    <Text style={{ fontSize: 20, color: '#333' }}>        {item.key}{ischeck}</Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row" }} key={id}>
+                    <CheckBox value = {ischeck} onValueChange ={()=> find_checkbox(item.id)} 
+                    />
+                    <Text style={{ fontSize: 20, color: '#333' }}>    {item.id}    {item.key}{JSON.stringify(ischeck)}</Text>
+                </View>
             )
         })
     }
-    //체크박스 트루 읽기
-    function find_checkbox( save_id) {
-        setIscheck(!ischeck);
-        if(ischeck){
-            props.setDataCart(save_id, 4);
+    //체크박스 트루 읽기  #@#!!!!!!!!!!이부분은 현재 체크박스 하나라는 가정일때야...  const [groupValue, setGroupValue] = React.useState(["Phone", "Email"])
+    // 중요한건 jsx에서는 값을 setstate를 통해 !value하고  그값을  이용한다면 한박자 느리다.. 이것은 단순 랜더링이 반영되기위해 전부다 하고 나중에바뀜.. 그러니 진행순서를 아주 잘봐야함..!!0927 
+    async function find_checkbox( save_id) {
+        if(!ischeck){
+            await props.setDataCart(save_id, 4);
         }
         else{
-            props.setDataCart('', 4);
+            await props.setDataCart(null, 4);
         }
+        setIscheck(!ischeck);
     }
 
     //0831 여기서 현재랑 과거 트루를 비교해서 리턴값정해주기. 
     function save_option(option_num, kind_num) {
         // 이부분 리덕스안통하고 그냥바로 메뉴디테일 값바꺼서 넣ㄱ고 해도 괜찮다고 ????????????????
-        //console.log(" 라디오버튼 " + JSON.stringify(cartInsert));
         if (kind_num == 1) {
             props.setDataCart(option_num, 2);
             //cartInsert.menu_option_insert = option_num;
@@ -109,14 +106,12 @@ const Menudetail = (props) => {
             props.setDataCart(option_num, 4);
             //cartInsert.add_option_insert = option_num;
         }
-        console.log(" 저장 잘되고 잇나요? " + JSON.stringify(cartInsert));
     }
 
     async function save_cart() { //주문하기
 
         await props.setDataCart(menunum, 1);
         props.dataMenudetail.quantity = menunum;
-        //console.log(" 모라도 나와야지 ㅡㅡ" + JSON.stringify(props.dataMenudetail));
         if (check_cart()) {
             //중복된 카트데이터찾아서 수량만 증가시키기
         }
@@ -140,7 +135,6 @@ const Menudetail = (props) => {
       }
     // 페이지 새로고침안하면서 옵션이 똑같아지지가않앗음 .
     function check_cart() { //기존 카트에 존재유무 중복체크
-        console.log(" 데이터카트이 개수는!  " + JSON.stringify(props.datacart.length))
         var check = false;  // 근데 add_option인경우 여러개선택간으해서 소트한후 비교를해야 정확할듯
         for (var i = 0; i < props.datacart.length; i++) {
             if (props.datacart[i].menu_id == props.dataMenudetail.menu_id &&
@@ -149,17 +143,15 @@ const Menudetail = (props) => {
                 props.datacart[i].add_option_insert == props.dataMenudetail.add_option_insert) {
                 check = true;
                 props.changeCartNum(i, menunum);
-                //console.log(" 똑같은거 찾은거다@@@@@@@@@@@@@@@@  " + JSON.stringify(props.dataMenudetail))
             }
         }
         return check;
     }
 
     function get_price() {
-
         var sum = Number(props.dataMenudetail.price);
         if (props.dataMenudetail.menu_option_insert !== null) {
-            sum = sum + Number(props.option[Number(props.dataMenudetail.menu_option_insert) - 1].option_price);
+            sum = sum + Number(props.option[Number(props.dataMenudetail.menu_option_insert) - 1].option_price);// 원래는 함수를 통해서 props.옵션.옵션아이디 == menu option insert 해서갖고와야함
         }
         if (props.dataMenudetail.taste_option_insert !== null) {
             sum = sum + Number(props.option[Number(props.dataMenudetail.taste_option_insert) - 1].option_price);
@@ -232,7 +224,7 @@ const Menudetail = (props) => {
                                         <View></View>
                                         : <View>
                                             <Text style={{ fontSize: 17, color: '#333' }}>추가선택</Text>
-                                            {eachtest(props.dataMenudetail.add_option, 3)}
+                                            {checkbox_add(props.dataMenudetail.add_option, 3)}
                                         </View>
                                 }
                                 <View style={styles.rowdisplay}>

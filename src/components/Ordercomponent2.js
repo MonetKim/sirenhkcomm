@@ -49,7 +49,6 @@ const Ordercomponent2 = (props) => {
             count--;
             sum = sum+' 외 '+ count+'개';
         }
-
         return sum
     }
     console.log("시간 나오는곳 "+JSON.stringify(props.dataOrder))

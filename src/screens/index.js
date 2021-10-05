@@ -229,7 +229,7 @@ const TabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator({
   //introScreen : introScreen,
-
+  
   LoginScreen,
   passScreen,
   emailScreen,  

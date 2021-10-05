@@ -80,7 +80,7 @@ const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 �
             initialRegion={{
 
                 //허용안하면  전시 기본값으로 설정해야함.
-                //허용시일때만임  0726 퇴근기준 location.coords.latitude
+                //허용시일때만임  퇴근기준 location.coords.latitude
 
                 //latitude: (location != null ? location.coords.latitude : 37.532600),
                 //longitude: (location != null ? location.coords.longitude : 127.024612),
@@ -102,7 +102,8 @@ const MaptstoreComponent = (props) => { //여기 한번만 로그인시키고 �
                             title={maploca.store_name}
                             description={maploca.store_state}
                             onPress={() => saveStore(maploca.store_id,maploca.store_name)}
-                            image={{uri: 'https://hkclient.herokuapp.com/images/jihokim.jpg'}}
+                            //image={{uri: 'https://hkclient.herokuapp.com/images/jihokim.jpg'}}
+                            image={require("../../assets/image/logo/logo.png")}
                         />
                     )
                 })

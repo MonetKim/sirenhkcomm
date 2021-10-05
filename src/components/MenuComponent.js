@@ -86,26 +86,27 @@ const MenuComponent = (props) => {
   else {
     return (
       <View style={styles.flex}>
-        <Text style={{ fontSize: 12, color: '#333'}}>현재스터오: {props.current_store_info}</Text>
-        <View style={styles.menucategory}>
-          <TouchableOpacity onPress={() => props.changeCategory(1)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>AMERICANO</Text>
+        <View style={styles.navs}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity onPress={() => props.changeCategory(1)} style={[styles.navs_link, props.category==1 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>AMERICANO</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.changeCategory(2)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>COFFEE</Text>
+          <TouchableOpacity onPress={() => props.changeCategory(2)} style={[styles.navs_link, props.category==2 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>COFFEE</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.changeCategory(3)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>NON-COFFEE</Text>
+          <TouchableOpacity onPress={() => props.changeCategory(3)} style={[styles.navs_link, props.category==3 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>NON-COFFEE</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.changeCategory(4)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>ESPRESSO</Text>
+          <TouchableOpacity onPress={() => props.changeCategory(4)} style={[styles.navs_link, props.category==4 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>ESPRESSO</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.changeCategory(5)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>BAKERY</Text>
+          <TouchableOpacity onPress={() => props.changeCategory(5)} style={[styles.navs_link, props.category==5 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>BAKERY</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.changeCategory(6)}>
-            <Text style={{ fontSize: 12, color: '#333'}}>MD</Text>
+          <TouchableOpacity onPress={() => props.changeCategory(6)} style={[styles.navs_link, props.category==6 ? styles.navs_link__active : ""]}>
+            <Text style={styles.navs_link__text}>MD</Text>
           </TouchableOpacity>
+          </ScrollView>
         </View>
 
         <View style={styles.foodList}>
@@ -133,7 +134,7 @@ const MenuComponent = (props) => {
     );
   }
   function _renderItemFood(item) { /* 스위치문으로 만들지 고민 */
-    if (item.category === props.category ) { /* 선택한 카테고리가 1일때  */
+    if (item.category == props.category ) { /* 선택한 카테고리가 1일때  */
         return (
           <View style={styles.singleFood}>
             <TouchableOpacity onPress={() => onClickShowMenu(item.menu_id)}>
@@ -148,6 +149,7 @@ const MenuComponent = (props) => {
           </View>
         );
     }
+    return null;
   }
 
   /*  카트아이콘에 숫자표시 하기위한 카트 아이템 수 구하기 */
@@ -160,7 +162,6 @@ const MenuComponent = (props) => {
   function onClickShowMenu(menu_id) {
     props.showMenuDetail(menu_id);
     props.fetchGetRoasting(props.current_store_info,menu_id);
-    console.log(JSON.stringify("  로스팅정보  "+ props.roasting ));
     navigate("MenuDetailScreen");
   }
 }
@@ -172,8 +173,6 @@ const MenuComponent = (props) => {
 const mapStateToProps = (state) => {
   return {
     dataFood: state.menuReducer.dataFood,
-    temp: state.menuReducer.temp,
-    count: state.menuReducer.count,
     current_store_info: state.storeReducer.current_store_info,
     category: state.menuReducer.category,
     start_lat: state.storeReducer.start_lat,
@@ -240,6 +239,37 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  navs : {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    marginBottom: 5,
+    marginTop: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  navs_link : {
+    backgroundColor : "#bdc3c7",
+    height : 40,
+    paddingHorizontal : 15,
+    paddingVertical : 8,
+    borderRadius : 30,
+    width : 110, 
+    marginRight : 5,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+navs_link__active : {
+    backgroundColor : "#090040",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  navs_link__text : {
+    color : 'white',
+    alignSelf : "center",
+    fontSize : 13,
   },
   foodList: {
     paddingVertical: 20,

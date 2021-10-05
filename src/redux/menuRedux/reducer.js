@@ -142,14 +142,12 @@ const menuReducer = (state = initialstate, action) => {
     case CHANGE_CATEGORY:
       let newCategory = state.category; //making a new array
       newCategory = action.payload;//changing value in the new array
-      console.log(action.payload + "확인하자" + newCategory)
       return {
         ...state,
         category: Number(newCategory),    //state.dataCart.push(action.payload) // 카트로 값 넘겨주기
       }
     //----------------------------------------------
     case SET_DATACART:   //상세메뉴보여주기
-      //console.log("모가 어케 돌아가는거니1    " + JSON.stringify(state.dataMenudetail.quantity) );
       //const indexDataCart = state.dataMenudetail.findIndex(dataMenudetail => dataMenudetail.menu_id == action.find_menu); //인덱스찾기..
       //const newArrayDataCart = [state.dataMenudetail]; 왜 이건안돼고 밑에것만되는거지?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       const newArrayDataCart = JSON.parse(JSON.stringify(state.dataMenudetail)); //making a new array
